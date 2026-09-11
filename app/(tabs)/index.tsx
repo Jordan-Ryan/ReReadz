@@ -11,7 +11,6 @@ import { QrShipBand } from "@/components/QrShipBand";
 import { TrustPoints } from "@/components/TrustPoints";
 import { SellShelfCta } from "@/components/SellShelfCta";
 import { useTabClearance } from "@/hooks/useTabClearance";
-import { useHeaderClearance } from "@/hooks/useHeaderClearance";
 import {
   CTA_BROWSE,
   SHELF_EMPTY,
@@ -25,7 +24,6 @@ import {
 export default function HomeScreen() {
   const router = useRouter();
   const clearance = useTabClearance();
-  const headerClearance = useHeaderClearance();
   const { books: justListed, loading: loadingListed } = useRecentlyAdded();
   const { books: staffPicks, loading: loadingStaff } = useStaffPicks();
   const { categories, loading: loadingCategories } = useCategories(true);
@@ -40,7 +38,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
-      style={[styles.container, { marginTop: -headerClearance }]}
+      style={styles.container}
       contentContainerStyle={[styles.content, { paddingBottom: clearance }]}
     >
       <HomeHero
@@ -53,7 +51,7 @@ export default function HomeScreen() {
         covers={justListed}
         liveBooks={liveBooks}
         liveReaders={liveReaders}
-        topInset={headerClearance}
+        topInset={12}
         onBrowse={openBrowse}
       />
 
