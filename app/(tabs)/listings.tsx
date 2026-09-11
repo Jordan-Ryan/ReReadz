@@ -23,7 +23,7 @@ import {
   type FilterDimension,
 } from "@/components/FilterSheet";
 import { formatCondition, formatBookFormat } from "@/utils/format";
-import { INK, MUTED, LINE, WHITE, NAVY } from "@/theme/brand";
+import { INK, MUTED, LINE, WHITE, NAVY, NAVY_SOFT, FONT_SANS } from "@/theme/brand";
 import {
   FEED_CELL_PAD,
   FEED_GRID_PAD,
@@ -113,6 +113,11 @@ export default function ListingsScreen() {
 
   const chips: { key: FilterDimension; label: string; active: boolean }[] = [
     {
+      key: "sort",
+      label: sortChipLabel(filters.sort),
+      active: filters.sort !== "newest",
+    },
+    {
       key: "price",
       label: priceChipLabel(filters),
       active: filters.minPriceMinor != null || filters.maxPriceMinor != null,
@@ -144,20 +149,6 @@ export default function ListingsScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.meta}>
-        <View style={styles.metaLeft}>
-          {categoryName ? <Text style={styles.title}>{categoryName}</Text> : null}
-          <Text style={styles.count}>{countLabel}</Text>
-        </View>
-        <Pressable
-          onPress={() => setSheet("sort")}
-          accessibilityRole="button"
-          accessibilityLabel="Sort results"
-        >
-          <Text style={styles.sort}>{sortChipLabel(filters.sort)}</Text>
-        </Pressable>
-      </View>
-
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -173,7 +164,7 @@ export default function ListingsScreen() {
             accessibilityState={{ selected: chip.active }}
           >
             {chip.active ? (
-              <Ionicons name="checkmark" size={14} color={WHITE} />
+              <Ionicons name="checkmark" size={15} color={NAVY} />
             ) : null}
             <Text style={[styles.chipText, chip.active && styles.chipTextOn]}>
               {chip.label}
@@ -181,6 +172,13 @@ export default function ListingsScreen() {
           </Pressable>
         ))}
       </ScrollView>
+
+      <View style={styles.meta}>
+        <View style={styles.metaLeft}>
+          {categoryName ? <Text style={styles.title}>{categoryName}</Text> : null}
+          <Text style={styles.count}>{countLabel}</Text>
+        </View>
+      </View>
 
       {loading && items.length === 0 ? (
         <View style={styles.loader}>
@@ -239,40 +237,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
-    paddingHorizontal: 10,
-    paddingTop: 6,
-    paddingBottom: 0,
+    paddingHorizontal: 16,
+    paddingTop: 4,
+    paddingBottom: 8,
   },
   metaLeft: { flex: 1, paddingRight: 12 },
-  title: { fontSize: 16, fontWeight: "700", color: INK },
-  count: { fontSize: 13, color: MUTED, marginTop: 2 },
-  sort: { fontSize: 13, fontWeight: "600", color: NAVY },
+  title: { fontFamily: FONT_SANS, fontSize: 16, fontWeight: "700", color: INK },
+  count: { fontFamily: FONT_SANS, fontSize: 13, color: MUTED, marginTop: 2 },
   chipScroll: {
     flexGrow: 0,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: LINE,
   },
   chipRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 6,
   },
   chip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 5,
     borderWidth: 1,
     borderColor: LINE,
     borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    minHeight: 36,
     backgroundColor: WHITE,
   },
-  chipOn: { borderColor: NAVY, backgroundColor: NAVY },
-  chipText: { fontSize: 13, color: INK, fontWeight: "500" },
-  chipTextOn: { color: WHITE, fontWeight: "700" },
+  chipOn: { borderColor: NAVY, backgroundColor: NAVY_SOFT },
+  chipText: {
+    fontFamily: FONT_SANS,
+    fontSize: 13,
+    color: INK,
+    fontWeight: "500",
+  },
+  chipTextOn: { color: NAVY, fontWeight: "700" },
   loader: { flex: 1, justifyContent: "center" },
   listContent: {
     paddingHorizontal: FEED_GRID_PAD,

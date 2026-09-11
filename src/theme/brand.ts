@@ -117,14 +117,15 @@ export const GLASS_FILL = "rgba(255,255,255,0.22)";
 export const GLASS_FILL_STRONG = "rgba(255,255,255,0.34)";
 export const GLASS_FILL_CHROME = "rgba(255,255,255,0.38)";
 export const GLASS_STROKE = "rgba(23,0,173,0.10)";
-export const TAB_BAR_HEIGHT = 62;
+export const TAB_BAR_HEIGHT = 68;
 export const TAB_BAR_INSET = 10;
-export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 8;
+export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 16;
+export const SELL_FAB_SIZE = 52;
 export const HEADER_BAR_HEIGHT = 56;
 /** Marketing Home: live one-row lockup + search. */
 export const HEADER_BAR_HEIGHT_HOME = 56;
 /** Browse/feed: search pill is the chrome. */
-export const HEADER_BAR_HEIGHT_SEARCH = 56;
+export const HEADER_BAR_HEIGHT_SEARCH = 60;
 /** Sell / Messages / You: mark + BETA, no logo-eating search. */
 export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;

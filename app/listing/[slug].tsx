@@ -12,8 +12,18 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { formatCondition, formatPrice } from "@/utils/format";
-import { DETAIL_DELIVERY, NAVY, SHIELD_NAME } from "@/theme/brand";
+import { formatBookFormat, formatCondition, formatPrice } from "@/utils/format";
+import {
+  DETAIL_DELIVERY,
+  FONT_SANS,
+  INK,
+  LINE,
+  MUTED,
+  NAVY,
+  NAVY_SOFT,
+  SHIELD_NAME,
+  WHITE,
+} from "@/theme/brand";
 import Toast from "react-native-toast-message";
 
 interface ListingDetail {
@@ -24,6 +34,7 @@ interface ListingDetail {
     description?: string | null;
     price_minor: number;
     condition?: string;
+    format?: string;
     seller_id: string;
   };
   images: { url: string; primary?: boolean }[];
@@ -147,6 +158,10 @@ export default function ListingDetailScreen() {
 
   const { listing, images, seller } = data;
   const primaryImage = images?.find((i) => i.primary) ?? images?.[0];
+  const sellerName = seller?.display_name?.trim() || "ReReadz seller";
+  const description =
+    listing.description?.trim() ||
+    "The seller hasn't added a description yet.";
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -162,24 +177,56 @@ export default function ListingDetailScreen() {
       <Text style={styles.title}>{listing.title}</Text>
       <Text style={styles.author}>{listing.author}</Text>
       <Text style={styles.price}>{formatPrice(listing.price_minor)}</Text>
-      <Text style={styles.delivery} accessibilityRole="text">
-        {DETAIL_DELIVERY}
-      </Text>
-      <View style={styles.shieldRow}>
-        <Ionicons name="shield-checkmark" size={16} color={NAVY} />
-        <Text style={styles.shield}>{SHIELD_NAME} on every order</Text>
+
+      <View style={styles.deliveryRow} accessibilityRole="text">
+        <Ionicons name="bicycle-outline" size={18} color={NAVY} />
+        <Text style={styles.delivery}>{DETAIL_DELIVERY}</Text>
       </View>
-      {listing.condition && (
-        <Text style={styles.condition}>
-          Condition: {formatCondition(listing.condition)}
-        </Text>
-      )}
-      {seller?.display_name && (
-        <Text style={styles.seller}>Seller: {seller.display_name}</Text>
-      )}
-      {listing.description ? (
-        <Text style={styles.description}>{listing.description}</Text>
-      ) : null}
+
+      <View style={styles.shieldCard}>
+        <Ionicons name="shield-checkmark" size={18} color={NAVY} />
+        <View style={styles.shieldCopy}>
+          <Text style={styles.shield}>{SHIELD_NAME} on every order</Text>
+          <Text style={styles.shieldHint}>
+            Refund if it doesn't arrive as described.
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.block}>
+        <Text style={styles.blockLabel}>Description</Text>
+        <Text style={styles.description}>{description}</Text>
+      </View>
+
+      <View style={styles.block}>
+        <Text style={styles.blockLabel}>Details</Text>
+        <View style={styles.detailRow}>
+          <Text style={styles.detailKey}>Condition</Text>
+          <Text style={styles.detailValue}>
+            {formatCondition(listing.condition)}
+          </Text>
+        </View>
+        {listing.format ? (
+          <View style={styles.detailRow}>
+            <Text style={styles.detailKey}>Format</Text>
+            <Text style={styles.detailValue}>
+              {formatBookFormat(listing.format)}
+            </Text>
+          </View>
+        ) : null}
+        <Pressable
+          style={styles.detailRow}
+          onPress={() =>
+            router.push(`/seller/${listing.seller_id}` as any)
+          }
+          accessibilityRole="link"
+          accessibilityLabel={`Seller ${sellerName}`}
+        >
+          <Text style={styles.detailKey}>Seller</Text>
+          <Text style={styles.detailLink}>{sellerName}</Text>
+        </Pressable>
+      </View>
+
       <View style={styles.actions}>
         {user?.id && data.listing.seller_id !== user.id && (
           <Pressable
@@ -197,86 +244,169 @@ export default function ListingDetailScreen() {
             <Text style={styles.offerBtnText}>Make offer</Text>
           </Pressable>
         )}
-        <Pressable
-          style={styles.messageBtn}
-          onPress={handleMessageSeller}
-          accessibilityRole="button"
-          accessibilityLabel="Message seller"
-        >
-          <Ionicons name="chatbubble-outline" size={20} color={NAVY} />
-          <Text style={styles.messageBtnText}>Message seller</Text>
-        </Pressable>
-        <Pressable
-          style={styles.buyBtn}
-          onPress={handleBuy}
-          accessibilityRole="button"
-          accessibilityLabel="Buy now"
-        >
-          <Text style={styles.buyBtnText}>Buy now</Text>
-        </Pressable>
+        <View style={styles.ctaRow}>
+          <Pressable
+            style={styles.messageBtn}
+            onPress={handleMessageSeller}
+            accessibilityRole="button"
+            accessibilityLabel="Message seller"
+          >
+            <Ionicons name="chatbubble-outline" size={18} color={NAVY} />
+            <Text style={styles.messageBtnText}>Message seller</Text>
+          </Pressable>
+          <Pressable
+            style={styles.buyBtn}
+            onPress={handleBuy}
+            accessibilityRole="button"
+            accessibilityLabel="Buy now"
+          >
+            <Text style={styles.buyBtnText}>Buy now</Text>
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 32 },
+  container: { flex: 1, backgroundColor: WHITE },
+  content: { padding: 16, paddingBottom: 40 },
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
-  errorText: { color: "#64748b", marginBottom: 16 },
+  errorText: { color: MUTED, marginBottom: 16 },
   backBtn: { padding: 12 },
   backBtnText: { color: NAVY },
-  shieldRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    marginBottom: 10,
-  },
-  shield: { fontSize: 14, color: NAVY, fontWeight: "600" },
   imageWrap: {
     width: "100%",
-    height: 280,
-    backgroundColor: "#f1f5f9",
-    borderRadius: 12,
+    height: 220,
+    backgroundColor: "#f8fafc",
+    borderRadius: 16,
     marginBottom: 16,
     overflow: "hidden",
   },
   image: { width: "100%", height: "100%" },
-  title: { fontSize: 22, fontWeight: "700", marginBottom: 4 },
-  author: { fontSize: 16, color: "#64748b", marginBottom: 8 },
-  price: { fontSize: 20, fontWeight: "700", marginBottom: 4 },
-  delivery: { fontSize: 14, color: "#1700AD", fontWeight: "600", marginBottom: 10 },
-  condition: { fontSize: 14, color: "#64748b", marginBottom: 4 },
-  seller: { fontSize: 14, marginBottom: 16 },
-  description: { fontSize: 14, lineHeight: 22, marginBottom: 24 },
-  actions: { gap: 12 },
+  title: {
+    fontFamily: FONT_SANS,
+    fontSize: 22,
+    fontWeight: "700",
+    color: INK,
+    marginBottom: 4,
+  },
+  author: {
+    fontFamily: FONT_SANS,
+    fontSize: 16,
+    color: MUTED,
+    marginBottom: 8,
+  },
+  price: {
+    fontFamily: FONT_SANS,
+    fontSize: 22,
+    fontWeight: "700",
+    color: INK,
+    marginBottom: 12,
+  },
+  deliveryRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 12,
+  },
+  delivery: {
+    fontFamily: FONT_SANS,
+    fontSize: 15,
+    color: NAVY,
+    fontWeight: "600",
+  },
+  shieldCard: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    backgroundColor: NAVY_SOFT,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 20,
+  },
+  shieldCopy: { flex: 1 },
+  shield: {
+    fontFamily: FONT_SANS,
+    fontSize: 14,
+    color: NAVY,
+    fontWeight: "700",
+  },
+  shieldHint: {
+    fontFamily: FONT_SANS,
+    fontSize: 13,
+    color: MUTED,
+    marginTop: 2,
+  },
+  block: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: LINE,
+    paddingTop: 16,
+    marginBottom: 8,
+  },
+  blockLabel: {
+    fontFamily: FONT_SANS,
+    fontSize: 13,
+    fontWeight: "700",
+    color: MUTED,
+    letterSpacing: 0.3,
+    textTransform: "uppercase",
+    marginBottom: 8,
+  },
+  description: {
+    fontFamily: FONT_SANS,
+    fontSize: 15,
+    lineHeight: 22,
+    color: INK,
+    marginBottom: 8,
+  },
+  detailRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: LINE,
+  },
+  detailKey: { fontFamily: FONT_SANS, fontSize: 15, color: MUTED },
+  detailValue: { fontFamily: FONT_SANS, fontSize: 15, color: INK, fontWeight: "600" },
+  detailLink: { fontFamily: FONT_SANS, fontSize: 15, color: NAVY, fontWeight: "700" },
+  actions: { gap: 12, marginTop: 16 },
+  ctaRow: { flexDirection: "row", gap: 10 },
   offerBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    padding: 16,
-    borderRadius: 8,
+    padding: 14,
+    borderRadius: 999,
     borderWidth: 1,
     borderColor: NAVY,
   },
   offerBtnText: { color: NAVY, fontWeight: "600", fontSize: 16 },
   messageBtn: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
-    padding: 16,
-    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderRadius: 999,
     borderWidth: 1,
     borderColor: NAVY,
+    backgroundColor: WHITE,
   },
-  messageBtnText: { color: NAVY, fontWeight: "600", fontSize: 16 },
+  messageBtnText: { color: NAVY, fontWeight: "600", fontSize: 15 },
   buyBtn: {
+    flex: 1,
     backgroundColor: NAVY,
-    padding: 16,
-    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderRadius: 999,
     alignItems: "center",
+    justifyContent: "center",
   },
-  buyBtnText: { color: "#fff", fontWeight: "700", fontSize: 16 },
+  buyBtnText: { color: WHITE, fontWeight: "700", fontSize: 16 },
 });

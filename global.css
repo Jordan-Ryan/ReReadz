@@ -9,3 +9,8 @@ body,
 #root {
   font-family: Inter, system-ui, sans-serif;
 }
+
+input,
+textarea {
+  outline: none;
+}

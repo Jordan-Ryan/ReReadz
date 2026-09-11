@@ -24,6 +24,7 @@ import {
   SEARCH_FIELD,
   GLASS_FILL_CHROME,
   FONT_DISPLAY,
+  FONT_SANS,
 } from "@/theme/brand";
 
 const LOGO = require("../../assets/logo-rereadz.png");
@@ -200,6 +201,8 @@ const styles = StyleSheet.create({
   wrapSearch: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
   wrapCompact: {
     minHeight: 32,
@@ -277,14 +280,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     backgroundColor: SEARCH_FIELD,
-    borderWidth: 0,
-    borderRadius: 999,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: LINE,
+    borderRadius: 22,
     paddingHorizontal: 14,
     minHeight: 40,
   },
   searchOwned: {
-    minHeight: 42,
-    paddingHorizontal: 14,
+    minHeight: 44,
+    paddingHorizontal: 16,
+    borderRadius: 22,
   },
   searchDesktop: {
     minHeight: 44,
@@ -292,9 +297,13 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    fontFamily: FONT_SANS,
     fontSize: 15,
     color: INK,
     paddingVertical: Platform.OS === "web" ? 10 : 0,
+    ...(Platform.OS === "web"
+      ? ({ outlineStyle: "none", outlineWidth: 0 } as object)
+      : {}),
   },
   hint: {
     fontSize: 11,

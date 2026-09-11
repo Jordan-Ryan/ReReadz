@@ -9,6 +9,7 @@ import {
   GLASS_FILL_CHROME,
   NAVY,
   MUTED,
+  SELL_FAB_SIZE,
   TAB_BAR_HEIGHT,
   TAB_BAR_INSET,
   WHITE,
@@ -39,7 +40,7 @@ export default function TabsLayout() {
           sceneStyle: { paddingTop: headerClearance },
           tabBarBackground: isDesktop ? undefined : GlassTabBarBackground,
           tabBarStyle: isDesktop ? styles.tabBarHidden : styles.tabBarMobile,
-          tabBarItemStyle: { paddingVertical: 4 },
+          tabBarItemStyle: styles.tabItem,
           tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
         }}
       >
@@ -81,7 +82,7 @@ export default function TabsLayout() {
                 style={[styles.sellMark, focused && styles.sellMarkOn]}
                 accessibilityElementsHidden
               >
-                <Ionicons name="add" size={22} color={WHITE} />
+                <Ionicons name="add" size={26} color={WHITE} />
               </View>
             ),
           }}
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     borderRadius: 22,
     borderWidth: StyleSheet.hairlineWidth,
+    overflow: "hidden",
   },
   tabBarMobile: {
     position: "absolute",
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     borderTopColor: "transparent",
     elevation: 0,
     borderRadius: 22,
-    overflow: "hidden",
+    overflow: "visible",
     shadowColor: "#1700AD",
     shadowOpacity: 0.18,
     shadowRadius: 20,
@@ -157,9 +159,14 @@ const styles = StyleSheet.create({
           backdropFilter: "blur(22px) saturate(180%)",
           WebkitBackdropFilter: "blur(22px) saturate(180%)",
           backgroundColor: "rgba(255,255,255,0.38)",
+          overflow: "visible",
         } as object)
       : {}),
     ...(Platform.OS === "android" ? { marginHorizontal: TAB_BAR_INSET } : {}),
+  },
+  tabItem: {
+    paddingVertical: 4,
+    overflow: "visible",
   },
   tabBarHidden: {
     display: "none",
@@ -169,13 +176,21 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   sellMark: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: SELL_FAB_SIZE,
+    height: SELL_FAB_SIZE,
+    borderRadius: SELL_FAB_SIZE / 2,
     backgroundColor: NAVY,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -2,
+    marginTop: -22,
+    shadowColor: NAVY,
+    shadowOpacity: 0.32,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
+    ...(Platform.OS === "web"
+      ? ({ boxShadow: "0 8px 18px rgba(23, 0, 173, 0.28)" } as object)
+      : {}),
   },
   sellMarkOn: {
     backgroundColor: NAVY,
