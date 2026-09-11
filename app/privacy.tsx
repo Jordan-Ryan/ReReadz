@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { PRIVACY_TERMS, STORAGE_TERMS } from "@/content/legal";
+import { LegalLinks } from "@/components/LegalLinks";
 import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function PrivacyScreen() {
@@ -17,6 +18,7 @@ export default function PrivacyScreen() {
           {paragraph}
         </Text>
       ))}
+      <LegalLinks />
     </ScrollView>
   );
 }

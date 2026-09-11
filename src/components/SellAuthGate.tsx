@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { storage } from "@/storage";
 import Toast from "react-native-toast-message";
@@ -223,19 +224,39 @@ export function SellAuthGate() {
             secureTextEntry
             accessibilityLabel="Password"
           />
-          <Pressable
-            style={styles.termsRow}
-            onPress={() => setTerms((prev) => !prev)}
-            accessibilityRole="checkbox"
-            accessibilityState={{ checked: terms }}
-          >
-            <View style={[styles.check, terms && styles.checkOn]}>
-              {terms ? <Text style={styles.checkMark}>✓</Text> : null}
-            </View>
+          <View style={styles.termsRow}>
+            <Pressable
+              onPress={() => setTerms((prev) => !prev)}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: terms }}
+              accessibilityLabel="Agree to Terms and Privacy Policy"
+            >
+              <View style={[styles.check, terms && styles.checkOn]}>
+                {terms ? (
+                  <Ionicons name="checkmark" size={14} color={WHITE} />
+                ) : null}
+              </View>
+            </Pressable>
             <Text style={styles.termsText}>
-              I'm 16 or over and I agree to the Terms and Privacy Policy.
+              I'm 16 or over and I agree to the{" "}
+              <Text
+                style={styles.termsLink}
+                onPress={() => router.push("/terms" as any)}
+                accessibilityRole="link"
+              >
+                Terms
+              </Text>
+              {" "}and{" "}
+              <Text
+                style={styles.termsLink}
+                onPress={() => router.push("/privacy" as any)}
+                accessibilityRole="link"
+              >
+                Privacy Policy
+              </Text>
+              .
             </Text>
-          </Pressable>
+          </View>
           <Pressable
             style={[styles.cta, loading && styles.disabled]}
             onPress={handleSignUp}
@@ -270,6 +291,14 @@ export function SellAuthGate() {
             secureTextEntry
             accessibilityLabel="Password"
           />
+          <Pressable
+            onPress={() => router.push("/(auth)/forgot-password" as any)}
+            accessibilityRole="link"
+            accessibilityLabel="Forgot password"
+            style={styles.forgot}
+          >
+            <Text style={styles.termsLink}>Forgot password?</Text>
+          </Pressable>
           <Pressable
             style={[styles.cta, loading && styles.disabled]}
             onPress={handleLogin}
@@ -378,8 +407,9 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   checkOn: { backgroundColor: NAVY, borderColor: NAVY },
-  checkMark: { color: WHITE, fontSize: 12, fontWeight: "700" },
   termsText: { flex: 1, fontFamily: FONT_SANS, fontSize: 13, color: MUTED, lineHeight: 18 },
+  termsLink: { color: NAVY, fontWeight: "700" },
+  forgot: { alignSelf: "flex-start", marginTop: 8, marginBottom: 12 },
   cta: {
     backgroundColor: NAVY,
     borderRadius: 999,

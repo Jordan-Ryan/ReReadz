@@ -295,7 +295,8 @@ export function SellFlow() {
     <View style={styles.shell}>
       <Glass style={styles.sellChrome} overlayColor={GLASS_FILL_STRONG}>
         <View style={styles.banner}>
-          <Text style={styles.bannerText}>⚡ {SELL_AVG_TIME}</Text>
+          <Ionicons name="flash-outline" size={14} color={NAVY} />
+          <Text style={styles.bannerText}>{SELL_AVG_TIME}</Text>
         </View>
 
         <View style={styles.stepper}>
@@ -614,6 +615,9 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingVertical: 8,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 6,
   },
   bannerText: {
     fontFamily: FONT_SANS,

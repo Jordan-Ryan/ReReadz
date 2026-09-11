@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { STORAGE_TERMS } from "@/content/legal";
+import { LegalLinks } from "@/components/LegalLinks";
 import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function CookieScreen() {
@@ -11,6 +12,7 @@ export default function CookieScreen() {
           {paragraph}
         </Text>
       ))}
+      <LegalLinks />
     </ScrollView>
   );
 }

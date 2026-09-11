@@ -79,11 +79,16 @@ export default function ListingDetailScreen() {
     };
   }, [slug]);
 
+  const requireSignIn = (reason: string) => {
+    if (user?.id) return false;
+    Toast.show({ type: "info", text1: reason });
+    router.push("/(auth)/login" as any);
+    return true;
+  };
+
   const handleMessageSeller = async () => {
-    if (!user?.id || !data?.listing) {
-      Toast.show({ type: "info", text1: "Sign in to message the seller" });
-      return;
-    }
+    if (requireSignIn("Sign in to message the seller")) return;
+    if (!user?.id || !data?.listing) return;
     const listingId = data.listing.id;
     const sellerId = data.listing.seller_id;
     const buyerId = user.id;
@@ -119,6 +124,7 @@ export default function ListingDetailScreen() {
   };
 
   const handleBuy = async () => {
+    if (requireSignIn("Sign in to buy this book")) return;
     if (!data?.listing?.id) return;
     try {
       const { data: res, error } = await supabase.functions.invoke("checkout-session", {

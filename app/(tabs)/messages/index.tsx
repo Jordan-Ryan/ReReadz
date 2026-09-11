@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTabClearance } from "@/hooks/useTabClearance";
@@ -24,6 +24,14 @@ export default function MessagesListScreen() {
     return (
       <View style={styles.centered}>
         <Text style={styles.subtitle}>Sign in to view messages.</Text>
+        <Pressable
+          style={styles.signIn}
+          onPress={() => router.push("/(auth)/login" as any)}
+          accessibilityRole="button"
+          accessibilityLabel="Sign in"
+        >
+          <Text style={styles.signInText}>Sign in</Text>
+        </Pressable>
       </View>
     );
   }
@@ -119,4 +127,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textAlign: "center",
   },
+  signIn: {
+    marginTop: 16,
+    backgroundColor: "#1700AD",
+    borderRadius: 999,
+    paddingVertical: 12,
+    paddingHorizontal: 28,
+  },
+  signInText: { color: "#fff", fontWeight: "700", fontSize: 15 },
 });

@@ -223,6 +223,22 @@ export default function ListingsScreen() {
                     : "No books in this view.")}
               </Text>
               <Text style={styles.emptyHint}>Try another search or filter.</Text>
+              <Pressable
+                style={styles.emptyLink}
+                onPress={() => {
+                  setFilters({ sort: "newest" });
+                  router.setParams({
+                    q: "",
+                    category: "",
+                    condition: "",
+                    maxPrice: "",
+                  });
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Clear search and filters"
+              >
+                <Text style={styles.emptyLinkText}>Clear search and filters</Text>
+              </Pressable>
             </View>
           }
           refreshControl={
@@ -316,4 +332,6 @@ const styles = StyleSheet.create({
   empty: { padding: 32, alignItems: "center" },
   emptyText: { color: INK, fontSize: 15, textAlign: "center", fontWeight: "600" },
   emptyHint: { color: MUTED, marginTop: 6 },
+  emptyLink: { marginTop: 14, paddingVertical: 8 },
+  emptyLinkText: { color: NAVY, fontWeight: "700", fontSize: 14 },
 });

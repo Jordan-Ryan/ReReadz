@@ -43,7 +43,7 @@ export const STORAGE_TERMS: LegalSection = {
 export const ACCESS_TERMS: LegalSection = {
   title: "Accessibility",
   paragraphs: [
-    "ReReadz supports system font scaling and works with the screen reader on your phone. If something is hard to use, email support@rereadz.com.",
+    "ReReadz supports system font scaling and works with the screen reader on your phone. If something is hard to use, open Contact from Legal or Help.",
   ],
 };
 

@@ -1,4 +1,5 @@
 import { View, Text, Image, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface MessageBubbleProps {
   content: string;
@@ -23,14 +24,25 @@ export function MessageBubble({ content, isMe, timestamp, readAt, attachments = 
           <Image source={{ uri: photoUrl }} style={styles.photo} resizeMode="cover" />
         ) : (
           <View style={[styles.bubble, isMe ? styles.bubbleMe : styles.bubbleThem]}>
-            <Text style={[styles.text, isMe && styles.textMe]}>📷 Photo</Text>
+            <View style={styles.photoFallback}>
+              <Ionicons
+                name="camera-outline"
+                size={16}
+                color={isMe ? "#fff" : "#0f172a"}
+              />
+              <Text style={[styles.text, isMe && styles.textMe]}>Photo</Text>
+            </View>
           </View>
         )}
         <View style={[styles.meta, isMe && styles.metaMe]}>
           <Text style={styles.time}>{time}</Text>
-          {isMe && (
-            <Text style={styles.read}>{readAt ? "✓✓" : "✓"}</Text>
-          )}
+          {isMe ? (
+            <Ionicons
+              name={readAt ? "checkmark-done" : "checkmark"}
+              size={14}
+              color="#0ea5e9"
+            />
+          ) : null}
         </View>
       </View>
     );
@@ -43,9 +55,13 @@ export function MessageBubble({ content, isMe, timestamp, readAt, attachments = 
       </View>
       <View style={[styles.meta, isMe && styles.metaMe]}>
         <Text style={styles.time}>{time}</Text>
-        {isMe && (
-          <Text style={styles.read}>{readAt ? "✓✓" : "✓"}</Text>
-        )}
+        {isMe ? (
+          <Ionicons
+            name={readAt ? "checkmark-done" : "checkmark"}
+            size={14}
+            color="#0ea5e9"
+          />
+        ) : null}
       </View>
     </View>
   );
@@ -95,9 +111,10 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#64748b",
   },
-  read: {
-    fontSize: 12,
-    color: "#0ea5e9",
+  photoFallback: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   photo: {
     width: 220,

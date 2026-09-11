@@ -1,5 +1,6 @@
-import { useLocalSearchParams } from "expo-router";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
+import { NAVY } from "@/theme/brand";
 
 const HELP_ARTICLES: Record<string, { title: string; body: string }> = {
   "getting-started": {
@@ -20,11 +21,12 @@ const HELP_ARTICLES: Record<string, { title: string; body: string }> = {
   },
   "contact": {
     title: "Contact support",
-    body: "For account or order help, use the Help Centre from the web app or email support@rereadz.com. For urgent issues, include your order ID.",
+    body: "For account or order help, open Contact in the app. Include your order ID or account email so we can help quickly.",
   },
 };
 
 export default function HelpArticleScreen() {
+  const router = useRouter();
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const article = slug ? HELP_ARTICLES[slug] : null;
 
@@ -32,6 +34,13 @@ export default function HelpArticleScreen() {
     return (
       <View style={styles.centered}>
         <Text style={styles.title}>Article not found</Text>
+        <Pressable
+          onPress={() => router.replace("/help" as any)}
+          accessibilityRole="link"
+          accessibilityLabel="Back to Help"
+        >
+          <Text style={styles.link}>Back to Help</Text>
+        </Pressable>
       </View>
     );
   }
@@ -40,6 +49,14 @@ export default function HelpArticleScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.title}>{article.title}</Text>
       <Text style={styles.body}>{article.body}</Text>
+      <Pressable
+        onPress={() => router.push("/contact" as any)}
+        accessibilityRole="link"
+        accessibilityLabel="Contact"
+        style={styles.contact}
+      >
+        <Text style={styles.link}>Contact</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -50,4 +67,6 @@ const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", padding: 16 },
   title: { fontSize: 22, fontWeight: "700", marginBottom: 16 },
   body: { fontSize: 15, color: "#475569", lineHeight: 24 },
+  contact: { marginTop: 20 },
+  link: { color: NAVY, fontWeight: "700", fontSize: 15 },
 });

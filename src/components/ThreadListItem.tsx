@@ -37,7 +37,8 @@ export function ThreadListItem({
   listingTitle,
   onPress,
 }: ThreadListItemProps) {
-  const displayText = listingTitle || lastMessage || "No messages yet";
+  const cleanedPreview = (lastMessage ?? "").replace(/[\u{1F300}-\u{1FAFF}]/gu, "").trim();
+  const displayText = listingTitle || cleanedPreview || "No messages yet";
   const time = formatTime(lastMessageAt);
 
   return (

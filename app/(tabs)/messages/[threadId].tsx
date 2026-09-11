@@ -280,7 +280,7 @@ export default function ThreadScreen() {
         .from("message_threads")
         .update({
           last_message_at: new Date().toISOString(),
-          last_message_preview: "📷 Photo",
+          last_message_preview: "Photo",
         })
         .eq("id", threadId);
       setMessages((prev) => [

@@ -3,6 +3,7 @@ import {
   ALL_LEGAL_SECTIONS,
   LEGAL_LEAD,
 } from "@/content/legal";
+import { LegalLinks } from "@/components/LegalLinks";
 import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function LegalScreen() {
@@ -19,6 +20,7 @@ export default function LegalScreen() {
           ))}
         </View>
       ))}
+      <LegalLinks />
     </ScrollView>
   );
 }

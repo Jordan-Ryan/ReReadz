@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -83,7 +84,7 @@ export default function CharitiesIndexScreen() {
             <Image source={{ uri: item.logo_url }} style={styles.logo} />
           ) : (
             <View style={[styles.logo, styles.logoPlaceholder]}>
-              <Text style={styles.logoText}>♥</Text>
+              <Ionicons name="heart" size={24} color="#1700AD" />
             </View>
           )}
           <View style={styles.cardBody}>

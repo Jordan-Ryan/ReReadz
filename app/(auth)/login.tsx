@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter, Link, useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import Toast from "react-native-toast-message";
 import { storage } from "@/storage";
@@ -310,7 +311,9 @@ export default function LoginScreen() {
                 accessibilityLabel="I agree to the Terms & Conditions and Privacy Policy"
               >
                 <View style={[styles.checkbox, termsChecked && styles.checkboxChecked]}>
-                  {termsChecked && <Text style={styles.checkmark}>✓</Text>}
+                  {termsChecked ? (
+                    <Ionicons name="checkmark" size={14} color="#fff" />
+                  ) : null}
                 </View>
                 <Text style={styles.termsText}>
                   I agree to the{" "}
@@ -522,7 +525,6 @@ const styles = StyleSheet.create({
     backgroundColor: PRIMARY,
     borderColor: PRIMARY,
   },
-  checkmark: { color: "#fff", fontSize: 14, fontWeight: "700" },
   termsText: {
     flex: 1,
     fontSize: 14,

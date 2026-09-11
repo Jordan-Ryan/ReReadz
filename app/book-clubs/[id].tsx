@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -102,7 +103,7 @@ export default function BookClubDetailScreen() {
         <Image source={{ uri: club.image_url }} style={styles.image} />
       ) : (
         <View style={[styles.image, styles.imagePlaceholder]}>
-          <Text style={styles.imageText}>📚</Text>
+          <Ionicons name="library-outline" size={48} color="#94a3b8" />
         </View>
       )}
       <Text style={styles.name}>{club.name}</Text>
@@ -146,7 +147,7 @@ export default function BookClubDetailScreen() {
                 <Image source={{ uri: r.cover_url }} style={styles.readThumb} />
               ) : (
                 <View style={[styles.readThumb, styles.readThumbPlaceholder]}>
-                  <Text style={styles.readThumbText}>📖</Text>
+                  <Ionicons name="book-outline" size={18} color="#94a3b8" />
                 </View>
               )}
               <View style={styles.readBody}>

@@ -114,6 +114,7 @@ export default function AccountScreen() {
       <Text style={styles.pageTitle}>You</Text>
 
       {!user ? (
+        <>
         <Glass style={styles.profileCard} overlayColor={GLASS_FILL_STRONG}>
           <Text style={styles.signedOutTitle}>Sign in to manage your ReReadz</Text>
           <Text style={styles.signedOutSub}>
@@ -128,6 +129,29 @@ export default function AccountScreen() {
             <Text style={styles.primaryBtnText}>Sign in</Text>
           </Pressable>
         </Glass>
+        <Glass style={[styles.listCard, styles.signedOutLinks]} overlayColor={GLASS_FILL_STRONG}>
+          <Pressable
+            style={styles.row}
+            onPress={() => go("legal")}
+            accessibilityRole="link"
+            accessibilityLabel="Legal"
+          >
+            <Ionicons name="document-text-outline" size={20} color={NAVY} />
+            <Text style={styles.rowLabel}>Legal</Text>
+            <Ionicons name="chevron-forward" size={18} color={MUTED} />
+          </Pressable>
+          <Pressable
+            style={[styles.row, styles.rowBorder]}
+            onPress={() => router.push("/help" as any)}
+            accessibilityRole="link"
+            accessibilityLabel="Help"
+          >
+            <Ionicons name="help-circle-outline" size={20} color={NAVY} />
+            <Text style={styles.rowLabel}>Help</Text>
+            <Ionicons name="chevron-forward" size={18} color={MUTED} />
+          </Pressable>
+        </Glass>
+        </>
       ) : (
         <>
           <Pressable
@@ -258,6 +282,7 @@ const styles = StyleSheet.create({
     minWidth: 160,
   },
   primaryBtnText: { color: WHITE, fontWeight: "700" },
+  signedOutLinks: { marginTop: 12 },
   tileGrid: {
     flexDirection: "row",
     flexWrap: "wrap",

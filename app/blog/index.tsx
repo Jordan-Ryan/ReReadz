@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -87,7 +88,7 @@ export default function BlogIndexScreen() {
             <Image source={{ uri: item.featured_image_url }} style={styles.thumb} />
           ) : (
             <View style={[styles.thumb, styles.thumbPlaceholder]}>
-              <Text style={styles.thumbText}>📖</Text>
+              <Ionicons name="book-outline" size={24} color="#94a3b8" />
             </View>
           )}
           <View style={styles.cardBody}>

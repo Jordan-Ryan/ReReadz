@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/utils/format";
@@ -100,7 +101,7 @@ export default function SpotlightScreen() {
               <Image source={{ uri: listing.primary_image_url }} style={styles.thumb} />
             ) : (
               <View style={[styles.thumb, styles.thumbPlaceholder]}>
-                <Text style={styles.thumbText}>📖</Text>
+                <Ionicons name="book-outline" size={20} color="#94a3b8" />
               </View>
             )}
             <View style={styles.cardBody}>

@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingScreen } from "@/components/LoadingScreen";
 
@@ -97,7 +98,7 @@ export default function BookClubsIndexScreen() {
             <Image source={{ uri: item.image_url }} style={styles.thumb} />
           ) : (
             <View style={[styles.thumb, styles.thumbPlaceholder]}>
-              <Text style={styles.thumbText}>📚</Text>
+              <Ionicons name="library-outline" size={28} color="#94a3b8" />
             </View>
           )}
           <View style={styles.cardBody}>

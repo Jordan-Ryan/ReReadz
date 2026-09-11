@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { ACCESS_TERMS } from "@/content/legal";
+import { LegalLinks } from "@/components/LegalLinks";
 import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function AccessibilityScreen() {
@@ -11,6 +12,7 @@ export default function AccessibilityScreen() {
           {paragraph}
         </Text>
       ))}
+      <LegalLinks />
     </ScrollView>
   );
 }
