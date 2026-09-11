@@ -26,11 +26,6 @@ export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
 export const SEARCH_PLACEHOLDER = "Search books, authors or ISBN";
 
-/** Navy/purple washes for empty cover initials — never grey wells. */
-export const COVER_TONES = [
-  "#EEF0FF",
-  "#E8E4FF",
-  "#F3E8FF",
-  "#E4E9FF",
-  "#EDE7FF",
-] as const;
+/** Quiet empty cover — paper well, never a letter monogram or grey box. */
+export const COVER_PAPER = "#F4F1EA";
+export const COVER_SPINE = "#D9D1C3";

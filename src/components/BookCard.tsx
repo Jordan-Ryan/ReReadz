@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { coverInitial, coverTone, formatPrice } from "@/utils/format";
-import { DELIVERY_LINE, INK, MUTED, NAVY, WHITE } from "@/theme/brand";
+import { formatPrice } from "@/utils/format";
+import { listingCoverCandidates } from "@/utils/cover";
+import { COVER_PAPER, COVER_SPINE, DELIVERY_LINE, INK, MUTED, WHITE } from "@/theme/brand";
 
 export interface BookCardData {
   id: string;
@@ -11,6 +12,9 @@ export interface BookCardData {
   author: string;
   price_minor: number;
   image_url?: string | null;
+  primary_image_url?: string | null;
+  isbn13?: string | null;
+  isbn10?: string | null;
   condition?: string;
   created_at?: string;
 }
@@ -25,8 +29,19 @@ export function BookCard({ book, flex }: BookCardProps) {
   const router = useRouter();
   const slug = book.slug ?? book.id;
   const linkTo = `/listing/${slug}`;
-  const initial = coverInitial(book.title);
-  const emptyTone = !book.image_url && initial ? coverTone(book.title) : undefined;
+  const coverCandidates = useMemo(
+    () => listingCoverCandidates(book),
+    [book.image_url, book.primary_image_url, book.isbn13, book.isbn10]
+  );
+  const coverKey = coverCandidates.join("|");
+  const [coverIndex, setCoverIndex] = useState(0);
+
+  useEffect(() => {
+    setCoverIndex(0);
+  }, [book.id, coverKey]);
+
+  const coverUrl = coverCandidates[coverIndex] ?? null;
+  const showCover = Boolean(coverUrl);
 
   return (
     <Pressable
@@ -35,26 +50,30 @@ export function BookCard({ book, flex }: BookCardProps) {
       accessibilityRole="link"
       accessibilityLabel={`${book.title}, ${formatPrice(book.price_minor)}`}
     >
-      <View
-        style={[
-          styles.imageWrap,
-          flex && styles.imageWrapFlex,
-          emptyTone ? styles.imageWrapInitial : null,
-          emptyTone ? { backgroundColor: emptyTone } : null,
-        ]}
-      >
-        {book.image_url ? (
+      <View style={[styles.imageWrap, flex && styles.imageWrapFlex]}>
+        {showCover ? (
           <Image
-            source={{ uri: book.image_url }}
+            source={{ uri: coverUrl as string }}
             style={styles.image}
             resizeMode="cover"
             accessibilityIgnoresInvertColors
+            accessibilityLabel={`${book.title} cover`}
+            onError={() => {
+              console.warn("BookCard cover failed", {
+                id: book.id,
+                coverUrl,
+              });
+              setCoverIndex((index) => index + 1);
+            }}
           />
-        ) : initial ? (
-          <Text style={styles.initial} accessibilityLabel={`${book.title} cover`}>
-            {initial}
-          </Text>
-        ) : null}
+        ) : (
+          <View
+            style={styles.quietCover}
+            accessibilityLabel={`${book.title} cover unavailable`}
+          >
+            <View style={styles.spine} />
+          </View>
+        )}
       </View>
       <View style={styles.meta}>
         <Text style={styles.title} numberOfLines={2}>
@@ -85,10 +104,6 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   imageWrapFlex: { width: "100%", alignSelf: "stretch" },
-  imageWrapInitial: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
   image: {
     ...StyleSheet.absoluteFillObject,
     width: "100%",
@@ -97,12 +112,15 @@ const styles = StyleSheet.create({
       ? { objectFit: "cover" as const, objectPosition: "center" as const }
       : {}),
   },
-  initial: {
-    fontSize: 36,
-    fontWeight: "600",
-    color: NAVY,
-    letterSpacing: 0.6,
-    opacity: 0.88,
+  quietCover: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: COVER_PAPER,
+    flexDirection: "row",
+  },
+  spine: {
+    width: 5,
+    height: "100%",
+    backgroundColor: COVER_SPINE,
   },
   meta: {
     paddingTop: 6,
