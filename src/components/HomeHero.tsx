@@ -1,7 +1,7 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { TrustPills } from "@/components/TrustPills";
-import type { HomeCollection } from "@/hooks/useHomepageCollections";
+import type { HomeCollection } from "@/components/CategoryGrid";
 import {
   CTA_BROWSE,
   CTA_LIST,

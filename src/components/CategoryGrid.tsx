@@ -1,6 +1,12 @@
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { Glass } from "@/components/Glass";
-import type { HomeCollection } from "@/hooks/useHomepageCollections";
+
+export interface HomeCollection {
+  id: string;
+  name: string;
+  slug: string;
+  book_count?: number;
+}
 import {
   CATEGORY_SUB,
   CATEGORY_TITLE,
