@@ -80,18 +80,20 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
       accessibilityLabel="ReReadz home"
       style={styles.brand}
     >
-      <Image
-        source={LOGO}
-        style={styles.mark}
-        resizeMode="contain"
-        accessibilityIgnoresInvertColors
-      />
-      <Text style={[styles.wordmark, isDesktop && styles.wordmarkDesktop]}>
-        ReReadz
-      </Text>
-      <View style={styles.beta} accessibilityRole="text">
-        <Text style={styles.betaText}>BETA</Text>
+      <View style={styles.markWrap}>
+        <Image
+          source={LOGO}
+          style={styles.mark}
+          resizeMode="contain"
+          accessibilityIgnoresInvertColors
+        />
+        <View style={styles.beta} accessibilityRole="text">
+          <Text style={styles.betaText}>BETA</Text>
+        </View>
       </View>
+      <Text style={[styles.wordmark, isDesktop && styles.wordmarkDesktop]}>
+        ReReadz.
+      </Text>
     </Pressable>
   );
 
@@ -212,41 +214,49 @@ const styles = StyleSheet.create({
   brand: {
     backgroundColor: "transparent",
     borderWidth: 0,
-    padding: 0,
+    paddingTop: 4,
+    paddingRight: 4,
     margin: 0,
     flexShrink: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
   },
+  markWrap: {
+    width: 28,
+    height: 28,
+    position: "relative",
+  },
   mark: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
   },
   wordmark: {
     color: NAVY,
     fontFamily: FONT_DISPLAY,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "700",
     letterSpacing: -0.45,
     lineHeight: 20,
   },
   wordmarkDesktop: { fontSize: 20, lineHeight: 24 },
   beta: {
+    position: "absolute",
+    top: -5,
+    right: -10,
     backgroundColor: NAVY,
-    borderRadius: 3,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    marginLeft: 1,
+    borderRadius: 999,
+    paddingHorizontal: 4,
+    paddingVertical: 1,
     flexShrink: 0,
   },
   betaText: {
     fontFamily: FONT_DISPLAY,
-    fontSize: 8,
+    fontSize: 7,
     fontWeight: "800",
     color: WHITE,
-    letterSpacing: 0.7,
-    lineHeight: 10,
+    letterSpacing: 0.4,
+    lineHeight: 9,
   },
   desktopActions: {
     flexDirection: "row",

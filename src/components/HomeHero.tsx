@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import type { BookCardData } from "@/components/BookCard";
 import { listingCoverCandidates } from "@/utils/cover";
@@ -16,7 +17,6 @@ import {
   HOT_OFF_PRESS,
   LIVE_NOW,
   NAVY,
-  NAVY_DEEP,
   TRUST_PILLS,
   WHITE,
 } from "@/theme/brand";
@@ -79,8 +79,14 @@ export function HomeHero({
       <View style={styles.wash} pointerEvents="none" />
 
       <View style={[styles.copy, { paddingTop: topInset + (isDesktop ? 28 : 20) }]}>
-      <Text style={styles.eyebrow}>{HOT_OFF_PRESS}</Text>
-      <Text style={[styles.title, isDesktop && styles.titleDesktop]}>{HERO_TITLE}</Text>
+      <View style={styles.eyebrowPill}>
+        <Ionicons name="sparkles" size={12} color={WHITE} />
+        <Text style={styles.eyebrow}>{HOT_OFF_PRESS}</Text>
+      </View>
+      <Text style={[styles.title, isDesktop && styles.titleDesktop]}>
+        {HERO_TITLE.replace("pre-loved books", "").trimEnd()}{" "}
+        <Text style={styles.titleGold}>pre-loved books</Text>
+      </Text>
       <Text style={[styles.sub, isDesktop && styles.subDesktop]}>{HERO_SUBTITLE}</Text>
 
       <View style={styles.chipRow}>
@@ -126,10 +132,21 @@ export function HomeHero({
       </View>
 
       <View style={styles.trust} accessibilityRole="text">
-        {TRUST_PILLS.map((pill) => (
-          <Text key={pill} style={styles.trustItem}>
-            {pill}
-          </Text>
+        {TRUST_PILLS.map((pill, index) => (
+          <View key={pill} style={styles.trustPill}>
+            <Ionicons
+              name={
+                index === 0
+                  ? "bicycle-outline"
+                  : index === 1
+                    ? "shield-checkmark-outline"
+                    : "cash-outline"
+              }
+              size={13}
+              color={WHITE}
+            />
+            <Text style={styles.trustItem}>{pill}</Text>
+          </View>
         ))}
       </View>
 
@@ -151,13 +168,15 @@ export function HomeHero({
 
 const styles = StyleSheet.create({
   hero: {
-    backgroundColor: NAVY_DEEP,
-    paddingBottom: 14,
+    backgroundColor: "#111118",
+    paddingBottom: 22,
     overflow: "hidden",
     position: "relative",
+    borderBottomLeftRadius: 28,
+    borderBottomRightRadius: 28,
   },
   heroDesktop: {
-    paddingBottom: 28,
+    paddingBottom: 36,
   },
   copy: {
     maxWidth: 720,
@@ -165,7 +184,7 @@ const styles = StyleSheet.create({
   collage: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: "row",
-    opacity: 0.35,
+    opacity: 0.5,
   },
   collageImage: {
     flex: 1,
@@ -173,30 +192,45 @@ const styles = StyleSheet.create({
   },
   wash: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(12, 0, 102, 0.72)",
+    backgroundColor: "rgba(8, 6, 18, 0.52)",
+  },
+  eyebrowPill: {
+    alignSelf: "flex-start",
+    marginHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   eyebrow: {
-    paddingHorizontal: 16,
     fontFamily: FONT_DISPLAY,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "700",
-    color: GOLD,
+    color: WHITE,
     letterSpacing: 0.6,
     textTransform: "uppercase",
   },
   title: {
     paddingHorizontal: 16,
-    marginTop: 8,
+    marginTop: 10,
     fontFamily: FONT_SERIF,
-    fontSize: 30,
-    lineHeight: 36,
-    fontWeight: "600",
+    fontSize: 32,
+    lineHeight: 38,
+    fontWeight: "800",
+    color: WHITE,
+    letterSpacing: -0.5,
+  },
+  titleGold: {
     color: GOLD,
-    letterSpacing: -0.4,
+    fontFamily: FONT_SERIF,
+    fontWeight: "800",
   },
   titleDesktop: {
-    fontSize: 48,
-    lineHeight: 54,
+    fontSize: 56,
+    lineHeight: 62,
     letterSpacing: -0.8,
   },
   sub: {
@@ -236,12 +270,12 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   primary: {
-    backgroundColor: WHITE,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    backgroundColor: NAVY,
+    paddingHorizontal: 16,
+    paddingVertical: 11,
     borderRadius: 999,
   },
-  primaryText: { color: NAVY, fontWeight: "700", fontSize: 13 },
+  primaryText: { color: WHITE, fontWeight: "700", fontSize: 13 },
   secondary: {
     backgroundColor: "rgba(255,255,255,0.12)",
     borderWidth: 1,
@@ -254,14 +288,24 @@ const styles = StyleSheet.create({
   trust: {
     paddingHorizontal: 16,
     paddingTop: 12,
-    gap: 4,
+    gap: 6,
+  },
+  trustPill: {
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "rgba(255,255,255,0.10)",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
   },
   trustItem: {
     fontFamily: FONT_SANS,
     fontSize: 12,
-    lineHeight: 17,
+    lineHeight: 16,
     fontWeight: "600",
-    color: "rgba(255,255,255,0.86)",
+    color: "rgba(255,255,255,0.92)",
   },
   live: {
     paddingHorizontal: 16,
@@ -269,6 +313,6 @@ const styles = StyleSheet.create({
     fontFamily: FONT_SANS,
     fontSize: 13,
     fontWeight: "600",
-    color: GOLD,
+    color: WHITE,
   },
 });
