@@ -29,6 +29,7 @@ import {
   useFeedColumns,
 } from "@/hooks/useFeedColumns";
 
+/** Browse is search + filters + results only. Do not add Home merchandising here. */
 export default function ListingsScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{

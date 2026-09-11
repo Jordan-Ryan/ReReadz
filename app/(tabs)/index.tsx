@@ -22,6 +22,7 @@ import {
   WHITE,
 } from "@/theme/brand";
 
+/** Home is marketing/discovery (hero, categories, shelves, QR, sell). Not a Browse feed. */
 export default function HomeScreen() {
   const router = useRouter();
   const clearance = useTabClearance();
