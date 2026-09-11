@@ -12,7 +12,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { formatPrice } from "@/utils/format";
+import { formatCondition, formatPrice } from "@/utils/format";
 import { DETAIL_DELIVERY, NAVY, SHIELD_NAME } from "@/theme/brand";
 import Toast from "react-native-toast-message";
 
@@ -170,7 +170,9 @@ export default function ListingDetailScreen() {
         <Text style={styles.shield}>{SHIELD_NAME} on every order</Text>
       </View>
       {listing.condition && (
-        <Text style={styles.condition}>Condition: {listing.condition}</Text>
+        <Text style={styles.condition}>
+          Condition: {formatCondition(listing.condition)}
+        </Text>
       )}
       {seller?.display_name && (
         <Text style={styles.seller}>Seller: {seller.display_name}</Text>

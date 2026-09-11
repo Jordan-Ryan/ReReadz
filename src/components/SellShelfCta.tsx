@@ -4,6 +4,7 @@ import { Glass } from "@/components/Glass";
 import {
   CTA_HOW_SELL,
   CTA_SELL,
+  FONT_DISPLAY,
   GLASS_FILL_STRONG,
   INK,
   MUTED,
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   kicker: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 12,
     fontWeight: "700",
     color: NAVY,
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   title: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 20,
     lineHeight: 24,
     fontWeight: "800",

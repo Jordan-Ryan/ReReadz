@@ -4,6 +4,7 @@ import { Glass } from "@/components/Glass";
 import {
   CTA_QR,
   GLASS_FILL_STRONG,
+  FONT_DISPLAY,
   INK,
   MUTED,
   NAVY,
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   kicker: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 12,
     fontWeight: "700",
     color: NAVY,
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 4,
+    fontFamily: FONT_DISPLAY,
     fontSize: 20,
     lineHeight: 24,
     fontWeight: "800",

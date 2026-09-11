@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 /** Locked ReReadz brand tokens. Do not restyle to Vinted teal. */
 export const NAVY = "#1700AD";
 export const NAVY_DEEP = "#0C0066";
@@ -31,6 +33,20 @@ export const SEARCH_PLACEHOLDER = "Search for your next book...";
 export const SEARCH_FIELD = "#F5F5F5";
 export const BADGE_FREQUENT = "Frequent";
 export const BADGE_SOLD = "Sold";
+
+/** Live rereadz.com type — Inter / Inter Tight / Noto Serif Display. */
+export const FONT_SANS = Platform.select({
+  web: "Inter, system-ui, sans-serif",
+  default: "System",
+}) as string;
+export const FONT_DISPLAY = Platform.select({
+  web: '"Inter Tight", Inter, system-ui, sans-serif',
+  default: "System",
+}) as string;
+export const FONT_SERIF = Platform.select({
+  web: '"Noto Serif Display", Georgia, serif',
+  default: "Georgia",
+}) as string;
 
 /** Live rereadz.com Home copy — keep wording locked. */
 export const HERO_TITLE = "The UK marketplace for pre-loved books";
@@ -105,10 +121,10 @@ export const TAB_BAR_HEIGHT = 62;
 export const TAB_BAR_INSET = 10;
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 8;
 export const HEADER_BAR_HEIGHT = 56;
-/** Marketing Home: lockup + full-width search. */
-export const HEADER_BAR_HEIGHT_HOME = 96;
+/** Marketing Home: live one-row lockup + search. */
+export const HEADER_BAR_HEIGHT_HOME = 56;
 /** Browse/feed: search pill is the chrome. */
-export const HEADER_BAR_HEIGHT_SEARCH = 60;
+export const HEADER_BAR_HEIGHT_SEARCH = 56;
 /** Sell / Messages / You: mark + BETA, no logo-eating search. */
 export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;

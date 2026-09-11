@@ -7,6 +7,9 @@ import { useDesktopShell } from "@/hooks/useDesktopShell";
 import {
   CTA_BROWSE,
   CTA_LIST,
+  FONT_DISPLAY,
+  FONT_SANS,
+  FONT_SERIF,
   GOLD,
   HERO_SUBTITLE,
   HERO_TITLE,
@@ -14,6 +17,7 @@ import {
   LIVE_NOW,
   NAVY,
   NAVY_DEEP,
+  TRUST_PILLS,
   WHITE,
 } from "@/theme/brand";
 
@@ -121,6 +125,14 @@ export function HomeHero({
         </Pressable>
       </View>
 
+      <View style={styles.trust} accessibilityRole="text">
+        {TRUST_PILLS.map((pill) => (
+          <Text key={pill} style={styles.trustItem}>
+            {pill}
+          </Text>
+        ))}
+      </View>
+
       {(liveBooks != null || liveReaders != null) && (
         <Text style={styles.live} accessibilityRole="text">
           {LIVE_NOW}
@@ -165,6 +177,7 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     paddingHorizontal: 16,
+    fontFamily: FONT_DISPLAY,
     fontSize: 12,
     fontWeight: "700",
     color: GOLD,
@@ -174,20 +187,22 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 16,
     marginTop: 8,
+    fontFamily: FONT_SERIF,
     fontSize: 30,
-    lineHeight: 34,
-    fontWeight: "800",
+    lineHeight: 36,
+    fontWeight: "600",
     color: GOLD,
-    letterSpacing: -0.7,
+    letterSpacing: -0.4,
   },
   titleDesktop: {
     fontSize: 48,
-    lineHeight: 52,
-    letterSpacing: -1.2,
+    lineHeight: 54,
+    letterSpacing: -0.8,
   },
   sub: {
     paddingHorizontal: 16,
     marginTop: 8,
+    fontFamily: FONT_SANS,
     fontSize: 14,
     lineHeight: 20,
     color: "rgba(255,255,255,0.88)",
@@ -236,9 +251,22 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   secondaryText: { color: WHITE, fontWeight: "700", fontSize: 13 },
+  trust: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    gap: 4,
+  },
+  trustItem: {
+    fontFamily: FONT_SANS,
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.86)",
+  },
   live: {
     paddingHorizontal: 16,
     paddingTop: 12,
+    fontFamily: FONT_SANS,
     fontSize: 13,
     fontWeight: "600",
     color: GOLD,

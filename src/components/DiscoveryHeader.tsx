@@ -23,6 +23,7 @@ import {
   SEARCH_PLACEHOLDER,
   SEARCH_FIELD,
   GLASS_FILL_CHROME,
+  FONT_DISPLAY,
 } from "@/theme/brand";
 
 const LOGO = require("../../assets/logo-rereadz.png");
@@ -146,7 +147,7 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
           style={[
             styles.wrap,
             isDesktop && styles.wrapDesktop,
-            !isDesktop && variant === "home" && styles.wrapHome,
+            !isDesktop && variant === "home" && styles.wrapRow,
             !isDesktop && variant === "search" && styles.wrapSearch,
             !isDesktop && variant === "compact" && styles.wrapCompact,
           ]}
@@ -189,9 +190,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
   },
-  wrapHome: {
-    flexDirection: "column",
-    alignItems: "stretch",
+  wrapRow: {
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   wrapSearch: {
@@ -219,30 +220,32 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   mark: {
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
   },
   wordmark: {
     color: NAVY,
-    fontSize: 18,
+    fontFamily: FONT_DISPLAY,
+    fontSize: 17,
     fontWeight: "700",
-    letterSpacing: -0.5,
-    lineHeight: 22,
+    letterSpacing: -0.45,
+    lineHeight: 20,
   },
   wordmarkDesktop: { fontSize: 20, lineHeight: 24 },
   beta: {
     backgroundColor: NAVY,
-    borderRadius: 4,
-    paddingHorizontal: 6,
+    borderRadius: 3,
+    paddingHorizontal: 5,
     paddingVertical: 2,
-    marginLeft: 2,
+    marginLeft: 1,
     flexShrink: 0,
   },
   betaText: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 8,
     fontWeight: "800",
     color: WHITE,
-    letterSpacing: 0.8,
+    letterSpacing: 0.7,
     lineHeight: 10,
   },
   desktopActions: {
@@ -267,11 +270,11 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 999,
     paddingHorizontal: 14,
-    minHeight: 44,
+    minHeight: 40,
   },
   searchOwned: {
-    minHeight: 46,
-    paddingHorizontal: 16,
+    minHeight: 42,
+    paddingHorizontal: 14,
   },
   searchDesktop: {
     minHeight: 44,

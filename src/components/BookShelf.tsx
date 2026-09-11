@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Pressable } from "react-native";
 import { BookCard, type BookCardData } from "@/components/BookCard";
-import { INK, MUTED, NAVY } from "@/theme/brand";
+import { FONT_DISPLAY, FONT_SANS, INK, MUTED, NAVY } from "@/theme/brand";
 
 interface BookShelfProps {
   eyebrow?: string;
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   },
   copy: { flex: 1 },
   eyebrow: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 12,
     fontWeight: "700",
     color: NAVY,
@@ -86,12 +87,19 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   title: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 20,
     fontWeight: "800",
     color: INK,
     letterSpacing: -0.3,
   },
-  sub: { marginTop: 4, fontSize: 13, color: MUTED, lineHeight: 18 },
+  sub: {
+    marginTop: 4,
+    fontFamily: FONT_SANS,
+    fontSize: 13,
+    color: MUTED,
+    lineHeight: 18,
+  },
   seeAll: { fontSize: 13, fontWeight: "700", color: NAVY },
   loader: { height: 180, justifyContent: "center" },
   empty: { paddingHorizontal: 16, paddingVertical: 20 },

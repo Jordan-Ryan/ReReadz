@@ -11,6 +11,8 @@ export interface HomeCollection {
 import {
   CATEGORY_SUB,
   CATEGORY_TITLE,
+  FONT_DISPLAY,
+  FONT_SANS,
   GLASS_FILL_STRONG,
   INK,
   MUTED,
@@ -82,12 +84,19 @@ export function CategoryGrid({
 const styles = StyleSheet.create({
   section: { paddingTop: 14, paddingHorizontal: 16, maxWidth: 1120, width: "100%", alignSelf: "center" },
   title: {
+    fontFamily: FONT_DISPLAY,
     fontSize: 20,
     fontWeight: "800",
     color: INK,
     letterSpacing: -0.3,
   },
-  sub: { marginTop: 2, fontSize: 13, color: MUTED, marginBottom: 10 },
+  sub: {
+    marginTop: 2,
+    fontFamily: FONT_SANS,
+    fontSize: 13,
+    color: MUTED,
+    marginBottom: 10,
+  },
   loader: { marginVertical: 16 },
   grid: {
     flexDirection: "row",

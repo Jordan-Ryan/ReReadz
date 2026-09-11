@@ -14,7 +14,6 @@ import { useTabClearance } from "@/hooks/useTabClearance";
 import { useHeaderClearance } from "@/hooks/useHeaderClearance";
 import {
   CTA_BROWSE,
-  HOT_OFF_PRESS,
   SHELF_EMPTY,
   SHELF_EYEBROW,
   SHELF_SUB,
@@ -70,15 +69,16 @@ export default function HomeScreen() {
         onSeeAll={() => openBrowse()}
       />
 
-      <BookShelf
-        eyebrow={HOT_OFF_PRESS}
-        title={staffPicks.length > 0 ? "Staff picks" : HOT_OFF_PRESS}
-        books={(staffPicks.length > 0 ? staffPicks : justListed).slice(0, 8)}
-        isLoading={staffPicks.length > 0 ? loadingStaff : loadingListed}
-        featured
-        onSeeAll={() => openBrowse()}
-        seeAllLabel={CTA_BROWSE}
-      />
+      {staffPicks.length > 0 ? (
+        <BookShelf
+          title="Staff picks"
+          books={staffPicks.slice(0, 8)}
+          isLoading={loadingStaff}
+          featured
+          onSeeAll={() => openBrowse()}
+          seeAllLabel={CTA_BROWSE}
+        />
+      ) : null}
 
       <BookShelf
         eyebrow={SHELF_EYEBROW}
