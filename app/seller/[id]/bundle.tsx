@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatPrice } from "@/utils/format";
+import { resolveListingCover } from "@/utils/cover";
 import Toast from "react-native-toast-message";
 
 interface ListingItem {
@@ -47,23 +48,20 @@ export default function SellerBundleScreen() {
 
       const { data: rows } = await supabase
         .from("book_listings")
-        .select("id, title, author, price_minor, slug, book_images(url, position)")
+        .select("id, title, author, price_minor, slug, primary_image_url, isbn13, isbn10, book_images(url, position)")
         .eq("seller_id", sellerId)
         .eq("active", true)
         .is("deleted_at", null)
         .order("created_at", { ascending: false });
 
-      const items: ListingItem[] = (rows || []).map((row: any) => {
-        const firstImg = row.book_images?.find((i: any) => i.position === 0) ?? row.book_images?.[0];
-        return {
-          id: row.id,
-          title: row.title,
-          author: row.author,
-          price_minor: row.price_minor,
-          image_url: firstImg?.url ?? null,
-          slug: row.slug,
-        };
-      });
+      const items: ListingItem[] = (rows || []).map((row: any) => ({
+        id: row.id,
+        title: row.title,
+        author: row.author,
+        price_minor: row.price_minor,
+        image_url: resolveListingCover(row),
+        slug: row.slug,
+      }));
       setListings(items);
     } catch (e) {
       console.error(e);

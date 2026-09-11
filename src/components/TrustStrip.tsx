@@ -11,10 +11,10 @@ export function TrustStrip() {
 
 const styles = StyleSheet.create({
   wrap: {
-    marginHorizontal: 12,
-    marginVertical: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    marginHorizontal: 10,
+    marginVertical: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     backgroundColor: NAVY_SOFT,
     borderRadius: 8,
   },

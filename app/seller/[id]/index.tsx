@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { BookCard } from "@/components/BookCard";
 import type { BookCardData } from "@/components/BookCard";
+import { resolveListingCover } from "@/utils/cover";
 
 export default function SellerScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -22,7 +23,7 @@ export default function SellerScreen() {
           supabase.from("profiles").select("display_name").eq("id", id).maybeSingle(),
           supabase
             .from("book_listings")
-            .select("id, slug, title, author, price_minor, condition, created_at, book_images!left(url, position)")
+            .select("id, slug, title, author, price_minor, condition, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)")
             .eq("seller_id", id)
             .eq("active", true)
             .is("deleted_at", null)
@@ -31,19 +32,19 @@ export default function SellerScreen() {
         ]);
         if (cancelled) return;
         setSeller(profRes.data as any);
-        const list = (listRes.data || []).map((row: any) => {
-          const firstImg = row.book_images?.find((i: any) => i.position === 0) || row.book_images?.[0];
-          return {
-            id: row.id,
-            slug: row.slug ?? row.id,
-            title: row.title,
-            author: row.author,
-            price_minor: row.price_minor,
-            image_url: firstImg?.url ?? null,
-            condition: row.condition,
-            created_at: row.created_at,
-          };
-        });
+        const list = (listRes.data || []).map((row: any) => ({
+          id: row.id,
+          slug: row.slug ?? row.id,
+          title: row.title,
+          author: row.author,
+          price_minor: row.price_minor,
+          image_url: resolveListingCover(row),
+          primary_image_url: row.primary_image_url ?? null,
+          isbn13: row.isbn13 ?? null,
+          isbn10: row.isbn10 ?? null,
+          condition: row.condition,
+          created_at: row.created_at,
+        }));
         setListings(list);
       } catch (_) {}
       finally {

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   StyleSheet,
   Pressable,
   Platform,
@@ -66,72 +65,70 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
 
   return (
     <SafeAreaView edges={["top"]} style={styles.safe}>
-    <View style={styles.wrap}>
-      <Pressable
-        onPress={() => router.push("/(tabs)" as any)}
-        accessibilityRole="link"
-        accessibilityLabel="ReReadz home"
-        style={styles.brand}
-      >
-        <Image
-          source={require("../../assets/images/logo-rereadz.png")}
-          style={styles.logo}
-          accessibilityLabel="ReReadz"
-        />
-      </Pressable>
-      <View style={styles.search}>
-        <Ionicons name="search" size={16} color={MUTED} />
-        <TextInput
-          ref={inputRef}
-          style={styles.input}
-          value={value}
-          onChangeText={setValue}
-          placeholder={SEARCH_PLACEHOLDER}
-          placeholderTextColor={MUTED}
-          returnKeyType="search"
-          onSubmitEditing={() => submit(value)}
-          accessibilityLabel="Search books"
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
-        {value.length > 0 && (
-          <Pressable
-            onPress={() => {
-              setValue("");
-              submit("");
-            }}
-            accessibilityRole="button"
-            accessibilityLabel="Clear search"
-            hitSlop={8}
-          >
-            <Ionicons name="close-circle" size={16} color={MUTED} />
-          </Pressable>
-        )}
-        {Platform.OS === "web" && <Text style={styles.hint}>⌘K</Text>}
-      </View>
-      <View style={styles.beta}>
-        <Text style={styles.betaText}>BETA</Text>
-      </View>
-      {isDesktop && (
-        <View style={styles.desktopActions}>
-          <Pressable
-            style={styles.sellBtn}
-            onPress={() => router.push("/(tabs)/sell" as any)}
-            accessibilityRole="button"
-            accessibilityLabel="Sell books"
-          >
-            <Text style={styles.sellBtnText}>Sell books</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => router.push("/(tabs)/account" as any)}
-            accessibilityRole="link"
-            accessibilityLabel="You"
-          >
-            <Text style={styles.youLink}>You</Text>
-          </Pressable>
+      <View style={[styles.wrap, isDesktop && styles.wrapDesktop]}>
+        <Pressable
+          onPress={() => router.push("/(tabs)" as any)}
+          accessibilityRole="link"
+          accessibilityLabel="ReReadz home"
+          style={styles.brand}
+        >
+          <Text style={[styles.wordmark, isDesktop && styles.wordmarkDesktop]}>
+            ReReadz
+          </Text>
+        </Pressable>
+        <View style={styles.search}>
+          <Ionicons name="search" size={16} color={MUTED} />
+          <TextInput
+            ref={inputRef}
+            style={styles.input}
+            value={value}
+            onChangeText={setValue}
+            placeholder={SEARCH_PLACEHOLDER}
+            placeholderTextColor={MUTED}
+            returnKeyType="search"
+            onSubmitEditing={() => submit(value)}
+            accessibilityLabel="Search books"
+            autoCorrect={false}
+            autoCapitalize="none"
+          />
+          {value.length > 0 && (
+            <Pressable
+              onPress={() => {
+                setValue("");
+                submit("");
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Clear search"
+              hitSlop={8}
+            >
+              <Ionicons name="close-circle" size={16} color={MUTED} />
+            </Pressable>
+          )}
+          {isDesktop && <Text style={styles.hint}>⌘K</Text>}
         </View>
-      )}
-    </View>
+        <View style={styles.beta}>
+          <Text style={styles.betaText}>BETA</Text>
+        </View>
+        {isDesktop && (
+          <View style={styles.desktopActions}>
+            <Pressable
+              style={styles.sellBtn}
+              onPress={() => router.push("/(tabs)/sell" as any)}
+              accessibilityRole="button"
+              accessibilityLabel="Sell books"
+            >
+              <Text style={styles.sellBtnText}>Sell books</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/(tabs)/account" as any)}
+              accessibilityRole="link"
+              accessibilityLabel="You"
+            >
+              <Text style={styles.youLink}>You</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
@@ -140,16 +137,34 @@ const styles = StyleSheet.create({
   safe: { backgroundColor: WHITE },
   wrap: {
     backgroundColor: WHITE,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: LINE,
   },
-  brand: { justifyContent: "center" },
-  logo: { width: 28, height: 28 },
+  wrapDesktop: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 12,
+  },
+  brand: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    padding: 0,
+    margin: 0,
+    flexShrink: 0,
+  },
+  wordmark: {
+    color: NAVY,
+    fontSize: 16,
+    fontWeight: "700",
+    letterSpacing: -0.4,
+    lineHeight: 18,
+  },
+  wordmarkDesktop: { fontSize: 18, lineHeight: 20 },
   desktopActions: {
     flexDirection: "row",
     alignItems: "center",
@@ -168,6 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 6,
     paddingVertical: 3,
+    flexShrink: 0,
   },
   betaText: {
     fontSize: 10,

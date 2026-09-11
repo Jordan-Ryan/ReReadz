@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { BookCardData } from "@/components/BookCard";
+import { resolveListingCover } from "@/utils/cover";
 
 const PAGE_SIZE = 20;
 
@@ -35,7 +36,7 @@ export function useListings(opts: ListingFilters = {}) {
         let q = supabase
           .from("book_listings")
           .select(
-            "id, slug, title, author, price_minor, condition, created_at, book_images!left(url, position)",
+            "id, slug, title, author, price_minor, condition, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)",
             { count: "exact" }
           )
           .eq("active", true)
@@ -85,21 +86,19 @@ export function useListings(opts: ListingFilters = {}) {
         const { data, error: queryError, count } = await q;
         if (queryError) throw queryError;
         if (typeof count === "number") setTotal(count);
-        const list = (data || []).map((row: any) => {
-          const firstImg =
-            row.book_images?.find((i: any) => i.position === 0) ||
-            row.book_images?.[0];
-          return {
-            id: row.id,
-            slug: row.slug ?? row.id,
-            title: row.title,
-            author: row.author,
-            price_minor: row.price_minor,
-            image_url: firstImg?.url ?? null,
-            condition: row.condition,
-            created_at: row.created_at,
-          };
-        });
+        const list = (data || []).map((row: any) => ({
+          id: row.id,
+          slug: row.slug ?? row.id,
+          title: row.title,
+          author: row.author,
+          price_minor: row.price_minor,
+          image_url: resolveListingCover(row),
+          primary_image_url: row.primary_image_url ?? null,
+          isbn13: row.isbn13 ?? null,
+          isbn10: row.isbn10 ?? null,
+          condition: row.condition,
+          created_at: row.created_at,
+        }));
         if (append) setItems((prev) => (pageNum === 0 ? list : [...prev, ...list]));
         else setItems(list);
         setHasMore(list.length === PAGE_SIZE);

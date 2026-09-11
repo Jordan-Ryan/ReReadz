@@ -16,9 +16,8 @@ import { BookFeed } from "@/components/BookFeed";
 import type { BookCardData } from "@/components/BookCard";
 import { CategoryChips, pickHomeChips } from "@/components/CategoryChips";
 import { TrustStrip } from "@/components/TrustStrip";
+import { useFeedColumns } from "@/hooks/useFeedColumns";
 import { INK, MUTED, WHITE } from "@/theme/brand";
-
-const STRIP_AFTER = 4;
 
 type HomeRow =
   | { kind: "books"; key: string; books: BookCardData[] }
@@ -33,12 +32,14 @@ export default function HomeScreen() {
   const { books: staffPicks, loading: loadingStaff } = useStaffPicks();
   const { categories, loading: loadingCategories } = useCategories();
   const chips = useMemo(() => pickHomeChips(categories), [categories]);
+  const columns = useFeedColumns();
+  const stripAfter = columns * 2;
   const firstName = user?.email?.split("@")[0];
 
   const rows = useMemo<HomeRow[]>(() => {
     const next: HomeRow[] = [];
-    const first = items.slice(0, STRIP_AFTER);
-    const rest = items.slice(STRIP_AFTER);
+    const first = items.slice(0, stripAfter);
+    const rest = items.slice(stripAfter);
     if (first.length > 0) {
       next.push({ kind: "books", key: "just-listed-top", books: first });
     }
@@ -52,7 +53,7 @@ export default function HomeScreen() {
       next.push({ kind: "books", key: "just-listed-more", books: rest });
     }
     return next;
-  }, [items, staffPicks]);
+  }, [items, staffPicks, stripAfter]);
 
   const renderRow = ({ item }: { item: HomeRow }) => {
     if (item.kind === "strip") return <TrustStrip />;
@@ -128,18 +129,18 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: WHITE },
   content: { paddingBottom: 32 },
   welcome: {
-    fontSize: 14,
+    fontSize: 13,
     color: MUTED,
-    paddingHorizontal: 12,
-    paddingTop: 10,
+    paddingHorizontal: 10,
+    paddingTop: 6,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
     color: INK,
-    paddingHorizontal: 12,
-    marginTop: 8,
-    marginBottom: 8,
+    paddingHorizontal: 10,
+    marginTop: 0,
+    marginBottom: 2,
   },
   staffBlock: { marginTop: 4 },
   loader: { padding: 32, alignItems: "center" },

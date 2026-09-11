@@ -1,15 +1,24 @@
 import { View, StyleSheet } from "react-native";
 import { BookCard, type BookCardData } from "@/components/BookCard";
+import {
+  FEED_CELL_PAD,
+  FEED_GRID_PAD,
+  FEED_ROW_GAP,
+  useFeedColumns,
+} from "@/hooks/useFeedColumns";
 
 interface BookFeedProps {
   books: BookCardData[];
 }
 
 export function BookFeed({ books }: BookFeedProps) {
+  const columns = useFeedColumns();
+  const cellWidth = `${100 / columns}%` as const;
+
   return (
     <View style={styles.grid}>
       {books.map((book) => (
-        <View key={book.id} style={styles.cell}>
+        <View key={book.id} style={[styles.cell, { width: cellWidth }]}>
           <BookCard book={book} flex />
         </View>
       ))}
@@ -21,11 +30,10 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: 8,
+    paddingHorizontal: FEED_GRID_PAD,
   },
   cell: {
-    width: "50%",
-    paddingHorizontal: 4,
-    marginBottom: 16,
+    paddingHorizontal: FEED_CELL_PAD,
+    marginBottom: FEED_ROW_GAP,
   },
 });

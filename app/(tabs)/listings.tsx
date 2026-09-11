@@ -21,6 +21,12 @@ import {
 } from "@/components/FilterSheet";
 import { formatCondition, formatBookFormat } from "@/utils/format";
 import { INK, MUTED, LINE, WHITE, NAVY, NAVY_SOFT } from "@/theme/brand";
+import {
+  FEED_CELL_PAD,
+  FEED_GRID_PAD,
+  FEED_ROW_GAP,
+  useFeedColumns,
+} from "@/hooks/useFeedColumns";
 
 export default function ListingsScreen() {
   const router = useRouter();
@@ -39,6 +45,7 @@ export default function ListingsScreen() {
     setFilters((prev) => ({ ...prev, category: paramCategory }));
   }, [paramCategory]);
 
+  const columns = useFeedColumns();
   const { categories } = useCategories();
   const { items, total, loading, hasMore, loadMore, refresh, refreshing, error } =
     useListings({
@@ -146,10 +153,11 @@ export default function ListingsScreen() {
         </View>
       ) : (
         <FlatList
+          key={columns}
           data={items}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
-          numColumns={2}
+          numColumns={columns}
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.listContent}
           onEndReached={() => {
@@ -209,20 +217,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
-    paddingHorizontal: 12,
-    paddingTop: 12,
-    paddingBottom: 4,
+    paddingHorizontal: 10,
+    paddingTop: 6,
+    paddingBottom: 0,
   },
   metaLeft: { flex: 1, paddingRight: 12 },
-  title: { fontSize: 20, fontWeight: "700", color: INK },
+  title: { fontSize: 16, fontWeight: "700", color: INK },
   count: { fontSize: 13, color: MUTED, marginTop: 2 },
   sort: { fontSize: 13, fontWeight: "600", color: NAVY },
   chipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: LINE,
   },
@@ -238,9 +246,14 @@ const styles = StyleSheet.create({
   chipText: { fontSize: 13, color: INK, fontWeight: "500" },
   chipTextOn: { color: NAVY, fontWeight: "700" },
   loader: { flex: 1, justifyContent: "center" },
-  listContent: { padding: 8, paddingBottom: 32, flexGrow: 1 },
+  listContent: {
+    paddingHorizontal: FEED_GRID_PAD,
+    paddingTop: 4,
+    paddingBottom: 32,
+    flexGrow: 1,
+  },
   row: { gap: 0 },
-  cardWrap: { width: "50%", paddingHorizontal: 4, marginBottom: 16 },
+  cardWrap: { flex: 1, paddingHorizontal: FEED_CELL_PAD, marginBottom: FEED_ROW_GAP },
   empty: { padding: 32, alignItems: "center" },
   emptyText: { color: INK, fontSize: 15, textAlign: "center", fontWeight: "600" },
   emptyHint: { color: MUTED, marginTop: 6, marginBottom: 16 },

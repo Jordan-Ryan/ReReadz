@@ -25,3 +25,7 @@ export const SHIELD_NAME = "Reader's Shield";
 export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
 export const SEARCH_PLACEHOLDER = "Search books, authors or ISBN";
+
+/** Quiet empty cover — paper well, never a letter monogram or grey box. */
+export const COVER_PAPER = "#F4F1EA";
+export const COVER_SPINE = "#D9D1C3";
