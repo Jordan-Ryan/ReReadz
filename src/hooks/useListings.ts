@@ -4,50 +4,87 @@ import type { BookCardData } from "@/components/BookCard";
 
 const PAGE_SIZE = 20;
 
-export function useListings(opts: {
+export type ListingSort = "newest" | "price_asc" | "price_desc";
+
+export interface ListingFilters {
   query?: string;
   category?: string;
   categoryId?: string;
-} = {}) {
+  condition?: string;
+  format?: string;
+  minPriceMinor?: number;
+  maxPriceMinor?: number;
+  sort?: ListingSort;
+}
+
+export function useListings(opts: ListingFilters = {}) {
   const [items, setItems] = useState<BookCardData[]>([]);
+  const [total, setTotal] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const sort = opts.sort ?? "newest";
 
   const fetchPage = useCallback(
     async (pageNum: number, append: boolean) => {
       try {
+        setError(null);
         let q = supabase
           .from("book_listings")
           .select(
-            "id, slug, title, author, price_minor, condition, created_at, book_images!left(url, position)"
+            "id, slug, title, author, price_minor, condition, created_at, book_images!left(url, position)",
+            { count: "exact" }
           )
           .eq("active", true)
           .eq("status", "active")
           .is("deleted_at", null)
-          .order("created_at", { ascending: false })
           .range(pageNum * PAGE_SIZE, (pageNum + 1) * PAGE_SIZE - 1);
 
+        if (sort === "price_asc") {
+          q = q.order("price_minor", { ascending: true });
+        } else if (sort === "price_desc") {
+          q = q.order("price_minor", { ascending: false });
+        } else {
+          q = q.order("created_at", { ascending: false });
+        }
+
         if (opts.query?.trim()) {
-          q = q.or(
-            `title.ilike.%${opts.query.trim()}%,author.ilike.%${opts.query.trim()}%`
-          );
+          const term = opts.query.trim().replace(/,/g, " ");
+          q = q.or(`title.ilike.%${term}%,author.ilike.%${term}%`);
+        }
+        if (opts.condition) {
+          q = q.eq("condition", opts.condition as never);
+        }
+        if (opts.format) {
+          q = q.eq("format", opts.format as never);
+        }
+        if (typeof opts.minPriceMinor === "number") {
+          q = q.gte("price_minor", opts.minPriceMinor);
+        }
+        if (typeof opts.maxPriceMinor === "number") {
+          q = q.lte("price_minor", opts.maxPriceMinor);
         }
         if (opts.categoryId) {
           q = q.eq("category_id", opts.categoryId);
         }
         if (opts.category) {
-          const { data: cat } = await supabase
+          const { data: cat, error: catError } = await supabase
             .from("categories")
             .select("id")
             .eq("slug", opts.category)
             .maybeSingle();
+          if (catError) {
+            console.error("Failed to resolve category slug", catError);
+          }
           if (cat?.id) q = q.eq("category_id", cat.id);
         }
 
-        const { data, error } = await q;
-        if (error) throw error;
+        const { data, error: queryError, count } = await q;
+        if (queryError) throw queryError;
+        if (typeof count === "number") setTotal(count);
         const list = (data || []).map((row: any) => {
           const firstImg =
             row.book_images?.find((i: any) => i.position === 0) ||
@@ -67,6 +104,9 @@ export function useListings(opts: {
         else setItems(list);
         setHasMore(list.length === PAGE_SIZE);
       } catch (e) {
+        const message = e instanceof Error ? e.message : "Could not load listings";
+        console.error("useListings failed", e);
+        setError(message);
         if (!append) setItems([]);
         setHasMore(false);
       } finally {
@@ -74,14 +114,23 @@ export function useListings(opts: {
         setRefreshing(false);
       }
     },
-    [opts.query, opts.category, opts.categoryId]
+    [
+      opts.query,
+      opts.category,
+      opts.categoryId,
+      opts.condition,
+      opts.format,
+      opts.minPriceMinor,
+      opts.maxPriceMinor,
+      sort,
+    ]
   );
 
   useEffect(() => {
     setLoading(true);
     setPage(0);
     fetchPage(0, false);
-  }, [opts.query, opts.category, opts.categoryId]);
+  }, [fetchPage]);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
@@ -96,5 +145,14 @@ export function useListings(opts: {
     fetchPage(0, false);
   }, [fetchPage]);
 
-  return { items, loading, hasMore, loadMore, refresh, refreshing };
+  return {
+    items,
+    total,
+    loading,
+    hasMore,
+    loadMore,
+    refresh,
+    refreshing,
+    error,
+  };
 }

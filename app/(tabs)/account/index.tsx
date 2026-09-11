@@ -20,7 +20,7 @@ export default function AccountScreen() {
       accessibilityRole="button"
       accessibilityLabel={label}
     >
-      <Ionicons name={icon} size={20} color="#0ea5e9" />
+      <Ionicons name={icon} size={20} color="#1700AD" />
       <Text style={styles.linkText}>{label}</Text>
       <Ionicons name="chevron-forward" size={20} color="#94a3b8" />
     </Pressable>
@@ -28,7 +28,7 @@ export default function AccountScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Account</Text>
+      <Text style={styles.title}>You</Text>
       {user?.email && (
         <Text style={styles.email}>{user.email}</Text>
       )}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "#e2e8f0",
   },
-  linkText: { color: "#0ea5e9", fontSize: 16, flex: 1 },
+  linkText: { color: "#1700AD", fontSize: 16, flex: 1 },
   button: {
     marginTop: 24,
     backgroundColor: "#ef4444",
