@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useRecentlyAdded } from "@/hooks/useRecentlyAdded";
 import { useStaffPicks } from "@/hooks/useStaffPicks";
-import { useHomepageCollections } from "@/hooks/useHomepageCollections";
+import { useCategories } from "@/hooks/useCategories";
 import { useLiveMarketplace } from "@/hooks/useLiveMarketplace";
 import { HomeHero } from "@/components/HomeHero";
 import { CategoryGrid } from "@/components/CategoryGrid";
@@ -25,7 +25,7 @@ export default function HomeScreen() {
   const clearance = useTabClearance();
   const { books: justListed, loading: loadingListed } = useRecentlyAdded();
   const { books: staffPicks, loading: loadingStaff } = useStaffPicks();
-  const { collections, loading: loadingCollections } = useHomepageCollections();
+  const { categories, loading: loadingCategories } = useCategories(true);
   const { books: liveBooks, readers: liveReaders } = useLiveMarketplace();
 
   const openBrowse = (params: Record<string, string> = {}) => {
@@ -41,15 +41,25 @@ export default function HomeScreen() {
       contentContainerStyle={[styles.content, { paddingBottom: clearance }]}
     >
       <HomeHero
-        collections={collections}
+        collections={categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          slug: cat.slug ?? cat.id,
+          book_count: cat.book_count,
+        }))}
         liveBooks={liveBooks}
         liveReaders={liveReaders}
         onBrowse={openBrowse}
       />
 
       <CategoryGrid
-        collections={collections}
-        loading={loadingCollections}
+        collections={categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          slug: cat.slug ?? cat.id,
+          book_count: cat.book_count,
+        }))}
+        loading={loadingCategories}
         onSelect={(slug) => openBrowse({ category: slug })}
         onSeeAll={() => openBrowse()}
       />

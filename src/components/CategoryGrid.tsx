@@ -23,7 +23,7 @@ export function CategoryGrid({
   onSelect,
   onSeeAll,
 }: CategoryGridProps) {
-  const shown = collections.slice(0, 8);
+  const shown = collections.slice(0, 10);
 
   return (
     <View style={styles.section}>
