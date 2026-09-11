@@ -98,7 +98,8 @@ export default function AccountScreen() {
     }
   };
 
-  const go = (href: string) => router.push(href as any);
+  const go = (href: string) =>
+    router.push(`/(tabs)/account/${href}` as any);
 
   const displayName =
     profile?.display_name?.trim() ||

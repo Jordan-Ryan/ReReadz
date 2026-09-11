@@ -79,7 +79,7 @@ export default function NotificationsScreen() {
     }
     if (n.related_entity_type === "order" && n.related_entity_id) {
       router.push({
-        pathname: "order/[id]",
+        pathname: "/(tabs)/account/order/[id]",
         params: { id: n.related_entity_id },
       } as any);
       return;
@@ -90,7 +90,10 @@ export default function NotificationsScreen() {
       return;
     }
     if (data?.order_id) {
-      router.push({ pathname: "order/[id]", params: { id: data.order_id } } as any);
+      router.push({
+        pathname: "/(tabs)/account/order/[id]",
+        params: { id: data.order_id },
+      } as any);
     }
   };
 
