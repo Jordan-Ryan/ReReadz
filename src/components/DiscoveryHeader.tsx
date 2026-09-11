@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useDesktopShell } from "@/hooks/useDesktopShell";
 import {
   NAVY,
   NAVY_SOFT,
@@ -27,6 +28,7 @@ interface DiscoveryHeaderProps {
 
 export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   const router = useRouter();
+  const isDesktop = useDesktopShell();
   const params = useLocalSearchParams<{ q?: string; category?: string }>();
   const [value, setValue] = useState(params.q ?? "");
   const inputRef = useRef<TextInput>(null);
@@ -65,11 +67,18 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   return (
     <SafeAreaView edges={["top"]} style={styles.safe}>
     <View style={styles.wrap}>
-      <Image
-        source={require("../../assets/images/logo-rereadz.png")}
-        style={styles.logo}
-        accessibilityLabel="ReReadz"
-      />
+      <Pressable
+        onPress={() => router.push("/(tabs)" as any)}
+        accessibilityRole="link"
+        accessibilityLabel="ReReadz home"
+        style={styles.brand}
+      >
+        <Image
+          source={require("../../assets/images/logo-rereadz.png")}
+          style={styles.logo}
+          accessibilityLabel="ReReadz"
+        />
+      </Pressable>
       <View style={styles.search}>
         <Ionicons name="search" size={16} color={MUTED} />
         <TextInput
@@ -103,6 +112,25 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
       <View style={styles.beta}>
         <Text style={styles.betaText}>BETA</Text>
       </View>
+      {isDesktop && (
+        <View style={styles.desktopActions}>
+          <Pressable
+            style={styles.sellBtn}
+            onPress={() => router.push("/(tabs)/sell" as any)}
+            accessibilityRole="button"
+            accessibilityLabel="Sell books"
+          >
+            <Text style={styles.sellBtnText}>Sell books</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/(tabs)/account" as any)}
+            accessibilityRole="link"
+            accessibilityLabel="You"
+          >
+            <Text style={styles.youLink}>You</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
     </SafeAreaView>
   );
@@ -120,7 +148,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: LINE,
   },
+  brand: { justifyContent: "center" },
   logo: { width: 28, height: 28 },
+  desktopActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  sellBtn: {
+    backgroundColor: NAVY,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  sellBtnText: { color: WHITE, fontWeight: "700", fontSize: 13 },
+  youLink: { color: NAVY, fontWeight: "700", fontSize: 14 },
   beta: {
     backgroundColor: NAVY_SOFT,
     borderRadius: 4,

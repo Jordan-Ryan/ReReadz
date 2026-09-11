@@ -2,9 +2,12 @@ import { View, StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { DiscoveryHeader } from "@/components/DiscoveryHeader";
+import { useDesktopShell } from "@/hooks/useDesktopShell";
 import { NAVY, MUTED, WHITE } from "@/theme/brand";
 
 export default function TabsLayout() {
+  const isDesktop = useDesktopShell();
+
   return (
     <View style={styles.shell}>
       <DiscoveryHeader />
@@ -13,7 +16,8 @@ export default function TabsLayout() {
           tabBarActiveTintColor: NAVY,
           tabBarInactiveTintColor: MUTED,
           headerShown: false,
-          tabBarStyle: { backgroundColor: WHITE },
+          tabBar: isDesktop ? () => null : undefined,
+          tabBarStyle: isDesktop ? styles.tabBarHidden : styles.tabBarMobile,
           tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
         }}
       >
@@ -94,4 +98,12 @@ export default function TabsLayout() {
 
 const styles = StyleSheet.create({
   shell: { flex: 1, backgroundColor: WHITE },
+  tabBarMobile: { backgroundColor: WHITE },
+  tabBarHidden: {
+    display: "none",
+    height: 0,
+    overflow: "hidden",
+    borderTopWidth: 0,
+    elevation: 0,
+  },
 });
