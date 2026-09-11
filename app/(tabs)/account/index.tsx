@@ -240,7 +240,10 @@ const styles = StyleSheet.create({
     backgroundColor: NAVY,
     borderRadius: 999,
     paddingVertical: 12,
+    paddingHorizontal: 28,
     alignItems: "center",
+    alignSelf: "flex-start",
+    minWidth: 160,
   },
   primaryBtnText: { color: WHITE, fontWeight: "700" },
   tileGrid: {
