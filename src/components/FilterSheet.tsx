@@ -10,7 +10,9 @@ import {
 import type { Category } from "@/hooks/useCategories";
 import type { ListingSort } from "@/hooks/useListings";
 import { formatBookFormat, formatCondition } from "@/utils/format";
-import { NAVY, NAVY_SOFT, INK, LINE, WHITE } from "@/theme/brand";
+import { BlurView } from "expo-blur";
+import { Glass } from "@/components/Glass";
+import { NAVY, NAVY_SOFT, INK, LINE, WHITE, GLASS_FILL_STRONG } from "@/theme/brand";
 
 export type FilterDimension = "sort" | "price" | "condition" | "format" | "category";
 
@@ -81,8 +83,19 @@ export function FilterSheet({
       onRequestClose={onClose}
       onShow={() => setDraft(value)}
     >
-      <Pressable style={styles.backdrop} onPress={onClose} accessibilityLabel="Close filters" />
-      <View style={styles.sheet}>
+      <Pressable
+        style={styles.backdrop}
+        onPress={onClose}
+        accessibilityLabel="Close filters"
+      >
+        <BlurView
+          intensity={28}
+          tint="light"
+          experimentalBlurMethod="dimezisBlurView"
+          style={StyleSheet.absoluteFill}
+        />
+      </Pressable>
+      <Glass style={styles.sheet} intensity={80} overlayColor={GLASS_FILL_STRONG}>
         <View style={styles.head}>
           <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel="Close">
             <Text style={styles.headAction}>Close</Text>
@@ -190,7 +203,7 @@ export function FilterSheet({
         >
           <Text style={styles.applyText}>Show results</Text>
         </Pressable>
-      </View>
+      </Glass>
     </Modal>
   );
 }
@@ -219,14 +232,16 @@ function Row({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: "rgba(15, 23, 42, 0.35)",
+    backgroundColor: "rgba(15, 23, 42, 0.18)",
+    overflow: "hidden",
   },
   sheet: {
-    backgroundColor: WHITE,
+    backgroundColor: "transparent",
     maxHeight: "70%",
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     paddingBottom: 16,
+    borderWidth: 0,
   },
   head: {
     flexDirection: "row",

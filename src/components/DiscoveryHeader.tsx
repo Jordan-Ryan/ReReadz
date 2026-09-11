@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useDesktopShell } from "@/hooks/useDesktopShell";
+import { Glass } from "@/components/Glass";
 import {
   NAVY,
   NAVY_SOFT,
@@ -19,6 +20,7 @@ import {
   MUTED,
   WHITE,
   SEARCH_PLACEHOLDER,
+  GLASS_FILL_STRONG,
 } from "@/theme/brand";
 
 interface DiscoveryHeaderProps {
@@ -64,7 +66,14 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.safe}>
+    <View style={styles.chrome}>
+      <Glass
+        intensity={70}
+        tint="systemChromeMaterialLight"
+        overlayColor={GLASS_FILL_STRONG}
+        style={StyleSheet.absoluteFill}
+      />
+      <SafeAreaView edges={["top"]} style={styles.safe}>
       <View style={[styles.wrap, isDesktop && styles.wrapDesktop]}>
         <Pressable
           onPress={() => router.push("/(tabs)" as any)}
@@ -130,13 +139,15 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
         )}
       </View>
     </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { backgroundColor: WHITE },
+  chrome: { backgroundColor: "transparent" },
+  safe: { backgroundColor: "transparent" },
   wrap: {
-    backgroundColor: WHITE,
+    backgroundColor: "transparent",
     paddingHorizontal: 10,
     paddingVertical: 6,
     flexDirection: "row",

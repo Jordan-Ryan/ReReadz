@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTabClearance } from "@/hooks/useTabClearance";
 import { useMessageThreads } from "@/hooks/useMessageThreads";
 import { ThreadListItem } from "@/components/ThreadListItem";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function MessagesListScreen() {
   const { user } = useAuth();
   const router = useRouter();
+  const clearance = useTabClearance();
   const { threads, loading, error } = useMessageThreads(user?.id ?? null);
 
   const openThread = useCallback(
@@ -74,7 +76,7 @@ export default function MessagesListScreen() {
           onPress={() => openThread(item.id)}
         />
       )}
-      contentContainerStyle={styles.listContent}
+      contentContainerStyle={[styles.listContent, { paddingBottom: clearance }]}
     />
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
 import { BookCard, type BookCardData } from "./BookCard";
+import { INK, MUTED, NAVY } from "@/theme/brand";
 
 interface BookCarouselProps {
   title: string;
@@ -20,7 +21,7 @@ export function BookCarousel({
       <Text style={styles.sectionTitle}>{title}</Text>
       {isLoading ? (
         <View style={styles.loader}>
-          <ActivityIndicator size="small" />
+          <ActivityIndicator size="small" color={NAVY} />
         </View>
       ) : books.length === 0 ? (
         <View style={styles.empty}>
@@ -42,10 +43,16 @@ export function BookCarousel({
 }
 
 const styles = StyleSheet.create({
-  section: { marginBottom: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: "700", marginBottom: 12 },
+  section: { marginBottom: 8, paddingTop: 8 },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: INK,
+    marginBottom: 12,
+    paddingHorizontal: 16,
+  },
   loader: { height: 200, justifyContent: "center" },
-  empty: { height: 120, justifyContent: "center" },
-  emptyText: { color: "#64748b", fontSize: 14 },
-  scrollContent: { paddingRight: 16 },
+  empty: { height: 120, justifyContent: "center", paddingHorizontal: 16 },
+  emptyText: { color: MUTED, fontSize: 14 },
+  scrollContent: { paddingHorizontal: 16 },
 });

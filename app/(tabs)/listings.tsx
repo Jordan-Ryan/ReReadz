@@ -9,6 +9,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useTabClearance } from "@/hooks/useTabClearance";
 import { useListings } from "@/hooks/useListings";
 import { useCategories } from "@/hooks/useCategories";
 import { BookCard, type BookCardData } from "@/components/BookCard";
@@ -30,20 +31,43 @@ import {
 
 export default function ListingsScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ category?: string; q?: string }>();
+  const params = useLocalSearchParams<{
+    category?: string;
+    q?: string;
+    condition?: string;
+    maxPrice?: string;
+  }>();
   const query = typeof params.q === "string" ? params.q : "";
   const paramCategory =
-    typeof params.category === "string" ? params.category : undefined;
+    typeof params.category === "string" && params.category.length > 0
+      ? params.category
+      : undefined;
+  const paramCondition =
+    typeof params.condition === "string" && params.condition.length > 0
+      ? params.condition
+      : undefined;
+  const paramMaxPrice =
+    typeof params.maxPrice === "string" && params.maxPrice.length > 0
+      ? Number(params.maxPrice)
+      : undefined;
+  const clearance = useTabClearance();
 
   const [filters, setFilters] = useState<AppliedFilters>({
     sort: "newest",
     category: paramCategory,
+    condition: paramCondition,
+    maxPriceMinor: Number.isFinite(paramMaxPrice) ? paramMaxPrice : undefined,
   });
   const [sheet, setSheet] = useState<FilterDimension | null>(null);
 
   useEffect(() => {
-    setFilters((prev) => ({ ...prev, category: paramCategory }));
-  }, [paramCategory]);
+    setFilters((prev) => ({
+      ...prev,
+      category: paramCategory,
+      condition: paramCondition,
+      maxPriceMinor: Number.isFinite(paramMaxPrice) ? paramMaxPrice : undefined,
+    }));
+  }, [paramCategory, paramCondition, paramMaxPrice]);
 
   const columns = useFeedColumns();
   const { categories } = useCategories();
@@ -159,7 +183,10 @@ export default function ListingsScreen() {
           keyExtractor={(item) => item.id}
           numColumns={columns}
           columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[
+            styles.listContent,
+            { paddingBottom: clearance },
+          ]}
           onEndReached={() => {
             if (hasMore) loadMore();
           }}

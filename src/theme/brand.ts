@@ -26,6 +26,38 @@ export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
 export const SEARCH_PLACEHOLDER = "Search books, authors or ISBN";
 
+/** Live rereadz.com Home copy — keep wording locked. */
+export const HERO_TITLE = "The UK marketplace for pre-loved books";
+export const HERO_SUBTITLE =
+  "Think Vinted, but for books. Buy and sell directly with real UK readers, keep 92.5% of every sale, tracked delivery from £2.99.";
+export const TRUST_PILLS = [
+  "Tracked delivery from £2.99",
+  "Reader's Shield on every order",
+  "Sellers keep 92.5%",
+] as const;
+export const SHELF_EYEBROW = "The Shelf";
+export const SHELF_TITLE = "Just Listed by Readers";
+export const SHELF_EMPTY = "No new books yet — check back soon for fresh arrivals!";
+export const CATEGORY_TITLE = "Browse by category";
+export const CATEGORY_SUB = "Pick a category to start browsing pre-loved books.";
+export const SELL_CTA_TITLE = "Turn the shelf you have finished with into cash";
+export const SELL_CTA_POINTS = [
+  "List in about 60 seconds",
+  "Free to list, 7.5% on sale",
+  "We create the postage label",
+] as const;
+export const CTA_BROWSE = "Browse all books";
+export const CTA_LIST = "List a book in 60s";
+export const CTA_SELL = "Start selling";
+
+/** Glass chrome — translucent, never flat grey boxes. */
+export const GLASS_FILL = "rgba(255,255,255,0.42)";
+export const GLASS_FILL_STRONG = "rgba(255,255,255,0.58)";
+export const GLASS_STROKE = "rgba(23,0,173,0.10)";
+export const TAB_BAR_HEIGHT = 62;
+export const TAB_BAR_INSET = 10;
+export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 8;
+
 /** Quiet empty cover — paper well, never a letter monogram or grey box. */
 export const COVER_PAPER = "#F4F1EA";
 export const COVER_SPINE = "#D9D1C3";

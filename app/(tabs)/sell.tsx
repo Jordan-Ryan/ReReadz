@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native";
+import { useTabClearance } from "@/hooks/useTabClearance";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +9,7 @@ import Toast from "react-native-toast-message";
 export default function SellScreen() {
   const router = useRouter();
   const { session } = useAuth();
+  const clearance = useTabClearance();
   const [creating, setCreating] = useState(false);
 
   const handleStartListing = async () => {
@@ -36,7 +38,7 @@ export default function SellScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: clearance }]}>
       <Text style={styles.title}>Sell books</Text>
       <Text style={styles.subtitle}>List your book in a few steps. You set the price.</Text>
       <Pressable
