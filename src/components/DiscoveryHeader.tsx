@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   StyleSheet,
   Pressable,
   Platform,
@@ -73,12 +72,7 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
           accessibilityLabel="ReReadz home"
           style={styles.brand}
         >
-          <Image
-            source={require("../../assets/images/logo-rereadz.png")}
-            style={styles.mark}
-            accessibilityLabel="ReReadz"
-          />
-          <Text style={styles.wordmark} accessibilityRole="text">
+          <Text style={[styles.wordmark, isDesktop && styles.wordmarkDesktop]}>
             ReReadz
           </Text>
         </Pressable>
@@ -157,21 +151,20 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   brand: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
     backgroundColor: "transparent",
     borderWidth: 0,
     padding: 0,
     margin: 0,
+    flexShrink: 0,
   },
-  mark: { width: 20, height: 20 },
   wordmark: {
     color: NAVY,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "700",
-    letterSpacing: -0.35,
+    letterSpacing: -0.4,
+    lineHeight: 18,
   },
+  wordmarkDesktop: { fontSize: 18, lineHeight: 20 },
   desktopActions: {
     flexDirection: "row",
     alignItems: "center",
@@ -190,6 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 6,
     paddingVertical: 3,
+    flexShrink: 0,
   },
   betaText: {
     fontSize: 10,
@@ -207,13 +201,13 @@ const styles = StyleSheet.create({
     borderColor: LINE,
     borderRadius: 999,
     paddingHorizontal: 12,
-    minHeight: 36,
+    minHeight: 40,
   },
   input: {
     flex: 1,
     fontSize: 15,
     color: INK,
-    paddingVertical: Platform.OS === "web" ? 6 : 0,
+    paddingVertical: Platform.OS === "web" ? 8 : 0,
   },
   hint: {
     fontSize: 11,

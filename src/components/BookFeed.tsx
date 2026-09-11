@@ -3,6 +3,7 @@ import { BookCard, type BookCardData } from "@/components/BookCard";
 import {
   FEED_CELL_PAD,
   FEED_GRID_PAD,
+  FEED_ROW_GAP,
   useFeedColumns,
 } from "@/hooks/useFeedColumns";
 
@@ -33,6 +34,6 @@ const styles = StyleSheet.create({
   },
   cell: {
     paddingHorizontal: FEED_CELL_PAD,
-    marginBottom: 10,
+    marginBottom: FEED_ROW_GAP,
   },
 });

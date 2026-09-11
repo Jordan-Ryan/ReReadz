@@ -80,7 +80,7 @@ export function CategoryChips({
 const styles = StyleSheet.create({
   row: {
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 2,
     gap: 6,
     alignItems: "center",
   },

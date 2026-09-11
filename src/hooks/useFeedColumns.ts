@@ -1,9 +1,14 @@
 import { useWindowDimensions } from "react-native";
 import { DESKTOP_SHELL_MIN_WIDTH } from "@/hooks/useDesktopShell";
 
-/** Half-gutter on each cell. Full gap between cards is 6px (Vinted-tight). */
-export const FEED_CELL_PAD = 3;
-export const FEED_GRID_PAD = 6;
+/**
+ * Dele bar: 8–12px gutters (not magazine margins).
+ * Grid pad 5 + cell pad 5 = 10px screen edge and 10px between covers.
+ */
+export const FEED_CELL_PAD = 5;
+export const FEED_GRID_PAD = 5;
+export const FEED_GUTTER = 10;
+export const FEED_ROW_GAP = 12;
 
 export function feedColumnCount(width: number): number {
   if (width >= 1280) return 6;

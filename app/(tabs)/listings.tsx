@@ -21,7 +21,12 @@ import {
 } from "@/components/FilterSheet";
 import { formatCondition, formatBookFormat } from "@/utils/format";
 import { INK, MUTED, LINE, WHITE, NAVY, NAVY_SOFT } from "@/theme/brand";
-import { FEED_CELL_PAD, FEED_GRID_PAD, useFeedColumns } from "@/hooks/useFeedColumns";
+import {
+  FEED_CELL_PAD,
+  FEED_GRID_PAD,
+  FEED_ROW_GAP,
+  useFeedColumns,
+} from "@/hooks/useFeedColumns";
 
 export default function ListingsScreen() {
   const router = useRouter();
@@ -213,11 +218,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "space-between",
     paddingHorizontal: 10,
-    paddingTop: 8,
-    paddingBottom: 2,
+    paddingTop: 6,
+    paddingBottom: 0,
   },
   metaLeft: { flex: 1, paddingRight: 12 },
-  title: { fontSize: 20, fontWeight: "700", color: INK },
+  title: { fontSize: 16, fontWeight: "700", color: INK },
   count: { fontSize: 13, color: MUTED, marginTop: 2 },
   sort: { fontSize: 13, fontWeight: "600", color: NAVY },
   chipRow: {
@@ -225,7 +230,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 8,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 4,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: LINE,
   },
@@ -243,12 +248,12 @@ const styles = StyleSheet.create({
   loader: { flex: 1, justifyContent: "center" },
   listContent: {
     paddingHorizontal: FEED_GRID_PAD,
-    paddingTop: 6,
+    paddingTop: 4,
     paddingBottom: 32,
     flexGrow: 1,
   },
   row: { gap: 0 },
-  cardWrap: { flex: 1, paddingHorizontal: FEED_CELL_PAD, marginBottom: 10 },
+  cardWrap: { flex: 1, paddingHorizontal: FEED_CELL_PAD, marginBottom: FEED_ROW_GAP },
   empty: { padding: 32, alignItems: "center" },
   emptyText: { color: INK, fontSize: 15, textAlign: "center", fontWeight: "600" },
   emptyHint: { color: MUTED, marginTop: 6, marginBottom: 16 },

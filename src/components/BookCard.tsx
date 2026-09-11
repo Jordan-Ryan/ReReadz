@@ -56,11 +56,13 @@ export function BookCard({ book, flex }: BookCardProps) {
           </Text>
         ) : null}
       </View>
-      <Text style={styles.title} numberOfLines={2}>
-        {book.title}
-      </Text>
-      <Text style={styles.price}>{formatPrice(book.price_minor)}</Text>
-      <Text style={styles.delivery}>{DELIVERY_LINE}</Text>
+      <View style={styles.meta}>
+        <Text style={styles.title} numberOfLines={2}>
+          {book.title}
+        </Text>
+        <Text style={styles.price}>{formatPrice(book.price_minor)}</Text>
+        <Text style={styles.delivery}>{DELIVERY_LINE}</Text>
+      </View>
     </Pressable>
   );
 }
@@ -70,18 +72,19 @@ const CARD_WIDTH = 120;
 const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
-    marginRight: 8,
+    marginRight: 10,
   },
   cardFlex: { width: "100%", marginRight: 0 },
   imageWrap: {
     width: CARD_WIDTH,
     aspectRatio: 3 / 4,
-    borderRadius: 4,
+    borderRadius: 8,
     overflow: "hidden",
     backgroundColor: WHITE,
     position: "relative",
+    padding: 0,
   },
-  imageWrapFlex: { width: "100%" },
+  imageWrapFlex: { width: "100%", alignSelf: "stretch" },
   imageWrapInitial: {
     justifyContent: "center",
     alignItems: "center",
@@ -90,7 +93,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     width: "100%",
     height: "100%",
-    ...(Platform.OS === "web" ? { objectFit: "cover" as const } : {}),
+    ...(Platform.OS === "web"
+      ? { objectFit: "cover" as const, objectPosition: "center" as const }
+      : {}),
   },
   initial: {
     fontSize: 36,
@@ -99,7 +104,27 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
     opacity: 0.88,
   },
-  title: { fontSize: 13, fontWeight: "600", marginTop: 4, color: INK },
-  price: { fontSize: 13, fontWeight: "700", marginTop: 2, color: INK },
-  delivery: { fontSize: 11, color: MUTED, marginTop: 1 },
+  meta: {
+    paddingTop: 6,
+    paddingHorizontal: 0,
+  },
+  title: {
+    fontSize: 12,
+    lineHeight: 15,
+    fontWeight: "600",
+    color: INK,
+  },
+  price: {
+    fontSize: 13,
+    lineHeight: 16,
+    fontWeight: "700",
+    color: INK,
+    marginTop: 2,
+  },
+  delivery: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: MUTED,
+    marginTop: 0,
+  },
 });
