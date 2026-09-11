@@ -13,6 +13,18 @@ export function formatCondition(condition: string | undefined): string {
     very_good: "Very good",
     good: "Good",
     acceptable: "Acceptable",
+    poor: "Poor",
   };
   return map[condition] ?? condition;
+}
+
+export function formatBookFormat(format: string | undefined): string {
+  if (!format) return "Any format";
+  const map: Record<string, string> = {
+    hardcover: "Hardcover",
+    paperback: "Paperback",
+    ebook: "Ebook",
+    audiobook: "Audiobook",
+  };
+  return map[format] ?? format;
 }

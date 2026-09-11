@@ -1,114 +1,149 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { useMemo } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRecentlyAdded } from "@/hooks/useRecentlyAdded";
+import { useListings } from "@/hooks/useListings";
 import { useStaffPicks } from "@/hooks/useStaffPicks";
 import { useCategories } from "@/hooks/useCategories";
-import { BookCarousel } from "@/components/BookCarousel";
+import { BookFeed } from "@/components/BookFeed";
+import type { BookCardData } from "@/components/BookCard";
+import { CategoryChips, pickHomeChips } from "@/components/CategoryChips";
+import { TrustStrip } from "@/components/TrustStrip";
+import { INK, MUTED, WHITE } from "@/theme/brand";
+
+const STRIP_AFTER = 4;
+
+type HomeRow =
+  | { kind: "books"; key: string; books: BookCardData[] }
+  | { kind: "strip"; key: string }
+  | { kind: "staff"; key: string; books: BookCardData[] };
 
 export default function HomeScreen() {
   const { user } = useAuth();
   const router = useRouter();
-  const { books: recentlyAdded, loading: loadingRecent } = useRecentlyAdded();
+  const { items, loading, hasMore, loadMore, refresh, refreshing, error } =
+    useListings({ sort: "newest" });
   const { books: staffPicks, loading: loadingStaff } = useStaffPicks();
   const { categories, loading: loadingCategories } = useCategories();
-  const firstName = user?.email?.split("@")[0] ?? "there";
+  const chips = useMemo(() => pickHomeChips(categories), [categories]);
+  const firstName = user?.email?.split("@")[0];
+
+  const rows = useMemo<HomeRow[]>(() => {
+    const next: HomeRow[] = [];
+    const first = items.slice(0, STRIP_AFTER);
+    const rest = items.slice(STRIP_AFTER);
+    if (first.length > 0) {
+      next.push({ kind: "books", key: "just-listed-top", books: first });
+    }
+    if (items.length > 0) {
+      next.push({ kind: "strip", key: "trust" });
+    }
+    if (staffPicks.length > 0) {
+      next.push({ kind: "staff", key: "staff", books: staffPicks });
+    }
+    if (rest.length > 0) {
+      next.push({ kind: "books", key: "just-listed-more", books: rest });
+    }
+    return next;
+  }, [items, staffPicks]);
+
+  const renderRow = ({ item }: { item: HomeRow }) => {
+    if (item.kind === "strip") return <TrustStrip />;
+    if (item.kind === "staff") {
+      return (
+        <View style={styles.staffBlock}>
+          <Text style={styles.sectionTitle}>Staff picks</Text>
+          <BookFeed books={item.books} />
+        </View>
+      );
+    }
+    return <BookFeed books={item.books} />;
+  };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.hero}>
-        <Text style={styles.heroTitle}>
-          {user ? `Welcome back, ${firstName}!` : "Find your next book"}
-        </Text>
-        <Text style={styles.heroSubtitle}>
-          Buy and sell pre-loved books. Sustainable reading community.
-        </Text>
-        <View style={styles.heroActions}>
-          <Pressable
-            style={styles.ctaPrimary}
-            onPress={() => router.push("/(tabs)/sell")}
-          >
-            <Text style={styles.ctaPrimaryText}>Sell books</Text>
-          </Pressable>
-          <Pressable
-            style={styles.ctaSecondary}
-            onPress={() => router.push("/(tabs)/listings")}
-          >
-            <Text style={styles.ctaSecondaryText}>Browse</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      <BookCarousel
-        title="Just listed"
-        books={recentlyAdded}
-        isLoading={loadingRecent}
-        emptyMessage="No new books yet — check back soon!"
-      />
-      <BookCarousel
-        title="Staff picks"
-        books={staffPicks}
-        isLoading={loadingStaff}
-        emptyMessage="No staff picks yet."
-      />
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Categories</Text>
-        {loadingCategories ? (
-          <Text style={styles.placeholderText}>Loading…</Text>
-        ) : (
-          <View style={styles.categories}>
-            {categories.slice(0, 8).map((cat) => (
-              <Pressable
-                key={cat.id}
-                style={styles.categoryChip}
-                onPress={() =>
+    <View style={styles.container}>
+      <FlatList
+        data={rows}
+        keyExtractor={(row) => row.key}
+        renderItem={renderRow}
+        onEndReached={() => {
+          if (hasMore) loadMore();
+        }}
+        onEndReachedThreshold={0.4}
+        contentContainerStyle={styles.content}
+        ListHeaderComponent={
+          <View>
+            {user && firstName ? (
+              <Text style={styles.welcome}>Welcome back, {firstName}</Text>
+            ) : null}
+            {!loadingCategories && chips.length > 0 && (
+              <CategoryChips
+                categories={chips}
+                onSelect={(slug) => {
+                  if (!slug) return;
                   router.push({
                     pathname: "/(tabs)/listings",
-                    params: { category: cat.slug ?? cat.id },
-                  } as any)
-                }
-              >
-                <Text style={styles.categoryChipText}>{cat.name}</Text>
-              </Pressable>
-            ))}
+                    params: { category: slug },
+                  } as any);
+                }}
+              />
+            )}
+            <Text style={styles.sectionTitle}>Just listed</Text>
           </View>
-        )}
-      </View>
-    </ScrollView>
+        }
+        ListEmptyComponent={
+          loading || loadingStaff ? (
+            <View style={styles.loader}>
+              <ActivityIndicator color="#1700AD" />
+            </View>
+          ) : (
+            <View style={styles.empty}>
+              <Text style={styles.emptyText}>
+                {error ?? "No books yet — check back soon."}
+              </Text>
+            </View>
+          )
+        }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+        ListFooterComponent={
+          loading && items.length > 0 ? (
+            <ActivityIndicator style={styles.footer} color="#1700AD" />
+          ) : null
+        }
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { padding: 16, paddingBottom: 32 },
-  hero: { marginBottom: 24 },
-  heroTitle: { fontSize: 24, fontWeight: "700", marginBottom: 8 },
-  heroSubtitle: { fontSize: 16, color: "#64748b", marginBottom: 16 },
-  heroActions: { flexDirection: "row", gap: 12 },
-  ctaPrimary: {
-    backgroundColor: "#0ea5e9",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+  container: { flex: 1, backgroundColor: WHITE },
+  content: { paddingBottom: 32 },
+  welcome: {
+    fontSize: 14,
+    color: MUTED,
+    paddingHorizontal: 12,
+    paddingTop: 10,
   },
-  ctaPrimaryText: { color: "#fff", fontWeight: "600" },
-  ctaSecondary: {
-    backgroundColor: "#f1f5f9",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: INK,
+    paddingHorizontal: 12,
+    marginTop: 8,
+    marginBottom: 8,
   },
-  ctaSecondaryText: { color: "#0ea5e9", fontWeight: "600" },
-  section: { marginBottom: 24 },
-  sectionTitle: { fontSize: 18, fontWeight: "700", marginBottom: 12 },
-  placeholderText: { color: "#64748b" },
-  categories: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  categoryChip: {
-    backgroundColor: "#f1f5f9",
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 20,
-  },
-  categoryChipText: { fontSize: 14 },
+  staffBlock: { marginTop: 4 },
+  loader: { padding: 32, alignItems: "center" },
+  empty: { padding: 32, alignItems: "center" },
+  emptyText: { color: MUTED, textAlign: "center" },
+  footer: { marginVertical: 16 },
 });

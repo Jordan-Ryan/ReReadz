@@ -1,19 +1,28 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { DiscoveryHeader } from "@/components/DiscoveryHeader";
+import { NAVY, INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#0ea5e9",
+        tabBarActiveTintColor: NAVY,
+        tabBarInactiveTintColor: MUTED,
         headerShown: true,
+        headerStyle: { backgroundColor: WHITE },
+        headerShadowVisible: false,
+        headerTintColor: INK,
+        tabBarStyle: { backgroundColor: WHITE },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "ReReadz",
+          title: "Home",
           tabBarLabel: "Home",
+          header: () => <DiscoveryHeader />,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
@@ -24,6 +33,7 @@ export default function TabsLayout() {
         options={{
           title: "Browse",
           tabBarLabel: "Browse",
+          header: () => <DiscoveryHeader />,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" size={size} color={color} />
           ),
@@ -52,8 +62,8 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: "Account",
-          tabBarLabel: "Account",
+          title: "You",
+          tabBarLabel: "You",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" size={size} color={color} />
           ),

@@ -10,8 +10,9 @@ export default function Index() {
   const [checkedOnboarding, setCheckedOnboarding] = useState(false);
 
   useEffect(() => {
-    if (loading || !session?.user?.id) {
-      if (!loading && !session) router.replace("/(auth)/login");
+    if (loading) return;
+    if (!session?.user?.id) {
+      router.replace("/(tabs)");
       return;
     }
     let cancelled = false;
@@ -41,11 +42,10 @@ export default function Index() {
   }, [loading, session, router]);
 
   const showSpinner = loading || (!!session && !checkedOnboarding);
-  if (!showSpinner && !session) return null;
 
   return (
     <View style={styles.centered}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color="#1700AD" />
     </View>
   );
 }
