@@ -36,7 +36,7 @@ export function useListings(opts: ListingFilters = {}) {
         let q = supabase
           .from("book_listings")
           .select(
-            "id, slug, title, author, price_minor, condition, format, status, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)",
+            "id, slug, title, author, price_minor, condition, format, status, seller_id, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)",
             { count: "exact" }
           )
           .eq("active", true)
@@ -86,6 +86,39 @@ export function useListings(opts: ListingFilters = {}) {
         const { data, error: queryError, count } = await q;
         if (queryError) throw queryError;
         if (typeof count === "number") setTotal(count);
+
+        const sellerIds = [
+          ...new Set(
+            (data || [])
+              .map((row: { seller_id?: string }) => row.seller_id)
+              .filter((id): id is string => Boolean(id))
+          ),
+        ];
+        const frequentSellers = new Set<string>();
+        if (sellerIds.length > 0) {
+          const { data: sellerRows, error: sellerError } = await supabase
+            .from("book_listings")
+            .select("seller_id")
+            .in("seller_id", sellerIds)
+            .eq("active", true)
+            .eq("status", "active")
+            .is("deleted_at", null)
+            .limit(400);
+          if (sellerError) {
+            console.warn("useListings: frequent seller tally failed", sellerError);
+          } else {
+            const tally = new Map<string, number>();
+            for (const row of sellerRows ?? []) {
+              const id = (row as { seller_id?: string }).seller_id;
+              if (!id) continue;
+              tally.set(id, (tally.get(id) ?? 0) + 1);
+            }
+            tally.forEach((n, id) => {
+              if (n >= 8) frequentSellers.add(id);
+            });
+          }
+        }
+
         const list = (data || []).map((row: any) => ({
           id: row.id,
           slug: row.slug ?? row.id,
@@ -100,6 +133,7 @@ export function useListings(opts: ListingFilters = {}) {
           format: row.format,
           status: row.status,
           created_at: row.created_at,
+          frequent: frequentSellers.has(row.seller_id),
         }));
         if (append) setItems((prev) => (pageNum === 0 ? list : [...prev, ...list]));
         else setItems(list);

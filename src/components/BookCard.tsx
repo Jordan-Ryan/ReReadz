@@ -144,13 +144,15 @@ export function BookCard({ book, flex, featured }: BookCardProps) {
             {metaLine}
           </Text>
         ) : null}
-        <Text style={styles.price}>{formatPrice(book.price_minor)}</Text>
-        {!sold ? (
-          <View style={styles.shieldRow}>
-            <Ionicons name="shield-checkmark" size={12} color={NAVY} />
-            <Text style={styles.shield}>{SHIELD_NAME}</Text>
-          </View>
-        ) : null}
+        <View style={styles.priceBlock}>
+          <Text style={styles.price}>{formatPrice(book.price_minor)}</Text>
+          {!sold ? (
+            <View style={styles.shieldRow}>
+              <Ionicons name="shield-checkmark" size={12} color={NAVY} />
+              <Text style={styles.shield}>{SHIELD_NAME}</Text>
+            </View>
+          ) : null}
+        </View>
       </View>
     </Pressable>
   );
@@ -259,19 +261,21 @@ const styles = StyleSheet.create({
     color: MUTED,
     marginTop: 2,
   },
+  priceBlock: {
+    marginTop: 3,
+    gap: 2,
+  },
   price: {
     fontFamily: FONT_SANS,
     fontSize: 13,
     lineHeight: 16,
     fontWeight: "700",
     color: INK,
-    marginTop: 3,
   },
   shieldRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    marginTop: 3,
   },
   shield: {
     fontSize: 11,

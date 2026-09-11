@@ -7,7 +7,9 @@ import {
   Pressable,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTabClearance } from "@/hooks/useTabClearance";
 import { useListings } from "@/hooks/useListings";
@@ -156,7 +158,12 @@ export default function ListingsScreen() {
         </Pressable>
       </View>
 
-      <View style={styles.chipRow}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.chipScroll}
+        contentContainerStyle={styles.chipRow}
+      >
         {chips.map((chip) => (
           <Pressable
             key={chip.key}
@@ -165,12 +172,15 @@ export default function ListingsScreen() {
             accessibilityRole="button"
             accessibilityState={{ selected: chip.active }}
           >
+            {chip.active ? (
+              <Ionicons name="checkmark" size={14} color={WHITE} />
+            ) : null}
             <Text style={[styles.chipText, chip.active && styles.chipTextOn]}>
               {chip.label}
             </Text>
           </Pressable>
         ))}
-      </View>
+      </ScrollView>
 
       {loading && items.length === 0 ? (
         <View style={styles.loader}>
@@ -237,16 +247,22 @@ const styles = StyleSheet.create({
   title: { fontSize: 16, fontWeight: "700", color: INK },
   count: { fontSize: 13, color: MUTED, marginTop: 2 },
   sort: { fontSize: 13, fontWeight: "600", color: NAVY },
-  chipRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  chipScroll: {
+    flexGrow: 0,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: LINE,
   },
+  chipRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
   chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
     borderWidth: 1,
     borderColor: LINE,
     borderRadius: 999,
