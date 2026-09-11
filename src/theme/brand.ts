@@ -127,11 +127,13 @@ export const TRUST_POINTS = [
   },
 ] as const;
 
-/** Glass chrome — translucent, never flat grey boxes. */
-export const GLASS_FILL = "rgba(255,255,255,0.22)";
-export const GLASS_FILL_STRONG = "rgba(255,255,255,0.34)";
-export const GLASS_FILL_CHROME = "rgba(255,255,255,0.38)";
-export const GLASS_STROKE = "rgba(23,0,173,0.10)";
+/** ReReadz chrome only. iOS = liquid glass. Android = peer craft, not glass. */
+export const GLASS_FILL = "rgba(255,255,255,0.18)";
+export const GLASS_FILL_STRONG = "rgba(255,255,255,0.28)";
+export const GLASS_FILL_CHROME = "rgba(255,255,255,0.32)";
+export const GLASS_STROKE = "rgba(23,0,173,0.12)";
+export const GLASS_IOS_INTENSITY = 92;
+export const ANDROID_CHROME_FILL = "rgba(255,255,255,0.97)";
 export const TAB_BAR_HEIGHT = 68;
 export const TAB_BAR_INSET = 10;
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 16;
@@ -140,7 +142,7 @@ export const HEADER_BAR_HEIGHT = 56;
 /** Marketing Home: live one-row lockup + search. */
 export const HEADER_BAR_HEIGHT_HOME = 60;
 /** Browse/feed: search pill is the chrome. */
-export const HEADER_BAR_HEIGHT_SEARCH = 72;
+export const HEADER_BAR_HEIGHT_SEARCH = 88;
 /** Sell / Messages / You: mark + BETA, no logo-eating search. */
 export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;

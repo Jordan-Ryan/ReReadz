@@ -140,7 +140,7 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   return (
     <View style={styles.chrome}>
       <Glass
-        intensity={86}
+        intensity={96}
         tint="systemChromeMaterialLight"
         overlayColor={GLASS_FILL_CHROME}
         style={StyleSheet.absoluteFill}

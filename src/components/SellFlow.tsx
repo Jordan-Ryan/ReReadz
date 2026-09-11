@@ -15,12 +15,14 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
+import { Glass } from "@/components/Glass";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTabClearance } from "@/hooks/useTabClearance";
 import { formatPrice } from "@/utils/format";
 import {
   FONT_SANS,
+  GLASS_FILL_STRONG,
   INK,
   LINE,
   MUTED,
@@ -482,7 +484,10 @@ export function SellFlow() {
         ) : null}
       </ScrollView>
 
-      <View style={[styles.footer, { bottom: clearance - 12 }]}>
+      <Glass
+        style={[styles.footer, { bottom: clearance - 12 }]}
+        overlayColor={GLASS_FILL_STRONG}
+      >
         <Pressable
           style={styles.back}
           onPress={() => setStep((prev) => Math.max(0, prev - 1))}
@@ -506,11 +511,11 @@ export function SellFlow() {
             <Text style={styles.nextText}>{step === 3 ? "Publish" : "Next"}</Text>
           )}
         </Pressable>
-      </View>
+      </Glass>
 
       <Modal visible={isbnOpen} transparent animationType="slide">
         <View style={styles.sheetWrap}>
-          <View style={styles.sheet}>
+          <Glass style={styles.sheet} overlayColor={GLASS_FILL_STRONG}>
             <Text style={styles.sheetTitle}>{SELL_TYPE_ISBN}</Text>
             <TextInput
               style={styles.input}
@@ -534,13 +539,13 @@ export function SellFlow() {
             <Pressable onPress={() => setIsbnOpen(false)}>
               <Text style={styles.cancel}>Cancel</Text>
             </Pressable>
-          </View>
+          </Glass>
         </View>
       </Modal>
 
       <Modal visible={bulkOpen} transparent animationType="slide">
         <View style={styles.sheetWrap}>
-          <View style={styles.sheet}>
+          <Glass style={styles.sheet} overlayColor={GLASS_FILL_STRONG}>
             <Text style={styles.sheetTitle}>{SELL_MULTIPLE}</Text>
             <Text style={styles.manualBody}>
               Paste one ISBN per line. We'll start with the first book.
@@ -558,7 +563,7 @@ export function SellFlow() {
             <Pressable onPress={() => setBulkOpen(false)}>
               <Text style={styles.cancel}>Cancel</Text>
             </Pressable>
-          </View>
+          </Glass>
         </View>
       </Modal>
 
@@ -824,9 +829,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: WHITE,
-    borderWidth: 1,
-    borderColor: LINE,
+    backgroundColor: "transparent",
     borderRadius: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
@@ -848,7 +851,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(15,23,42,0.35)",
   },
   sheet: {
-    backgroundColor: WHITE,
+    backgroundColor: "transparent",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,

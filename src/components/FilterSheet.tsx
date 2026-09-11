@@ -6,6 +6,7 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
+  Platform,
 } from "react-native";
 import type { Category } from "@/hooks/useCategories";
 import type { ListingSort } from "@/hooks/useListings";
@@ -88,12 +89,16 @@ export function FilterSheet({
         onPress={onClose}
         accessibilityLabel="Close filters"
       >
-        <BlurView
-          intensity={28}
-          tint="light"
-          experimentalBlurMethod="dimezisBlurView"
-          style={StyleSheet.absoluteFill}
-        />
+        {Platform.OS === "android" ? (
+          <View style={styles.androidDim} />
+        ) : (
+          <BlurView
+            intensity={40}
+            tint="systemChromeMaterialLight"
+            experimentalBlurMethod="dimezisBlurView"
+            style={StyleSheet.absoluteFill}
+          />
+        )}
       </Pressable>
       <Glass style={styles.sheet} intensity={80} overlayColor={GLASS_FILL_STRONG}>
         <View style={styles.head}>
@@ -234,6 +239,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(15, 23, 42, 0.18)",
     overflow: "hidden",
+  },
+  androidDim: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(15, 23, 42, 0.36)",
   },
   sheet: {
     backgroundColor: "transparent",

@@ -6,7 +6,12 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { GLASS_FILL, GLASS_STROKE } from "@/theme/brand";
+import {
+  ANDROID_CHROME_FILL,
+  GLASS_FILL,
+  GLASS_IOS_INTENSITY,
+  GLASS_STROKE,
+} from "@/theme/brand";
 
 interface GlassProps {
   children?: React.ReactNode;
@@ -17,16 +22,24 @@ interface GlassProps {
 }
 
 /**
- * Real translucent material. Uses expo-blur (UIVisualEffect / CSS backdrop-filter).
- * Do not replace with a flat grey box.
+ * ReReadz chrome only (header, tab bar, sheets). Not Coach / Hub / Nutrition.
+ * iOS: liquid glass (UIVisualEffect). Android: peer craft, not literal glass.
  */
 export function Glass({
   children,
   style,
-  intensity = 72,
-  tint = "light",
+  intensity = GLASS_IOS_INTENSITY,
+  tint = "systemChromeMaterialLight",
   overlayColor = GLASS_FILL,
 }: GlassProps) {
+  if (Platform.OS === "android") {
+    return (
+      <View style={[styles.clip, styles.androidPeer, style]}>
+        {children}
+      </View>
+    );
+  }
+
   if (Platform.OS === "web") {
     return (
       <View
@@ -69,10 +82,16 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   webFrost: {
-    // CSS backdrop-filter — expo-blur paints opaque white on web.
-    ...( {
-      backdropFilter: "blur(22px) saturate(180%)",
-      WebkitBackdropFilter: "blur(22px) saturate(180%)",
-    } as ViewStyle),
+    backdropFilter: "blur(28px) saturate(200%)",
+    WebkitBackdropFilter: "blur(28px) saturate(200%)",
+  } as ViewStyle,
+  androidPeer: {
+    backgroundColor: ANDROID_CHROME_FILL,
+    borderColor: "rgba(23,0,173,0.12)",
+    elevation: 10,
+    shadowColor: "#1700AD",
+    shadowOpacity: 0.12,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 6 },
   },
 });

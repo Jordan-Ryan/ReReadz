@@ -18,7 +18,7 @@ import {
 function GlassTabBarBackground() {
   return (
     <Glass
-      intensity={88}
+      intensity={96}
       tint="systemChromeMaterialLight"
       overlayColor={GLASS_FILL_CHROME}
       style={styles.tabGlass}
@@ -156,13 +156,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     ...(Platform.OS === "web"
       ? ({
-          backdropFilter: "blur(22px) saturate(180%)",
-          WebkitBackdropFilter: "blur(22px) saturate(180%)",
-          backgroundColor: "rgba(255,255,255,0.38)",
+          backdropFilter: "blur(28px) saturate(200%)",
+          WebkitBackdropFilter: "blur(28px) saturate(200%)",
+          backgroundColor: "rgba(255,255,255,0.28)",
           overflow: "visible",
         } as object)
       : {}),
-    ...(Platform.OS === "android" ? { marginHorizontal: TAB_BAR_INSET } : {}),
+    ...(Platform.OS === "android"
+      ? {
+          marginHorizontal: TAB_BAR_INSET,
+          backgroundColor: "rgba(255,255,255,0.97)",
+          elevation: 16,
+        }
+      : {}),
   },
   tabItem: {
     paddingVertical: 4,
