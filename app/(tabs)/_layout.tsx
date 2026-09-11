@@ -143,13 +143,21 @@ const styles = StyleSheet.create({
     height: TAB_BAR_HEIGHT,
     backgroundColor: "transparent",
     borderTopWidth: 0,
+    borderTopColor: "transparent",
     elevation: 0,
     borderRadius: 22,
     overflow: "hidden",
     shadowColor: "#1700AD",
-    shadowOpacity: 0.14,
-    shadowRadius: 18,
+    shadowOpacity: 0.18,
+    shadowRadius: 20,
     shadowOffset: { width: 0, height: 8 },
+    ...(Platform.OS === "web"
+      ? ({
+          backdropFilter: "blur(22px) saturate(180%)",
+          WebkitBackdropFilter: "blur(22px) saturate(180%)",
+          backgroundColor: "rgba(255,255,255,0.38)",
+        } as object)
+      : {}),
     ...(Platform.OS === "android" ? { marginHorizontal: TAB_BAR_INSET } : {}),
   },
   tabBarHidden: {

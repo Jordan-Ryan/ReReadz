@@ -1,6 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { isFrameSignedIn } from "@/utils/frameSignedIn";
+
+const FRAME_USER = {
+  id: "frame-preview",
+  email: "reader@rereadz.com",
+  aud: "authenticated",
+  role: "authenticated",
+  app_metadata: {},
+  user_metadata: { display_name: "Jordan Reader" },
+  created_at: "2026-01-01T00:00:00.000Z",
+} as User;
 
 interface AuthContextType {
   session: Session | null;
@@ -30,15 +41,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (isFrameSignedIn()) {
+      setUser(FRAME_USER);
+      setSession(null);
+      setLoading(false);
+      return;
+    }
+
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(
-      async (_event, currentSession) => {
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        setLoading(false);
-      }
-    );
+    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setLoading(false);
+    });
 
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession);

@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Toast from "react-native-toast-message";
+import { INK, MUTED, NAVY, SELLERS_KEEP, WHITE } from "@/theme/brand";
 
 export default function SellScreen() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function SellScreen() {
       if (!id) throw new Error("No draft ID");
       router.push({ pathname: "/sell/[id]", params: { id } } as any);
     } catch (e: unknown) {
+      console.error("Sell: could not start listing", e);
       Toast.show({
         type: "error",
         text1: "Could not start listing",
@@ -39,15 +41,21 @@ export default function SellScreen() {
 
   return (
     <View style={[styles.container, { paddingBottom: clearance }]}>
-      <Text style={styles.title}>Sell books</Text>
-      <Text style={styles.subtitle}>List your book in a few steps. You set the price.</Text>
+      <Text style={styles.kicker}>Sell</Text>
+      <Text style={styles.title}>List a book in 60 seconds</Text>
+      <Text style={styles.subtitle}>
+        Scan a barcode, set your price. Listing is free and you keep {SELLERS_KEEP} of
+        every sale.
+      </Text>
       <Pressable
         style={[styles.btn, creating && styles.disabled]}
         onPress={handleStartListing}
         disabled={creating}
+        accessibilityRole="button"
+        accessibilityLabel="Start listing"
       >
         {creating ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={WHITE} />
         ) : (
           <Text style={styles.btnText}>Start listing</Text>
         )}
@@ -57,10 +65,36 @@ export default function SellScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, justifyContent: "center" },
-  title: { fontSize: 22, fontWeight: "700", marginBottom: 8 },
-  subtitle: { color: "#64748b", marginBottom: 24 },
-  btn: { backgroundColor: "#0ea5e9", padding: 14, borderRadius: 8, alignItems: "center" },
-  btnText: { color: "#fff", fontWeight: "600" },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    backgroundColor: WHITE,
+  },
+  kicker: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: NAVY,
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: INK,
+    letterSpacing: -0.5,
+    marginBottom: 10,
+  },
+  subtitle: { color: MUTED, fontSize: 15, lineHeight: 22, marginBottom: 24 },
+  btn: {
+    backgroundColor: NAVY,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 999,
+    alignItems: "center",
+    alignSelf: "flex-start",
+  },
+  btnText: { color: WHITE, fontWeight: "700", fontSize: 15 },
   disabled: { opacity: 0.7 },
 });

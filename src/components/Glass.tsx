@@ -1,5 +1,11 @@
 import { BlurView, type BlurTint } from "expo-blur";
-import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 import { GLASS_FILL, GLASS_STROKE } from "@/theme/brand";
 
 interface GlassProps {
@@ -21,6 +27,21 @@ export function Glass({
   tint = "light",
   overlayColor = GLASS_FILL,
 }: GlassProps) {
+  if (Platform.OS === "web") {
+    return (
+      <View
+        style={[
+          styles.clip,
+          styles.webFrost,
+          { backgroundColor: overlayColor },
+          style,
+        ]}
+      >
+        {children}
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.clip, style]}>
       <BlurView
@@ -46,5 +67,12 @@ const styles = StyleSheet.create({
   },
   wash: {
     ...StyleSheet.absoluteFillObject,
+  },
+  webFrost: {
+    // CSS backdrop-filter — expo-blur paints opaque white on web.
+    ...( {
+      backdropFilter: "blur(22px) saturate(180%)",
+      WebkitBackdropFilter: "blur(22px) saturate(180%)",
+    } as ViewStyle),
   },
 });

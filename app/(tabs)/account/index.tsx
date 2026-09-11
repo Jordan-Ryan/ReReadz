@@ -62,6 +62,14 @@ export default function AccountScreen() {
       setProfile(null);
       return;
     }
+    if (user.id === "frame-preview") {
+      setProfile({
+        display_name: "Jordan Reader",
+        username: "jordan",
+        avatar_url: null,
+      });
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from("profiles")

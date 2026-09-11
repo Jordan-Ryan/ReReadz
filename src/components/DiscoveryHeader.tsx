@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: LINE,
+    borderBottomColor: "rgba(23,0,173,0.08)",
   },
   wrapDesktop: {
     paddingHorizontal: 16,

@@ -93,9 +93,9 @@ export const TRUST_POINTS = [
 ] as const;
 
 /** Glass chrome — translucent, never flat grey boxes. */
-export const GLASS_FILL = "rgba(255,255,255,0.28)";
-export const GLASS_FILL_STRONG = "rgba(255,255,255,0.46)";
-export const GLASS_FILL_CHROME = "rgba(255,255,255,0.22)";
+export const GLASS_FILL = "rgba(255,255,255,0.22)";
+export const GLASS_FILL_STRONG = "rgba(255,255,255,0.34)";
+export const GLASS_FILL_CHROME = "rgba(255,255,255,0.38)";
 export const GLASS_STROKE = "rgba(23,0,173,0.10)";
 export const TAB_BAR_HEIGHT = 62;
 export const TAB_BAR_INSET = 10;
