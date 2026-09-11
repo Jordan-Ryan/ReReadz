@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -23,7 +24,18 @@ import {
   type FilterDimension,
 } from "@/components/FilterSheet";
 import { formatCondition, formatBookFormat } from "@/utils/format";
-import { INK, MUTED, LINE, WHITE, NAVY, NAVY_SOFT, FONT_SANS } from "@/theme/brand";
+import { Glass } from "@/components/Glass";
+import {
+  ANDROID_TONAL,
+  FONT_SANS,
+  GLASS_FILL_STRONG,
+  INK,
+  LINE,
+  MUTED,
+  NAVY,
+  NAVY_SOFT,
+  WHITE,
+} from "@/theme/brand";
 import {
   FEED_CELL_PAD,
   FEED_GRID_PAD,
@@ -149,6 +161,7 @@ export default function ListingsScreen() {
 
   return (
     <View style={styles.container}>
+      <Glass style={styles.chipChrome} overlayColor={GLASS_FILL_STRONG}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -172,6 +185,7 @@ export default function ListingsScreen() {
           </Pressable>
         ))}
       </ScrollView>
+      </Glass>
 
       <View style={styles.meta}>
         <View style={styles.metaLeft}>
@@ -244,17 +258,22 @@ const styles = StyleSheet.create({
   metaLeft: { flex: 1, paddingRight: 12 },
   title: { fontFamily: FONT_SANS, fontSize: 16, fontWeight: "700", color: INK },
   count: { fontFamily: FONT_SANS, fontSize: 13, color: MUTED, marginTop: 2 },
+  chipChrome: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 0,
+  },
   chipScroll: {
     flexGrow: 0,
     flexShrink: 0,
-    height: 64,
+    height: 68,
   },
   chipRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
     paddingHorizontal: 16,
-    height: 64,
+    height: 68,
   },
   chip: {
     flexDirection: "row",
@@ -263,10 +282,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: LINE,
     borderRadius: 999,
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     paddingVertical: 12,
-    minHeight: 44,
+    minHeight: 48,
     backgroundColor: WHITE,
+    ...(Platform.OS === "android"
+      ? { backgroundColor: ANDROID_TONAL, borderWidth: 0, minHeight: 48 }
+      : {}),
   },
   chipOn: { borderColor: NAVY, backgroundColor: NAVY_SOFT },
   chipText: {

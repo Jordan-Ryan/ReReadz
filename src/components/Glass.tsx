@@ -22,8 +22,9 @@ interface GlassProps {
 }
 
 /**
- * ReReadz chrome only (header, tab bar, sheets). Not Coach / Hub / Nutrition.
- * iOS: liquid glass (UIVisualEffect). Android: peer craft, not literal glass.
+ * ReReadz chrome only (header, tab bar, sheets, search). Not Coach / Hub / Nutrition.
+ * iOS: Apple liquid glass / blur materials.
+ * Android: Material You tonal surfaces — same quality, not literal glass.
  */
 export function Glass({
   children,
@@ -82,16 +83,16 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   webFrost: {
-    backdropFilter: "blur(28px) saturate(200%)",
-    WebkitBackdropFilter: "blur(28px) saturate(200%)",
+    backdropFilter: "blur(32px) saturate(220%)",
+    WebkitBackdropFilter: "blur(32px) saturate(220%)",
   } as ViewStyle,
   androidPeer: {
     backgroundColor: ANDROID_CHROME_FILL,
-    borderColor: "rgba(23,0,173,0.12)",
-    elevation: 10,
+    borderColor: "rgba(23,0,173,0.10)",
+    elevation: 3,
     shadowColor: "#1700AD",
-    shadowOpacity: 0.12,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
   },
 });

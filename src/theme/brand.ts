@@ -30,7 +30,11 @@ export const SHIELD_NAME = "Reader's Shield";
 export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
 export const SEARCH_PLACEHOLDER = "Search for your next book...";
-export const SEARCH_FIELD = "#F5F5F5";
+/** iOS/web: inner liquid glass. Android: Material You tonal fill. */
+export const SEARCH_FIELD = Platform.select({
+  android: "#EEF0FF",
+  default: "rgba(255,255,255,0.52)",
+}) as string;
 export const BADGE_FREQUENT = "Frequent";
 export const BADGE_SOLD = "Sold";
 
@@ -132,8 +136,9 @@ export const GLASS_FILL = "rgba(255,255,255,0.18)";
 export const GLASS_FILL_STRONG = "rgba(255,255,255,0.28)";
 export const GLASS_FILL_CHROME = "rgba(255,255,255,0.32)";
 export const GLASS_STROKE = "rgba(23,0,173,0.12)";
-export const GLASS_IOS_INTENSITY = 92;
-export const ANDROID_CHROME_FILL = "rgba(255,255,255,0.97)";
+export const GLASS_IOS_INTENSITY = 96;
+export const ANDROID_CHROME_FILL = "#F7F6FC";
+export const ANDROID_TONAL = "#EEF0FF";
 export const TAB_BAR_HEIGHT = 68;
 export const TAB_BAR_INSET = 10;
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 16;

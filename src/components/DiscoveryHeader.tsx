@@ -285,11 +285,21 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     paddingHorizontal: 16,
     minHeight: 46,
+    ...(Platform.OS === "web"
+      ? ({
+          backdropFilter: "blur(18px) saturate(180%)",
+          WebkitBackdropFilter: "blur(18px) saturate(180%)",
+        } as object)
+      : {}),
+    ...(Platform.OS === "android"
+      ? { borderWidth: 0, elevation: 0, minHeight: 52 }
+      : {}),
   },
   searchOwned: {
     minHeight: 52,
     paddingHorizontal: 18,
     borderRadius: 26,
+    ...(Platform.OS === "android" ? { minHeight: 56, borderRadius: 28 } : {}),
   },
   searchDesktop: {
     minHeight: 44,

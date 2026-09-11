@@ -293,36 +293,38 @@ export function SellFlow() {
 
   return (
     <View style={styles.shell}>
-      <View style={styles.banner}>
-        <Text style={styles.bannerText}>⚡ {SELL_AVG_TIME}</Text>
-      </View>
+      <Glass style={styles.sellChrome} overlayColor={GLASS_FILL_STRONG}>
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>⚡ {SELL_AVG_TIME}</Text>
+        </View>
 
-      <View style={styles.stepper}>
-        {SELL_STEPS.map((label, index) => {
-          const on = index === step;
-          const done = index < step;
-          return (
-            <View key={label} style={styles.stepItem}>
-              <View
-                style={[
-                  styles.stepDot,
-                  (on || done) && styles.stepDotOn,
-                ]}
-              >
-                <Text style={[styles.stepNum, (on || done) && styles.stepNumOn]}>
-                  {index + 1}
+        <View style={styles.stepper}>
+          {SELL_STEPS.map((label, index) => {
+            const on = index === step;
+            const done = index < step;
+            return (
+              <View key={label} style={styles.stepItem}>
+                <View
+                  style={[
+                    styles.stepDot,
+                    (on || done) && styles.stepDotOn,
+                  ]}
+                >
+                  <Text style={[styles.stepNum, (on || done) && styles.stepNumOn]}>
+                    {index + 1}
+                  </Text>
+                </View>
+                <Text style={[styles.stepLabel, on && styles.stepLabelOn]}>
+                  {label}
                 </Text>
+                {index < SELL_STEPS.length - 1 ? (
+                  <View style={[styles.stepLine, done && styles.stepLineOn]} />
+                ) : null}
               </View>
-              <Text style={[styles.stepLabel, on && styles.stepLabelOn]}>
-                {label}
-              </Text>
-              {index < SELL_STEPS.length - 1 ? (
-                <View style={[styles.stepLine, done && styles.stepLineOn]} />
-              ) : null}
-            </View>
-          );
-        })}
-      </View>
+            );
+          })}
+        </View>
+      </Glass>
 
       <ScrollView
         style={styles.scroll}
@@ -603,8 +605,13 @@ export function SellFlow() {
 
 const styles = StyleSheet.create({
   shell: { flex: 1, backgroundColor: WHITE },
+  sellChrome: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 0,
+  },
   banner: {
-    backgroundColor: NAVY_SOFT,
+    backgroundColor: "transparent",
     paddingVertical: 8,
     alignItems: "center",
   },
