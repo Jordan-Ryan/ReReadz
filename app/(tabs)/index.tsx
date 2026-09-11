@@ -11,6 +11,7 @@ import { QrShipBand } from "@/components/QrShipBand";
 import { TrustPoints } from "@/components/TrustPoints";
 import { SellShelfCta } from "@/components/SellShelfCta";
 import { useTabClearance } from "@/hooks/useTabClearance";
+import { useHeaderClearance } from "@/hooks/useHeaderClearance";
 import {
   CTA_BROWSE,
   HOT_OFF_PRESS,
@@ -24,6 +25,7 @@ import {
 export default function HomeScreen() {
   const router = useRouter();
   const clearance = useTabClearance();
+  const headerClearance = useHeaderClearance();
   const { books: justListed, loading: loadingListed } = useRecentlyAdded();
   const { books: staffPicks, loading: loadingStaff } = useStaffPicks();
   const { categories, loading: loadingCategories } = useCategories(true);
@@ -38,7 +40,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
-      style={styles.container}
+      style={[styles.container, { marginTop: -headerClearance }]}
       contentContainerStyle={[styles.content, { paddingBottom: clearance }]}
     >
       <HomeHero
@@ -51,6 +53,7 @@ export default function HomeScreen() {
         covers={justListed}
         liveBooks={liveBooks}
         liveReaders={liveReaders}
+        topInset={headerClearance}
         onBrowse={openBrowse}
       />
 
@@ -71,6 +74,7 @@ export default function HomeScreen() {
         title={staffPicks.length > 0 ? "Staff picks" : HOT_OFF_PRESS}
         books={(staffPicks.length > 0 ? staffPicks : justListed).slice(0, 8)}
         isLoading={staffPicks.length > 0 ? loadingStaff : loadingListed}
+        featured
         onSeeAll={() => openBrowse()}
         seeAllLabel={CTA_BROWSE}
       />

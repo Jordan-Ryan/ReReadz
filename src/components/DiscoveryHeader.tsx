@@ -20,7 +20,7 @@ import {
   MUTED,
   WHITE,
   SEARCH_PLACEHOLDER,
-  GLASS_FILL_STRONG,
+  GLASS_FILL_CHROME,
 } from "@/theme/brand";
 
 interface DiscoveryHeaderProps {
@@ -68,9 +68,9 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   return (
     <View style={styles.chrome}>
       <Glass
-        intensity={70}
+        intensity={86}
         tint="systemChromeMaterialLight"
-        overlayColor={GLASS_FILL_STRONG}
+        overlayColor={GLASS_FILL_CHROME}
         style={StyleSheet.absoluteFill}
       />
       <SafeAreaView edges={["top"]} style={styles.safe}>

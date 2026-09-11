@@ -11,6 +11,7 @@ interface BookShelfProps {
   emptyMessage?: string;
   onSeeAll?: () => void;
   seeAllLabel?: string;
+  featured?: boolean;
 }
 
 /** Horizontal merchandising shelf — not a Browse results grid. */
@@ -23,6 +24,7 @@ export function BookShelf({
   emptyMessage = "No books yet.",
   onSeeAll,
   seeAllLabel,
+  featured,
 }: BookShelfProps) {
   return (
     <View style={styles.section}>
@@ -57,7 +59,7 @@ export function BookShelf({
           contentContainerStyle={styles.row}
         >
           {books.map((book) => (
-            <BookCard key={book.id} book={book} />
+            <BookCard key={book.id} book={book} featured={featured} />
           ))}
         </ScrollView>
       )}

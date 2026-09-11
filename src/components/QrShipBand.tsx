@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
     marginTop: 16,
     borderRadius: 16,
     padding: 16,
+    maxWidth: 1120,
+    alignSelf: "center",
+    width: "100%",
   },
   kicker: {
     fontSize: 12,

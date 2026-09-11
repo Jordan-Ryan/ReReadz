@@ -93,12 +93,15 @@ export const TRUST_POINTS = [
 ] as const;
 
 /** Glass chrome — translucent, never flat grey boxes. */
-export const GLASS_FILL = "rgba(255,255,255,0.42)";
-export const GLASS_FILL_STRONG = "rgba(255,255,255,0.58)";
+export const GLASS_FILL = "rgba(255,255,255,0.28)";
+export const GLASS_FILL_STRONG = "rgba(255,255,255,0.46)";
+export const GLASS_FILL_CHROME = "rgba(255,255,255,0.22)";
 export const GLASS_STROKE = "rgba(23,0,173,0.10)";
 export const TAB_BAR_HEIGHT = 62;
 export const TAB_BAR_INSET = 10;
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 8;
+export const HEADER_BAR_HEIGHT = 56;
+export const HEADER_BAR_HEIGHT_DESKTOP = 64;
 
 /** Quiet empty cover — paper well, never a letter monogram or grey box. */
 export const COVER_PAPER = "#F4F1EA";

@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import type { BookCardData } from "@/components/BookCard";
 import { listingCoverCandidates } from "@/utils/cover";
 import type { HomeCollection } from "@/components/CategoryGrid";
+import { useDesktopShell } from "@/hooks/useDesktopShell";
 import {
   CTA_BROWSE,
   CTA_LIST,
@@ -45,6 +46,7 @@ interface HomeHeroProps {
   covers?: BookCardData[];
   liveBooks: number | null;
   liveReaders: number | null;
+  topInset?: number;
   onBrowse: (params?: Record<string, string>) => void;
 }
 
@@ -53,16 +55,18 @@ export function HomeHero({
   covers = [],
   liveBooks,
   liveReaders,
+  topInset = 0,
   onBrowse,
 }: HomeHeroProps) {
   const router = useRouter();
+  const isDesktop = useDesktopShell();
   const collage = covers
     .map((book) => listingCoverCandidates(book)[0])
     .filter(Boolean)
     .slice(0, 6) as string[];
 
   return (
-    <View style={styles.hero}>
+    <View style={[styles.hero, isDesktop && styles.heroDesktop]}>
       <View style={styles.collage} pointerEvents="none">
         {collage.map((uri) => (
           <Image key={uri} source={{ uri }} style={styles.collageImage} />
@@ -70,9 +74,10 @@ export function HomeHero({
       </View>
       <View style={styles.wash} pointerEvents="none" />
 
+      <View style={[styles.copy, { paddingTop: topInset + (isDesktop ? 28 : 20) }]}>
       <Text style={styles.eyebrow}>{HOT_OFF_PRESS}</Text>
-      <Text style={styles.title}>{HERO_TITLE}</Text>
-      <Text style={styles.sub}>{HERO_SUBTITLE}</Text>
+      <Text style={[styles.title, isDesktop && styles.titleDesktop]}>{HERO_TITLE}</Text>
+      <Text style={[styles.sub, isDesktop && styles.subDesktop]}>{HERO_SUBTITLE}</Text>
 
       <View style={styles.chipRow}>
         {QUICK_CHIPS.map((chip) => (
@@ -127,6 +132,7 @@ export function HomeHero({
             : ""}
         </Text>
       )}
+      </View>
     </View>
   );
 }
@@ -134,10 +140,15 @@ export function HomeHero({
 const styles = StyleSheet.create({
   hero: {
     backgroundColor: NAVY_DEEP,
-    paddingTop: 20,
     paddingBottom: 18,
     overflow: "hidden",
     position: "relative",
+  },
+  heroDesktop: {
+    paddingBottom: 28,
+  },
+  copy: {
+    maxWidth: 720,
   },
   collage: {
     ...StyleSheet.absoluteFillObject,
@@ -169,12 +180,22 @@ const styles = StyleSheet.create({
     color: GOLD,
     letterSpacing: -0.7,
   },
+  titleDesktop: {
+    fontSize: 48,
+    lineHeight: 52,
+    letterSpacing: -1.2,
+  },
   sub: {
     paddingHorizontal: 16,
     marginTop: 8,
     fontSize: 14,
     lineHeight: 20,
     color: "rgba(255,255,255,0.88)",
+  },
+  subDesktop: {
+    fontSize: 16,
+    lineHeight: 24,
+    maxWidth: 560,
   },
   chipRow: {
     flexDirection: "row",

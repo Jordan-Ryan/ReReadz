@@ -1,12 +1,18 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useDesktopShell } from "@/hooks/useDesktopShell";
 import { INK, MUTED, NAVY, TRUST_POINTS } from "@/theme/brand";
 
 export function TrustPoints() {
+  const isDesktop = useDesktopShell();
+
   return (
-    <View style={styles.row}>
+    <View style={[styles.row, isDesktop && styles.rowDesktop]}>
       {TRUST_POINTS.map((point) => (
-        <View key={point.title} style={styles.cell}>
+        <View
+          key={point.title}
+          style={[styles.cell, isDesktop && styles.cellDesktop]}
+        >
           <Ionicons name={point.icon} size={22} color={NAVY} />
           <Text style={styles.title}>{point.title}</Text>
           <Text style={styles.detail}>{point.detail}</Text>
@@ -24,10 +30,22 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 4,
   },
+  rowDesktop: {
+    maxWidth: 1120,
+    alignSelf: "center",
+    width: "100%",
+    flexWrap: "nowrap",
+    paddingTop: 16,
+  },
   cell: {
     width: "50%",
     paddingHorizontal: 6,
     paddingVertical: 10,
+  },
+  cellDesktop: {
+    width: "25%",
+    paddingHorizontal: 12,
+    paddingVertical: 16,
   },
   title: {
     marginTop: 6,

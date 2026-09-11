@@ -4,8 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { DiscoveryHeader } from "@/components/DiscoveryHeader";
 import { Glass } from "@/components/Glass";
 import { useDesktopShell } from "@/hooks/useDesktopShell";
+import { useHeaderClearance } from "@/hooks/useHeaderClearance";
 import {
-  GLASS_FILL_STRONG,
+  GLASS_FILL_CHROME,
   NAVY,
   MUTED,
   TAB_BAR_HEIGHT,
@@ -16,9 +17,9 @@ import {
 function GlassTabBarBackground() {
   return (
     <Glass
-      intensity={80}
+      intensity={88}
       tint="systemChromeMaterialLight"
-      overlayColor={GLASS_FILL_STRONG}
+      overlayColor={GLASS_FILL_CHROME}
       style={styles.tabGlass}
     />
   );
@@ -26,15 +27,16 @@ function GlassTabBarBackground() {
 
 export default function TabsLayout() {
   const isDesktop = useDesktopShell();
+  const headerClearance = useHeaderClearance();
 
   return (
     <View style={styles.shell}>
-      <DiscoveryHeader />
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: NAVY,
           tabBarInactiveTintColor: MUTED,
           headerShown: false,
+          sceneStyle: { paddingTop: headerClearance },
           tabBarBackground: isDesktop ? undefined : GlassTabBarBackground,
           tabBarStyle: isDesktop ? styles.tabBarHidden : styles.tabBarMobile,
           tabBarItemStyle: { paddingVertical: 4 },
@@ -112,12 +114,22 @@ export default function TabsLayout() {
           }}
         />
       </Tabs>
+      <View style={styles.headerOverlay} pointerEvents="box-none">
+        <DiscoveryHeader />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   shell: { flex: 1, backgroundColor: WHITE },
+  headerOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 20,
+  },
   tabGlass: {
     ...StyleSheet.absoluteFillObject,
     borderRadius: 22,

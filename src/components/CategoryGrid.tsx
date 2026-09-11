@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { Glass } from "@/components/Glass";
+import { useDesktopShell } from "@/hooks/useDesktopShell";
 
 export interface HomeCollection {
   id: string;
@@ -29,7 +30,8 @@ export function CategoryGrid({
   onSelect,
   onSeeAll,
 }: CategoryGridProps) {
-  const shown = collections.slice(0, 10);
+  const isDesktop = useDesktopShell();
+  const shown = collections.slice(0, isDesktop ? 12 : 10);
 
   return (
     <View style={styles.section}>
@@ -42,7 +44,7 @@ export function CategoryGrid({
           {shown.map((cat) => (
             <Pressable
               key={cat.id}
-              style={styles.cell}
+              style={[styles.cell, isDesktop && styles.cellDesktop]}
               onPress={() => onSelect(cat.slug || cat.id)}
               accessibilityRole="button"
               accessibilityLabel={
@@ -78,7 +80,7 @@ export function CategoryGrid({
 }
 
 const styles = StyleSheet.create({
-  section: { paddingTop: 20, paddingHorizontal: 16 },
+  section: { paddingTop: 20, paddingHorizontal: 16, maxWidth: 1120, width: "100%", alignSelf: "center" },
   title: {
     fontSize: 20,
     fontWeight: "800",
@@ -93,6 +95,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cell: { flexGrow: 1, flexBasis: "46%", minWidth: "46%", maxWidth: "48%" },
+  cellDesktop: { flexBasis: "23%", minWidth: "23%", maxWidth: "24.5%" },
   card: {
     borderRadius: 14,
     paddingHorizontal: 12,

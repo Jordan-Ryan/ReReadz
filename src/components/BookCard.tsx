@@ -23,9 +23,11 @@ interface BookCardProps {
   book: BookCardData;
   /** When true, card fills container width (e.g. in grid). */
   flex?: boolean;
+  /** Wider merchandising tile for Home editorial shelves. */
+  featured?: boolean;
 }
 
-export function BookCard({ book, flex }: BookCardProps) {
+export function BookCard({ book, flex, featured }: BookCardProps) {
   const router = useRouter();
   const slug = book.slug ?? book.id;
   const linkTo = `/listing/${slug}`;
@@ -45,12 +47,12 @@ export function BookCard({ book, flex }: BookCardProps) {
 
   return (
     <Pressable
-      style={[styles.card, flex && styles.cardFlex]}
+      style={[styles.card, flex && styles.cardFlex, featured && styles.cardFeatured]}
       onPress={() => router.push(linkTo as any)}
       accessibilityRole="link"
       accessibilityLabel={`${book.title}, ${formatPrice(book.price_minor)}`}
     >
-      <View style={[styles.imageWrap, flex && styles.imageWrapFlex]}>
+      <View style={[styles.imageWrap, flex && styles.imageWrapFlex, featured && styles.imageWrapFeatured]}>
         {showCover ? (
           <Image
             source={{ uri: coverUrl as string }}
@@ -87,6 +89,7 @@ export function BookCard({ book, flex }: BookCardProps) {
 }
 
 const CARD_WIDTH = 120;
+const FEATURED_WIDTH = 156;
 
 const styles = StyleSheet.create({
   card: {
@@ -94,6 +97,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   cardFlex: { width: "100%", marginRight: 0 },
+  cardFeatured: {
+    width: FEATURED_WIDTH,
+  },
   imageWrap: {
     width: CARD_WIDTH,
     aspectRatio: 3 / 4,
@@ -104,6 +110,9 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   imageWrapFlex: { width: "100%", alignSelf: "stretch" },
+  imageWrapFeatured: {
+    width: FEATURED_WIDTH,
+  },
   image: {
     ...StyleSheet.absoluteFillObject,
     width: "100%",
