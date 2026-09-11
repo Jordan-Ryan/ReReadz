@@ -266,34 +266,40 @@ const styles = StyleSheet.create({
   chipScroll: {
     flexGrow: 0,
     flexShrink: 0,
-    height: 68,
+    height: 64,
   },
   chipRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
     paddingHorizontal: 16,
-    height: 68,
+    height: 64,
   },
   chip: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 6,
+    height: 48,
+    minHeight: 48,
     borderWidth: 1,
     borderColor: LINE,
     borderRadius: 999,
     paddingHorizontal: 18,
-    paddingVertical: 12,
-    minHeight: 48,
+    paddingVertical: 0,
     backgroundColor: WHITE,
+    ...(Platform.OS === "web"
+      ? ({ height: 48, minHeight: 48, boxSizing: "border-box" } as object)
+      : {}),
     ...(Platform.OS === "android"
-      ? { backgroundColor: ANDROID_TONAL, borderWidth: 0, minHeight: 48 }
+      ? { backgroundColor: ANDROID_TONAL, borderWidth: 0 }
       : {}),
   },
   chipOn: { borderColor: NAVY, backgroundColor: NAVY_SOFT },
   chipText: {
     fontFamily: FONT_SANS,
     fontSize: 15,
+    lineHeight: 20,
     color: INK,
     fontWeight: "600",
   },
