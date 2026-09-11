@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 6,
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingTop: 12,
+    paddingBottom: 4,
   },
   pill: {
     borderRadius: 999,

@@ -13,6 +13,9 @@ export default function SellingGuideScreen() {
       <Text style={styles.paragraph}>
         3. Mark the order as dispatched when you've posted it. After delivery, funds are released to your wallet. Connect Stripe in Account → Wallet to receive payouts.
       </Text>
+      <Text style={styles.paragraph}>
+        Sold a book? Get a QR code straight to your phone. Drop it at your nearest Royal Mail, Evri or InPost point — no printer, no labels, no faff. Tracked delivery from £2.99.
+      </Text>
     </ScrollView>
   );
 }

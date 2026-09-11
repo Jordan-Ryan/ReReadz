@@ -199,23 +199,7 @@ export default function ListingsScreen() {
                     ? `No books match “${query}”.`
                     : "No books in this view.")}
               </Text>
-              <Text style={styles.emptyHint}>Try another category.</Text>
-              <View style={styles.emptyCats}>
-                {categories.slice(0, 6).map((cat) => (
-                  <Pressable
-                    key={cat.id}
-                    style={styles.emptyChip}
-                    onPress={() =>
-                      applyFilters({
-                        ...filters,
-                        category: cat.slug ?? cat.id,
-                      })
-                    }
-                  >
-                    <Text style={styles.emptyChipText}>{cat.name}</Text>
-                  </Pressable>
-                ))}
-              </View>
+              <Text style={styles.emptyHint}>Try another search or filter.</Text>
             </View>
           }
           refreshControl={
@@ -283,14 +267,5 @@ const styles = StyleSheet.create({
   cardWrap: { flex: 1, paddingHorizontal: FEED_CELL_PAD, marginBottom: FEED_ROW_GAP },
   empty: { padding: 32, alignItems: "center" },
   emptyText: { color: INK, fontSize: 15, textAlign: "center", fontWeight: "600" },
-  emptyHint: { color: MUTED, marginTop: 6, marginBottom: 16 },
-  emptyCats: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center" },
-  emptyChip: {
-    borderWidth: 1,
-    borderColor: LINE,
-    borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  emptyChipText: { fontSize: 13, color: NAVY, fontWeight: "600" },
+  emptyHint: { color: MUTED, marginTop: 6 },
 });

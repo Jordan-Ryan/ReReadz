@@ -1,11 +1,15 @@
-import { Text, Pressable, StyleSheet } from "react-native";
+import { Text, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Glass } from "@/components/Glass";
 import {
+  CTA_HOW_SELL,
   CTA_SELL,
+  GLASS_FILL_STRONG,
   INK,
   MUTED,
   NAVY,
+  SELL_CTA_KICKER,
+  SELL_CTA_LEAD,
   SELL_CTA_POINTS,
   SELL_CTA_TITLE,
   WHITE,
@@ -15,22 +19,32 @@ export function SellShelfCta() {
   const router = useRouter();
 
   return (
-    <Glass style={styles.card} intensity={56}>
-      <Text style={styles.kicker}>Have books to sell?</Text>
+    <Glass style={styles.card} intensity={56} overlayColor={GLASS_FILL_STRONG}>
+      <Text style={styles.kicker}>{SELL_CTA_KICKER}</Text>
       <Text style={styles.title}>{SELL_CTA_TITLE}</Text>
+      <Text style={styles.lead}>{SELL_CTA_LEAD}</Text>
       {SELL_CTA_POINTS.map((point) => (
         <Text key={point} style={styles.point}>
           · {point}
         </Text>
       ))}
-      <Pressable
-        style={styles.btn}
-        onPress={() => router.push("/(tabs)/sell" as any)}
-        accessibilityRole="button"
-        accessibilityLabel={CTA_SELL}
-      >
-        <Text style={styles.btnText}>{CTA_SELL}</Text>
-      </Pressable>
+      <View style={styles.actions}>
+        <Pressable
+          style={styles.btn}
+          onPress={() => router.push("/(tabs)/sell" as any)}
+          accessibilityRole="button"
+          accessibilityLabel={CTA_SELL}
+        >
+          <Text style={styles.btnText}>{CTA_SELL}</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => router.push("/selling-guide" as any)}
+          accessibilityRole="button"
+          accessibilityLabel={CTA_HOW_SELL}
+        >
+          <Text style={styles.link}>{CTA_HOW_SELL}</Text>
+        </Pressable>
+      </View>
     </Glass>
   );
 }
@@ -38,7 +52,7 @@ export function SellShelfCta() {
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: 16,
-    marginTop: 8,
+    marginTop: 12,
     marginBottom: 8,
     borderRadius: 16,
     padding: 16,
@@ -51,10 +65,16 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   title: {
-    fontSize: 18,
-    lineHeight: 22,
+    fontSize: 20,
+    lineHeight: 24,
     fontWeight: "800",
     color: INK,
+    marginBottom: 8,
+  },
+  lead: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: MUTED,
     marginBottom: 8,
   },
   point: {
@@ -62,13 +82,19 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: MUTED,
   },
-  btn: {
+  actions: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: 14,
     marginTop: 12,
+  },
+  btn: {
     backgroundColor: NAVY,
-    alignSelf: "flex-start",
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 999,
   },
   btnText: { color: WHITE, fontWeight: "700", fontSize: 13 },
+  link: { color: NAVY, fontWeight: "700", fontSize: 13 },
 });
