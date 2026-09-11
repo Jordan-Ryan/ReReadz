@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { formatPrice } from "@/utils/format";
-import { DELIVERY_LINE, INK, MUTED, SURFACE } from "@/theme/brand";
+import { coverInitial, formatPrice } from "@/utils/format";
+import { DELIVERY_LINE, INK, MUTED, NAVY, NAVY_SOFT, WHITE } from "@/theme/brand";
 
 export interface BookCardData {
   id: string;
@@ -25,6 +25,7 @@ export function BookCard({ book, flex }: BookCardProps) {
   const router = useRouter();
   const slug = book.slug ?? book.id;
   const linkTo = `/listing/${slug}`;
+  const initial = coverInitial(book.title);
 
   return (
     <Pressable
@@ -33,18 +34,25 @@ export function BookCard({ book, flex }: BookCardProps) {
       accessibilityRole="link"
       accessibilityLabel={`${book.title}, ${formatPrice(book.price_minor)}`}
     >
-      <View style={[styles.imageWrap, flex && styles.imageWrapFlex]}>
+      <View
+        style={[
+          styles.imageWrap,
+          flex && styles.imageWrapFlex,
+          !book.image_url && initial ? styles.imageWrapInitial : null,
+        ]}
+      >
         {book.image_url ? (
           <Image
             source={{ uri: book.image_url }}
             style={styles.image}
             resizeMode="cover"
+            accessibilityIgnoresInvertColors
           />
-        ) : (
-          <View style={styles.placeholderImage}>
-            <Text style={styles.placeholderText}>No cover</Text>
-          </View>
-        )}
+        ) : initial ? (
+          <Text style={styles.initial} accessibilityLabel={`${book.title} cover`}>
+            {initial}
+          </Text>
+        ) : null}
       </View>
       <Text style={styles.title} numberOfLines={2}>
         {book.title}
@@ -60,7 +68,7 @@ const CARD_WIDTH = 120;
 const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
-    marginRight: 12,
+    marginRight: 8,
   },
   cardFlex: { width: "100%", marginRight: 0 },
   imageWrap: {
@@ -68,20 +76,28 @@ const styles = StyleSheet.create({
     aspectRatio: 3 / 4,
     borderRadius: 4,
     overflow: "hidden",
-    backgroundColor: SURFACE,
+    backgroundColor: WHITE,
+    position: "relative",
   },
   imageWrapFlex: { width: "100%" },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-  placeholderImage: {
-    flex: 1,
+  imageWrapInitial: {
+    backgroundColor: NAVY_SOFT,
     justifyContent: "center",
     alignItems: "center",
   },
-  placeholderText: { fontSize: 10, color: MUTED },
-  title: { fontSize: 13, fontWeight: "600", marginTop: 8, color: INK },
-  price: { fontSize: 13, fontWeight: "700", marginTop: 4, color: INK },
-  delivery: { fontSize: 11, color: MUTED, marginTop: 2 },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
+    ...(Platform.OS === "web" ? { objectFit: "cover" as const } : {}),
+  },
+  initial: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: NAVY,
+    letterSpacing: 0.4,
+  },
+  title: { fontSize: 13, fontWeight: "600", marginTop: 4, color: INK },
+  price: { fontSize: 13, fontWeight: "700", marginTop: 2, color: INK },
+  delivery: { fontSize: 11, color: MUTED, marginTop: 1 },
 });

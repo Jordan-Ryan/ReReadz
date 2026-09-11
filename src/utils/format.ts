@@ -28,3 +28,12 @@ export function formatBookFormat(format: string | undefined): string {
   };
   return map[format] ?? format;
 }
+
+/** First letter for empty cover wells — never render a “No cover” grey box. */
+export function coverInitial(title: string | undefined | null): string {
+  const trimmed = (title ?? "").trim();
+  if (!trimmed) return "";
+  const cleaned = trimmed.replace(/^(the|a|an)\s+/i, "");
+  const letter = (cleaned || trimmed).charAt(0);
+  return letter ? letter.toUpperCase() : "";
+}

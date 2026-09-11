@@ -79,17 +79,17 @@ export function CategoryChips({
 
 const styles = StyleSheet.create({
   row: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    gap: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    gap: 6,
     alignItems: "center",
   },
   chip: {
     backgroundColor: WHITE,
     borderWidth: 1,
     borderColor: LINE,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
     borderRadius: 999,
   },
   chipOn: {
