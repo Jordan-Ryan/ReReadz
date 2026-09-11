@@ -86,6 +86,21 @@ export const QR_DROPOFF = "Drop off with InPost";
 export const CTA_BROWSE = "Browse all books";
 export const CTA_LIST = "List a book in 60s";
 export const CTA_SELL = "Start selling";
+export const SELL_AVG_TIME = "Average listing time: 1 min 45 sec";
+export const SELL_STEPS = ["Photos", "Details", "Price", "Publish"] as const;
+export const SELL_SCAN_TITLE = "Scan the barcode";
+export const SELL_SCAN_BODY =
+  "Point your camera at the back of the book. We'll auto-fill the title, author, cover and category in seconds.";
+export const SELL_SCAN_CTA = "Scan barcode to autofill";
+export const SELL_TYPE_ISBN = "Type ISBN instead";
+export const SELL_MULTIPLE = "Sell multiple books";
+export const SELL_FASTEST = "FASTEST WAY";
+export const SELL_GATE_EYEBROW = "Like Vinted, but for books";
+export const SELL_GATE_TITLE = "Buy & Sell Books";
+export const SELL_GATE_SUB =
+  "A UK marketplace where readers buy and sell their own books. List a book in 60 seconds, keep 92.5% of every sale.";
+export const SELL_GATE_HINT =
+  "First time here? Signing up takes under a minute.";
 export const CTA_HOW_SELL = "How selling works";
 export const CTA_QR = "See how it works";
 export const LIVE_NOW = "Live now";
@@ -123,9 +138,9 @@ export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 16;
 export const SELL_FAB_SIZE = 52;
 export const HEADER_BAR_HEIGHT = 56;
 /** Marketing Home: live one-row lockup + search. */
-export const HEADER_BAR_HEIGHT_HOME = 56;
+export const HEADER_BAR_HEIGHT_HOME = 60;
 /** Browse/feed: search pill is the chrome. */
-export const HEADER_BAR_HEIGHT_SEARCH = 60;
+export const HEADER_BAR_HEIGHT_SEARCH = 72;
 /** Sell / Messages / You: mark + BETA, no logo-eating search. */
 export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;

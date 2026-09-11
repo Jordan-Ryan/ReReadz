@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 14,
   },
   wrapCompact: {
     minHeight: 32,
@@ -283,13 +283,13 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: LINE,
     borderRadius: 22,
-    paddingHorizontal: 14,
-    minHeight: 40,
+    paddingHorizontal: 16,
+    minHeight: 46,
   },
   searchOwned: {
-    minHeight: 44,
-    paddingHorizontal: 16,
-    borderRadius: 22,
+    minHeight: 52,
+    paddingHorizontal: 18,
+    borderRadius: 26,
   },
   searchDesktop: {
     minHeight: 44,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontFamily: FONT_SANS,
-    fontSize: 15,
+    fontSize: 16,
     color: INK,
     paddingVertical: Platform.OS === "web" ? 10 : 0,
     ...(Platform.OS === "web"
