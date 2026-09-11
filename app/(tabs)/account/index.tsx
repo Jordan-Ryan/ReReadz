@@ -48,6 +48,7 @@ const TILES: Tile[] = [
 const ROWS: Tile[] = [
   { href: "notifications", label: "Notifications", icon: "notifications-outline" },
   { href: "settings", label: "Settings", icon: "settings-outline" },
+  { href: "legal", label: "Legal", icon: "document-text-outline" },
 ];
 
 export default function AccountScreen() {

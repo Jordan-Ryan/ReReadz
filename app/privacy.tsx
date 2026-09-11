@@ -1,22 +1,30 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
+import { PRIVACY_TERMS, STORAGE_TERMS } from "@/content/legal";
+import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function PrivacyScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Privacy Policy</Text>
-      <Text style={styles.paragraph}>
-        ReReadz respects your privacy. We collect and use your data to provide the marketplace, process payments, and communicate with you about orders and account.
-      </Text>
-      <Text style={styles.paragraph}>
-        We do not sell your personal data. Data is stored securely and used in line with applicable data protection laws. For the full policy, see the ReReadz website.
-      </Text>
+      <Text style={styles.title}>{PRIVACY_TERMS.title}</Text>
+      {PRIVACY_TERMS.paragraphs.map((paragraph) => (
+        <Text key={paragraph} style={styles.body}>
+          {paragraph}
+        </Text>
+      ))}
+      <Text style={styles.heading}>{STORAGE_TERMS.title}</Text>
+      {STORAGE_TERMS.paragraphs.map((paragraph) => (
+        <Text key={paragraph} style={styles.body}>
+          {paragraph}
+        </Text>
+      ))}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { padding: 16 },
-  title: { fontSize: 22, fontWeight: "700", marginBottom: 16 },
-  paragraph: { fontSize: 14, color: "#475569", lineHeight: 22, marginBottom: 12 },
+  container: { flex: 1, backgroundColor: WHITE },
+  content: { padding: 16, paddingBottom: 40 },
+  title: { fontSize: 22, fontWeight: "800", color: INK, marginBottom: 12 },
+  heading: { fontSize: 17, fontWeight: "700", color: INK, marginTop: 8, marginBottom: 8 },
+  body: { fontSize: 14, lineHeight: 21, color: MUTED, marginBottom: 10 },
 });

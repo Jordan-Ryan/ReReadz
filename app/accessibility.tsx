@@ -1,22 +1,23 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
+import { ACCESS_TERMS } from "@/content/legal";
+import { INK, MUTED, WHITE } from "@/theme/brand";
 
 export default function AccessibilityScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Accessibility</Text>
-      <Text style={styles.paragraph}>
-        We aim to make ReReadz usable for everyone. The app supports system font scaling and works with screen readers where supported by the platform.
-      </Text>
-      <Text style={styles.paragraph}>
-        If you encounter an accessibility issue, please contact support so we can improve.
-      </Text>
+      <Text style={styles.title}>{ACCESS_TERMS.title}</Text>
+      {ACCESS_TERMS.paragraphs.map((paragraph) => (
+        <Text key={paragraph} style={styles.body}>
+          {paragraph}
+        </Text>
+      ))}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { padding: 16 },
-  title: { fontSize: 22, fontWeight: "700", marginBottom: 16 },
-  paragraph: { fontSize: 14, color: "#475569", lineHeight: 22, marginBottom: 12 },
+  container: { flex: 1, backgroundColor: WHITE },
+  content: { padding: 16, paddingBottom: 40 },
+  title: { fontSize: 22, fontWeight: "800", color: INK, marginBottom: 12 },
+  body: { fontSize: 14, lineHeight: 21, color: MUTED, marginBottom: 10 },
 });
