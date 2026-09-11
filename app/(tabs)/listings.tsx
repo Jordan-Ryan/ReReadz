@@ -21,7 +21,7 @@ import {
   type FilterDimension,
 } from "@/components/FilterSheet";
 import { formatCondition, formatBookFormat } from "@/utils/format";
-import { INK, MUTED, LINE, WHITE, NAVY, NAVY_SOFT } from "@/theme/brand";
+import { INK, MUTED, LINE, WHITE, NAVY } from "@/theme/brand";
 import {
   FEED_CELL_PAD,
   FEED_GRID_PAD,
@@ -144,7 +144,7 @@ export default function ListingsScreen() {
     <View style={styles.container}>
       <View style={styles.meta}>
         <View style={styles.metaLeft}>
-          <Text style={styles.title}>{categoryName ?? "Browse"}</Text>
+          {categoryName ? <Text style={styles.title}>{categoryName}</Text> : null}
           <Text style={styles.count}>{countLabel}</Text>
         </View>
         <Pressable
@@ -254,9 +254,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     backgroundColor: WHITE,
   },
-  chipOn: { borderColor: NAVY, backgroundColor: NAVY_SOFT },
+  chipOn: { borderColor: NAVY, backgroundColor: NAVY },
   chipText: { fontSize: 13, color: INK, fontWeight: "500" },
-  chipTextOn: { color: NAVY, fontWeight: "700" },
+  chipTextOn: { color: WHITE, fontWeight: "700" },
   loader: { flex: 1, justifyContent: "center" },
   listContent: {
     paddingHorizontal: FEED_GRID_PAD,

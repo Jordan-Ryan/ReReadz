@@ -46,7 +46,7 @@ export function QrShipBand() {
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 10,
     borderRadius: 16,
     padding: 16,
     maxWidth: 1120,

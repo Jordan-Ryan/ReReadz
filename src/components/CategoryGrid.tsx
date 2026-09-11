@@ -80,14 +80,14 @@ export function CategoryGrid({
 }
 
 const styles = StyleSheet.create({
-  section: { paddingTop: 20, paddingHorizontal: 16, maxWidth: 1120, width: "100%", alignSelf: "center" },
+  section: { paddingTop: 14, paddingHorizontal: 16, maxWidth: 1120, width: "100%", alignSelf: "center" },
   title: {
     fontSize: 20,
     fontWeight: "800",
     color: INK,
     letterSpacing: -0.3,
   },
-  sub: { marginTop: 4, fontSize: 13, color: MUTED, marginBottom: 12 },
+  sub: { marginTop: 2, fontSize: 13, color: MUTED, marginBottom: 10 },
   loader: { marginVertical: 16 },
   grid: {
     flexDirection: "row",

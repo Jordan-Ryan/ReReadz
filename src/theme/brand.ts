@@ -23,10 +23,14 @@ export const BRAND = {
 export const SELLERS_KEEP = "92.5%";
 export const TRACKED_DELIVERY = "tracked delivery from £2.99";
 export const DELIVERY_LINE = "+£2.99 delivery";
+export const DETAIL_DELIVERY = "Tracked delivery from £2.99";
 export const SHIELD_NAME = "Reader's Shield";
 export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
-export const SEARCH_PLACEHOLDER = "Search books, authors or ISBN";
+export const SEARCH_PLACEHOLDER = "Search for your next book...";
+export const SEARCH_FIELD = "#F5F5F5";
+export const BADGE_FREQUENT = "Frequent";
+export const BADGE_SOLD = "Sold";
 
 /** Live rereadz.com Home copy — keep wording locked. */
 export const HERO_TITLE = "The UK marketplace for pre-loved books";
@@ -101,6 +105,12 @@ export const TAB_BAR_HEIGHT = 62;
 export const TAB_BAR_INSET = 10;
 export const TAB_BAR_CLEARANCE = TAB_BAR_HEIGHT + TAB_BAR_INSET * 2 + 8;
 export const HEADER_BAR_HEIGHT = 56;
+/** Marketing Home: lockup + full-width search. */
+export const HEADER_BAR_HEIGHT_HOME = 96;
+/** Browse/feed: search pill is the chrome. */
+export const HEADER_BAR_HEIGHT_SEARCH = 60;
+/** Sell / Messages / You: mark + BETA, no logo-eating search. */
+export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;
 
 /** Quiet empty cover — paper well, never a letter monogram or grey box. */

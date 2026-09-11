@@ -140,7 +140,7 @@ export function HomeHero({
 const styles = StyleSheet.create({
   hero: {
     backgroundColor: NAVY_DEEP,
-    paddingBottom: 18,
+    paddingBottom: 14,
     overflow: "hidden",
     position: "relative",
   },

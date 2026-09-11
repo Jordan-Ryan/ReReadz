@@ -1,9 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { formatPrice } from "@/utils/format";
+import { Ionicons } from "@expo/vector-icons";
+import { formatCondition, formatPrice } from "@/utils/format";
 import { listingCoverCandidates } from "@/utils/cover";
-import { COVER_PAPER, COVER_SPINE, DELIVERY_LINE, INK, MUTED, WHITE } from "@/theme/brand";
+import { useFavourites } from "@/hooks/useFavourites";
+import {
+  BADGE_FREQUENT,
+  BADGE_SOLD,
+  COVER_PAPER,
+  COVER_SPINE,
+  INK,
+  MUTED,
+  NAVY,
+  SHIELD_NAME,
+  WHITE,
+} from "@/theme/brand";
 
 export interface BookCardData {
   id: string;
@@ -16,7 +28,10 @@ export interface BookCardData {
   isbn13?: string | null;
   isbn10?: string | null;
   condition?: string;
+  format?: string;
   created_at?: string;
+  status?: string;
+  frequent?: boolean;
 }
 
 interface BookCardProps {
@@ -29,6 +44,7 @@ interface BookCardProps {
 
 export function BookCard({ book, flex, featured }: BookCardProps) {
   const router = useRouter();
+  const { isFavourite, toggleFavourite } = useFavourites();
   const slug = book.slug ?? book.id;
   const linkTo = `/listing/${slug}`;
   const coverCandidates = useMemo(
@@ -37,6 +53,11 @@ export function BookCard({ book, flex, featured }: BookCardProps) {
   );
   const coverKey = coverCandidates.join("|");
   const [coverIndex, setCoverIndex] = useState(0);
+  const sold = (book.status ?? "").toLowerCase() === "sold";
+  const favoured = isFavourite(book.id);
+  const metaLine = [book.author, formatCondition(book.condition)]
+    .filter((part) => part && part !== "Unknown")
+    .join(" · ");
 
   useEffect(() => {
     setCoverIndex(0);
@@ -52,7 +73,13 @@ export function BookCard({ book, flex, featured }: BookCardProps) {
       accessibilityRole="link"
       accessibilityLabel={`${book.title}, ${formatPrice(book.price_minor)}`}
     >
-      <View style={[styles.imageWrap, flex && styles.imageWrapFlex, featured && styles.imageWrapFeatured]}>
+      <View
+        style={[
+          styles.imageWrap,
+          flex && styles.imageWrapFlex,
+          featured && styles.imageWrapFeatured,
+        ]}
+      >
         {showCover ? (
           <Image
             source={{ uri: coverUrl as string }}
@@ -76,13 +103,53 @@ export function BookCard({ book, flex, featured }: BookCardProps) {
             <View style={styles.spine} />
           </View>
         )}
+
+        {book.frequent && !sold ? (
+          <View style={styles.frequent} accessibilityRole="text">
+            <Text style={styles.frequentText}>{BADGE_FREQUENT}</Text>
+          </View>
+        ) : null}
+
+        <Pressable
+          style={styles.heart}
+          onPress={() => {
+            void toggleFavourite(book.id);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={
+            favoured ? "Remove from favourites" : "Save to favourites"
+          }
+          hitSlop={8}
+        >
+          <Ionicons
+            name={favoured ? "heart" : "heart-outline"}
+            size={16}
+            color={favoured ? NAVY : INK}
+          />
+        </Pressable>
+
+        {sold ? (
+          <View style={styles.soldBar} accessibilityRole="text">
+            <Text style={styles.soldText}>{BADGE_SOLD}</Text>
+          </View>
+        ) : null}
       </View>
       <View style={styles.meta}>
         <Text style={styles.title} numberOfLines={2}>
           {book.title}
         </Text>
+        {metaLine ? (
+          <Text style={styles.detail} numberOfLines={1}>
+            {metaLine}
+          </Text>
+        ) : null}
         <Text style={styles.price}>{formatPrice(book.price_minor)}</Text>
-        <Text style={styles.delivery}>{DELIVERY_LINE}</Text>
+        {!sold ? (
+          <View style={styles.shieldRow}>
+            <Ionicons name="shield-checkmark" size={12} color={NAVY} />
+            <Text style={styles.shield}>{SHIELD_NAME}</Text>
+          </View>
+        ) : null}
       </View>
     </Pressable>
   );
@@ -131,6 +198,48 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: COVER_SPINE,
   },
+  heart: {
+    position: "absolute",
+    right: 6,
+    bottom: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.92)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  frequent: {
+    position: "absolute",
+    top: 6,
+    left: 6,
+    backgroundColor: WHITE,
+    borderRadius: 999,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+  },
+  frequentText: {
+    fontSize: 10,
+    fontWeight: "700",
+    color: NAVY,
+    letterSpacing: 0.2,
+  },
+  soldBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(15,23,42,0.72)",
+    paddingVertical: 6,
+    alignItems: "center",
+  },
+  soldText: {
+    color: WHITE,
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
   meta: {
     paddingTop: 6,
     paddingHorizontal: 0,
@@ -141,17 +250,29 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: INK,
   },
+  detail: {
+    fontSize: 11,
+    lineHeight: 14,
+    color: MUTED,
+    marginTop: 2,
+  },
   price: {
     fontSize: 13,
     lineHeight: 16,
     fontWeight: "700",
     color: INK,
-    marginTop: 2,
+    marginTop: 3,
   },
-  delivery: {
+  shieldRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginTop: 3,
+  },
+  shield: {
     fontSize: 11,
-    lineHeight: 14,
-    color: MUTED,
-    marginTop: 0,
+    lineHeight: 13,
+    fontWeight: "600",
+    color: NAVY,
   },
 });

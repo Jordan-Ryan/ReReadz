@@ -32,6 +32,7 @@ export default function SellerScreen() {
         ]);
         if (cancelled) return;
         setSeller(profRes.data as any);
+        const frequent = (listRes.data || []).length >= 8;
         const list = (listRes.data || []).map((row: any) => ({
           id: row.id,
           slug: row.slug ?? row.id,
@@ -44,6 +45,7 @@ export default function SellerScreen() {
           isbn10: row.isbn10 ?? null,
           condition: row.condition,
           created_at: row.created_at,
+          frequent,
         }));
         setListings(list);
       } catch (_) {}
@@ -66,7 +68,12 @@ export default function SellerScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {seller && (
         <View style={styles.header}>
-          <Text style={styles.sellerName}>{seller.display_name || "Seller"}</Text>
+          <View style={styles.sellerCopy}>
+            <Text style={styles.sellerName}>{seller.display_name || "Seller"}</Text>
+            {listings.length >= 8 ? (
+              <Text style={styles.frequent}>Frequent</Text>
+            ) : null}
+          </View>
           {listings.length > 1 && (
             <Pressable
               style={styles.bundleBtn}
@@ -98,7 +105,14 @@ const styles = StyleSheet.create({
   content: { padding: 16 },
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", marginBottom: 16 },
+  sellerCopy: { flex: 1, paddingRight: 12 },
   sellerName: { fontSize: 20, fontWeight: "700" },
+  frequent: {
+    marginTop: 4,
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#1700AD",
+  },
   bundleBtn: {
     flexDirection: "row",
     alignItems: "center",

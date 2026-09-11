@@ -68,13 +68,13 @@ export function BookShelf({
 }
 
 const styles = StyleSheet.create({
-  section: { paddingTop: 18, paddingBottom: 8 },
+  section: { paddingTop: 10, paddingBottom: 4 },
   head: {
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    marginBottom: 12,
+    marginBottom: 8,
     gap: 12,
   },
   copy: { flex: 1 },

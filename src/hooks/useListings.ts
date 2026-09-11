@@ -36,7 +36,7 @@ export function useListings(opts: ListingFilters = {}) {
         let q = supabase
           .from("book_listings")
           .select(
-            "id, slug, title, author, price_minor, condition, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)",
+            "id, slug, title, author, price_minor, condition, format, status, created_at, primary_image_url, isbn13, isbn10, book_images!left(url, position)",
             { count: "exact" }
           )
           .eq("active", true)
@@ -97,6 +97,8 @@ export function useListings(opts: ListingFilters = {}) {
           isbn13: row.isbn13 ?? null,
           isbn10: row.isbn10 ?? null,
           condition: row.condition,
+          format: row.format,
+          status: row.status,
           created_at: row.created_at,
         }));
         if (append) setItems((prev) => (pageNum === 0 ? list : [...prev, ...list]));

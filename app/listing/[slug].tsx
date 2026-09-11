@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatPrice } from "@/utils/format";
+import { DETAIL_DELIVERY, NAVY, SHIELD_NAME } from "@/theme/brand";
 import Toast from "react-native-toast-message";
 
 interface ListingDetail {
@@ -161,6 +162,13 @@ export default function ListingDetailScreen() {
       <Text style={styles.title}>{listing.title}</Text>
       <Text style={styles.author}>{listing.author}</Text>
       <Text style={styles.price}>{formatPrice(listing.price_minor)}</Text>
+      <Text style={styles.delivery} accessibilityRole="text">
+        {DETAIL_DELIVERY}
+      </Text>
+      <View style={styles.shieldRow}>
+        <Ionicons name="shield-checkmark" size={16} color={NAVY} />
+        <Text style={styles.shield}>{SHIELD_NAME} on every order</Text>
+      </View>
       {listing.condition && (
         <Text style={styles.condition}>Condition: {listing.condition}</Text>
       )}
@@ -183,7 +191,7 @@ export default function ListingDetailScreen() {
             accessibilityRole="button"
             accessibilityLabel="Make an offer on this book"
           >
-            <Ionicons name="pricetag-outline" size={20} color="#0ea5e9" />
+            <Ionicons name="pricetag-outline" size={20} color={NAVY} />
             <Text style={styles.offerBtnText}>Make offer</Text>
           </Pressable>
         )}
@@ -193,7 +201,7 @@ export default function ListingDetailScreen() {
           accessibilityRole="button"
           accessibilityLabel="Message seller"
         >
-          <Ionicons name="chatbubble-outline" size={20} color="#0ea5e9" />
+          <Ionicons name="chatbubble-outline" size={20} color={NAVY} />
           <Text style={styles.messageBtnText}>Message seller</Text>
         </Pressable>
         <Pressable
@@ -215,7 +223,14 @@ const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
   errorText: { color: "#64748b", marginBottom: 16 },
   backBtn: { padding: 12 },
-  backBtnText: { color: "#0ea5e9" },
+  backBtnText: { color: NAVY },
+  shieldRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginBottom: 10,
+  },
+  shield: { fontSize: 14, color: NAVY, fontWeight: "600" },
   imageWrap: {
     width: "100%",
     height: 280,
@@ -227,7 +242,8 @@ const styles = StyleSheet.create({
   image: { width: "100%", height: "100%" },
   title: { fontSize: 22, fontWeight: "700", marginBottom: 4 },
   author: { fontSize: 16, color: "#64748b", marginBottom: 8 },
-  price: { fontSize: 20, fontWeight: "700", marginBottom: 8 },
+  price: { fontSize: 20, fontWeight: "700", marginBottom: 4 },
+  delivery: { fontSize: 14, color: "#1700AD", fontWeight: "600", marginBottom: 10 },
   condition: { fontSize: 14, color: "#64748b", marginBottom: 4 },
   seller: { fontSize: 14, marginBottom: 16 },
   description: { fontSize: 14, lineHeight: 22, marginBottom: 24 },
@@ -240,9 +256,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#0ea5e9",
+    borderColor: NAVY,
   },
-  offerBtnText: { color: "#0ea5e9", fontWeight: "600", fontSize: 16 },
+  offerBtnText: { color: NAVY, fontWeight: "600", fontSize: 16 },
   messageBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -251,11 +267,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#0ea5e9",
+    borderColor: NAVY,
   },
-  messageBtnText: { color: "#0ea5e9", fontWeight: "600", fontSize: 16 },
+  messageBtnText: { color: NAVY, fontWeight: "600", fontSize: 16 },
   buyBtn: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: NAVY,
     padding: 16,
     borderRadius: 8,
     alignItems: "center",

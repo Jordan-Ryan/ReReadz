@@ -76,12 +76,13 @@ export default function TabsLayout() {
           options={{
             title: "Sell",
             tabBarLabel: "Sell",
-            tabBarIcon: ({ color, size, focused }) => (
-              <Ionicons
-                name={focused ? "add-circle" : "add-circle-outline"}
-                size={size}
-                color={color}
-              />
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={[styles.sellMark, focused && styles.sellMarkOn]}
+                accessibilityElementsHidden
+              >
+                <Ionicons name="add" size={22} color={WHITE} />
+              </View>
             ),
           }}
         />
@@ -166,5 +167,18 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderTopWidth: 0,
     elevation: 0,
+  },
+  sellMark: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: NAVY,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -2,
+  },
+  sellMarkOn: {
+    backgroundColor: NAVY,
+    opacity: 1,
   },
 });

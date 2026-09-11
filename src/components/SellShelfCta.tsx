@@ -52,8 +52,8 @@ export function SellShelfCta() {
 const styles = StyleSheet.create({
   card: {
     marginHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 8,
+    marginTop: 8,
+    marginBottom: 6,
     borderRadius: 16,
     padding: 16,
     maxWidth: 1120,

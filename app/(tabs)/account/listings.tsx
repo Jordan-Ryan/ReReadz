@@ -119,13 +119,20 @@ export default function MyListingsScreen() {
             }
           }}
         >
-          {item.image_url ? (
-            <Image source={{ uri: item.image_url }} style={styles.thumb} />
-          ) : (
-            <View style={[styles.thumb, styles.thumbPlaceholder]}>
-              <Text style={styles.thumbPlaceholderText}>No image</Text>
-            </View>
-          )}
+          <View style={styles.thumbWrap}>
+            {item.image_url ? (
+              <Image source={{ uri: item.image_url }} style={styles.thumb} />
+            ) : (
+              <View style={[styles.thumb, styles.thumbPlaceholder]}>
+                <Text style={styles.thumbPlaceholderText}>No image</Text>
+              </View>
+            )}
+            {item.status === "SOLD" ? (
+              <View style={styles.soldBar}>
+                <Text style={styles.soldText}>Sold</Text>
+              </View>
+            ) : null}
+          </View>
           <View style={styles.cardBody}>
             <Text style={styles.cardTitle} numberOfLines={2}>
               {item.title ?? "Untitled"}
@@ -142,7 +149,9 @@ export default function MyListingsScreen() {
                   : "—"}
               </Text>
               <View style={[styles.badge, statusBadgeStyle(item.status)]}>
-                <Text style={styles.badgeText}>{item.status}</Text>
+                <Text style={styles.badgeText}>
+                  {item.status === "SOLD" ? "Sold" : item.status}
+                </Text>
               </View>
             </View>
           </View>
@@ -164,6 +173,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e2e8f0",
   },
+  thumbWrap: {
+    width: 80,
+    height: 110,
+    overflow: "hidden",
+  },
   thumb: {
     width: 80,
     height: 110,
@@ -174,6 +188,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thumbPlaceholderText: { fontSize: 11, color: "#94a3b8" },
+  soldBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(15,23,42,0.72)",
+    paddingVertical: 4,
+    alignItems: "center",
+  },
+  soldText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.7,
+    textTransform: "uppercase",
+  },
   cardBody: { flex: 1, padding: 12, justifyContent: "space-between" },
   cardTitle: { fontSize: 16, fontWeight: "600", color: "#0f172a" },
   cardAuthor: { fontSize: 13, color: "#64748b", marginTop: 2 },

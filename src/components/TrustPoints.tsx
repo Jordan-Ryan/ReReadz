@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     paddingHorizontal: 10,
-    paddingTop: 8,
+    paddingTop: 4,
     paddingBottom: 4,
   },
   rowDesktop: {
