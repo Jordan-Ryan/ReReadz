@@ -246,15 +246,15 @@ const styles = StyleSheet.create({
   count: { fontFamily: FONT_SANS, fontSize: 13, color: MUTED, marginTop: 2 },
   chipScroll: {
     flexGrow: 0,
+    flexShrink: 0,
+    height: 64,
   },
   chipRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     paddingHorizontal: 16,
-    paddingTop: 14,
-    paddingBottom: 12,
-    minHeight: 68,
+    height: 64,
   },
   chip: {
     flexDirection: "row",

@@ -142,7 +142,7 @@ export const HEADER_BAR_HEIGHT = 56;
 /** Marketing Home: live one-row lockup + search. */
 export const HEADER_BAR_HEIGHT_HOME = 60;
 /** Browse/feed: search pill is the chrome. */
-export const HEADER_BAR_HEIGHT_SEARCH = 88;
+export const HEADER_BAR_HEIGHT_SEARCH = 100;
 /** Sell / Messages / You: mark + BETA, no logo-eating search. */
 export const HEADER_BAR_HEIGHT_COMPACT = 48;
 export const HEADER_BAR_HEIGHT_DESKTOP = 64;
