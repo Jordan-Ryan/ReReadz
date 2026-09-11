@@ -34,6 +34,10 @@ type Tile = {
   icon: keyof typeof Ionicons.glyphMap;
 };
 
+/**
+ * Signed You map. A row ships only if it works and Jordan signed it.
+ * Gone > coming-soon. No marketing/legal dumps, admin, or stubs.
+ */
 const TILES: Tile[] = [
   { href: "orders", label: "Orders", icon: "receipt-outline" },
   { href: "listings", label: "Listings", icon: "albums-outline" },
@@ -44,7 +48,6 @@ const TILES: Tile[] = [
 const ROWS: Tile[] = [
   { href: "notifications", label: "Notifications", icon: "notifications-outline" },
   { href: "settings", label: "Settings", icon: "settings-outline" },
-  { href: "legal", label: "Legal", icon: "document-text-outline" },
 ];
 
 export default function AccountScreen() {
