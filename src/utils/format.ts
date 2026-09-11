@@ -1,3 +1,5 @@
+import { COVER_TONES } from "@/theme/brand";
+
 export function formatPrice(pence: number): string {
   return new Intl.NumberFormat("en-GB", {
     style: "currency",
@@ -36,4 +38,13 @@ export function coverInitial(title: string | undefined | null): string {
   const cleaned = trimmed.replace(/^(the|a|an)\s+/i, "");
   const letter = (cleaned || trimmed).charAt(0);
   return letter ? letter.toUpperCase() : "";
+}
+
+export function coverTone(title: string | undefined | null): string {
+  const key = (title ?? "").trim();
+  let hash = 0;
+  for (let i = 0; i < key.length; i += 1) {
+    hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+  }
+  return COVER_TONES[hash % COVER_TONES.length];
 }

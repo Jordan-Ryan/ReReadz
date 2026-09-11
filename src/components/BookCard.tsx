@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, Pressable, StyleSheet, Image, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { coverInitial, formatPrice } from "@/utils/format";
-import { DELIVERY_LINE, INK, MUTED, NAVY, NAVY_SOFT, WHITE } from "@/theme/brand";
+import { coverInitial, coverTone, formatPrice } from "@/utils/format";
+import { DELIVERY_LINE, INK, MUTED, NAVY, WHITE } from "@/theme/brand";
 
 export interface BookCardData {
   id: string;
@@ -26,6 +26,7 @@ export function BookCard({ book, flex }: BookCardProps) {
   const slug = book.slug ?? book.id;
   const linkTo = `/listing/${slug}`;
   const initial = coverInitial(book.title);
+  const emptyTone = !book.image_url && initial ? coverTone(book.title) : undefined;
 
   return (
     <Pressable
@@ -38,7 +39,8 @@ export function BookCard({ book, flex }: BookCardProps) {
         style={[
           styles.imageWrap,
           flex && styles.imageWrapFlex,
-          !book.image_url && initial ? styles.imageWrapInitial : null,
+          emptyTone ? styles.imageWrapInitial : null,
+          emptyTone ? { backgroundColor: emptyTone } : null,
         ]}
       >
         {book.image_url ? (
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
   },
   imageWrapFlex: { width: "100%" },
   imageWrapInitial: {
-    backgroundColor: NAVY_SOFT,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -92,10 +93,11 @@ const styles = StyleSheet.create({
     ...(Platform.OS === "web" ? { objectFit: "cover" as const } : {}),
   },
   initial: {
-    fontSize: 28,
-    fontWeight: "700",
+    fontSize: 36,
+    fontWeight: "600",
     color: NAVY,
-    letterSpacing: 0.4,
+    letterSpacing: 0.6,
+    opacity: 0.88,
   },
   title: { fontSize: 13, fontWeight: "600", marginTop: 4, color: INK },
   price: { fontSize: 13, fontWeight: "700", marginTop: 2, color: INK },

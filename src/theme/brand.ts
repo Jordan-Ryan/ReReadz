@@ -25,3 +25,12 @@ export const SHIELD_NAME = "Reader's Shield";
 export const TRUST_STRIP =
   "Sellers keep 92.5% · Shield on every order";
 export const SEARCH_PLACEHOLDER = "Search books, authors or ISBN";
+
+/** Navy/purple washes for empty cover initials — never grey wells. */
+export const COVER_TONES = [
+  "#EEF0FF",
+  "#E8E4FF",
+  "#F3E8FF",
+  "#E4E9FF",
+  "#EDE7FF",
+] as const;
