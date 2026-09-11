@@ -1,6 +1,8 @@
 /** Locked ReReadz brand tokens. Do not restyle to Vinted teal. */
 export const NAVY = "#1700AD";
+export const NAVY_DEEP = "#0C0066";
 export const NAVY_SOFT = "#EEF0FF";
+export const GOLD = "#E4C36A";
 export const INK = "#0f172a";
 export const MUTED = "#64748b";
 export const LINE = "#e2e8f0";
@@ -67,6 +69,28 @@ export const CTA_SELL = "Start selling";
 export const CTA_HOW_SELL = "How selling works";
 export const CTA_QR = "See how it works";
 export const LIVE_NOW = "Live now";
+export const TRUST_POINTS = [
+  {
+    title: "Flat £2.99 UK delivery",
+    detail: "Tracked on every order",
+    icon: "bicycle-outline" as const,
+  },
+  {
+    title: "Reader's Shield",
+    detail: "Refund if it doesn't arrive",
+    icon: "shield-checkmark-outline" as const,
+  },
+  {
+    title: "Just 7.5% to sell",
+    detail: "Sellers keep 92.5%",
+    icon: "pricetag-outline" as const,
+  },
+  {
+    title: "Good for your pocket",
+    detail: "And good for the planet",
+    icon: "leaf-outline" as const,
+  },
+] as const;
 
 /** Glass chrome — translucent, never flat grey boxes. */
 export const GLASS_FILL = "rgba(255,255,255,0.42)";

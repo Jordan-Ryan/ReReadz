@@ -1,18 +1,18 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { useRouter } from "expo-router";
-import { TrustPills } from "@/components/TrustPills";
+import type { BookCardData } from "@/components/BookCard";
+import { listingCoverCandidates } from "@/utils/cover";
 import type { HomeCollection } from "@/components/CategoryGrid";
 import {
   CTA_BROWSE,
   CTA_LIST,
+  GOLD,
   HERO_SUBTITLE,
   HERO_TITLE,
   HOT_OFF_PRESS,
-  INK,
-  LINE,
   LIVE_NOW,
-  MUTED,
   NAVY,
+  NAVY_DEEP,
   WHITE,
 } from "@/theme/brand";
 
@@ -42,6 +42,7 @@ function findSlug(
 
 interface HomeHeroProps {
   collections: HomeCollection[];
+  covers?: BookCardData[];
   liveBooks: number | null;
   liveReaders: number | null;
   onBrowse: (params?: Record<string, string>) => void;
@@ -49,14 +50,26 @@ interface HomeHeroProps {
 
 export function HomeHero({
   collections,
+  covers = [],
   liveBooks,
   liveReaders,
   onBrowse,
 }: HomeHeroProps) {
   const router = useRouter();
+  const collage = covers
+    .map((book) => listingCoverCandidates(book)[0])
+    .filter(Boolean)
+    .slice(0, 6) as string[];
 
   return (
-    <View style={styles.wrap}>
+    <View style={styles.hero}>
+      <View style={styles.collage} pointerEvents="none">
+        {collage.map((uri) => (
+          <Image key={uri} source={{ uri }} style={styles.collageImage} />
+        ))}
+      </View>
+      <View style={styles.wash} pointerEvents="none" />
+
       <Text style={styles.eyebrow}>{HOT_OFF_PRESS}</Text>
       <Text style={styles.title}>{HERO_TITLE}</Text>
       <Text style={styles.sub}>{HERO_SUBTITLE}</Text>
@@ -103,12 +116,12 @@ export function HomeHero({
         </Pressable>
       </View>
 
-      <TrustPills />
-
       {(liveBooks != null || liveReaders != null) && (
         <Text style={styles.live} accessibilityRole="text">
           {LIVE_NOW}
-          {liveBooks != null ? ` · ${liveBooks.toLocaleString("en-GB")} books to buy` : ""}
+          {liveBooks != null
+            ? ` · ${liveBooks.toLocaleString("en-GB")} books to buy`
+            : ""}
           {liveReaders != null
             ? ` · ${liveReaders.toLocaleString("en-GB")} readers`
             : ""}
@@ -119,25 +132,41 @@ export function HomeHero({
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    paddingTop: 16,
-    paddingBottom: 4,
+  hero: {
+    backgroundColor: NAVY_DEEP,
+    paddingTop: 20,
+    paddingBottom: 18,
+    overflow: "hidden",
+    position: "relative",
+  },
+  collage: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: "row",
+    opacity: 0.35,
+  },
+  collageImage: {
+    flex: 1,
+    height: "100%",
+  },
+  wash: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(12, 0, 102, 0.72)",
   },
   eyebrow: {
     paddingHorizontal: 16,
     fontSize: 12,
     fontWeight: "700",
-    color: NAVY,
-    letterSpacing: 0.4,
+    color: GOLD,
+    letterSpacing: 0.6,
     textTransform: "uppercase",
   },
   title: {
     paddingHorizontal: 16,
-    marginTop: 6,
-    fontSize: 28,
-    lineHeight: 32,
+    marginTop: 8,
+    fontSize: 30,
+    lineHeight: 34,
     fontWeight: "800",
-    color: INK,
+    color: GOLD,
     letterSpacing: -0.7,
   },
   sub: {
@@ -145,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 14,
     lineHeight: 20,
-    color: MUTED,
+    color: "rgba(255,255,255,0.88)",
   },
   chipRow: {
     flexDirection: "row",
@@ -156,13 +185,13 @@ const styles = StyleSheet.create({
   },
   chip: {
     borderWidth: 1,
-    borderColor: LINE,
-    backgroundColor: "rgba(255,255,255,0.72)",
+    borderColor: "rgba(255,255,255,0.28)",
+    backgroundColor: "rgba(255,255,255,0.12)",
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 999,
   },
-  chipText: { fontSize: 13, color: INK, fontWeight: "600" },
+  chipText: { fontSize: 13, color: WHITE, fontWeight: "600" },
   actions: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -171,24 +200,26 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   primary: {
-    backgroundColor: NAVY,
+    backgroundColor: WHITE,
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 999,
   },
-  primaryText: { color: WHITE, fontWeight: "700", fontSize: 13 },
+  primaryText: { color: NAVY, fontWeight: "700", fontSize: 13 },
   secondary: {
-    backgroundColor: "rgba(23,0,173,0.08)",
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.35)",
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 999,
   },
-  secondaryText: { color: NAVY, fontWeight: "700", fontSize: 13 },
+  secondaryText: { color: WHITE, fontWeight: "700", fontSize: 13 },
   live: {
     paddingHorizontal: 16,
-    paddingTop: 4,
+    paddingTop: 12,
     fontSize: 13,
     fontWeight: "600",
-    color: NAVY,
+    color: GOLD,
   },
 });

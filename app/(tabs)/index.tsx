@@ -8,6 +8,7 @@ import { HomeHero } from "@/components/HomeHero";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { BookShelf } from "@/components/BookShelf";
 import { QrShipBand } from "@/components/QrShipBand";
+import { TrustPoints } from "@/components/TrustPoints";
 import { SellShelfCta } from "@/components/SellShelfCta";
 import { useTabClearance } from "@/hooks/useTabClearance";
 import {
@@ -47,6 +48,7 @@ export default function HomeScreen() {
           slug: cat.slug ?? cat.id,
           book_count: cat.book_count,
         }))}
+        covers={justListed}
         liveBooks={liveBooks}
         liveReaders={liveReaders}
         onBrowse={openBrowse}
@@ -64,16 +66,14 @@ export default function HomeScreen() {
         onSeeAll={() => openBrowse()}
       />
 
-      {staffPicks.length > 0 || loadingStaff ? (
-        <BookShelf
-          eyebrow={HOT_OFF_PRESS}
-          title="Staff picks"
-          books={staffPicks.slice(0, 8)}
-          isLoading={loadingStaff}
-          onSeeAll={() => openBrowse()}
-          seeAllLabel={CTA_BROWSE}
-        />
-      ) : null}
+      <BookShelf
+        eyebrow={HOT_OFF_PRESS}
+        title={staffPicks.length > 0 ? "Staff picks" : HOT_OFF_PRESS}
+        books={(staffPicks.length > 0 ? staffPicks : justListed).slice(0, 8)}
+        isLoading={staffPicks.length > 0 ? loadingStaff : loadingListed}
+        onSeeAll={() => openBrowse()}
+        seeAllLabel={CTA_BROWSE}
+      />
 
       <BookShelf
         eyebrow={SHELF_EYEBROW}
@@ -87,6 +87,7 @@ export default function HomeScreen() {
       />
 
       <QrShipBand />
+      <TrustPoints />
       <SellShelfCta />
     </ScrollView>
   );
