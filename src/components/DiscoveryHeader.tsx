@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter, useLocalSearchParams, usePathname } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   NAVY,
@@ -27,7 +27,6 @@ interface DiscoveryHeaderProps {
 
 export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
   const router = useRouter();
-  const pathname = usePathname();
   const params = useLocalSearchParams<{ q?: string; category?: string }>();
   const [value, setValue] = useState(params.q ?? "");
   const inputRef = useRef<TextInput>(null);
@@ -54,14 +53,12 @@ export function DiscoveryHeader({ onSubmitSearch }: DiscoveryHeaderProps) {
       onSubmitSearch(query);
       return;
     }
-    const onBrowse = pathname?.includes("listings");
-    if (onBrowse) {
-      router.setParams({ q: query || "" });
-      return;
-    }
     router.push({
       pathname: "/(tabs)/listings",
-      params: query ? { q: query } : {},
+      params: {
+        q: query,
+        category: "",
+      },
     } as any);
   };
 

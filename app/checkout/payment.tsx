@@ -17,7 +17,9 @@ const STRIPE_ENABLED = !!(
 
 const PaymentWithStripeLazy = React.lazy(
   () =>
-    import("./PaymentWithStripe").then((m) => ({ default: m.PaymentWithStripe }))
+    import("@/integrations/stripe/PaymentWithStripe").then((m) => ({
+      default: m.PaymentWithStripe,
+    }))
 );
 
 function PaymentFallback({
